@@ -28,6 +28,12 @@
 
 using namespace std;
 
+void crossProduct(float p_A[], float p_B[], float p_C[]){
+  p_C = p_A[1] * p_B[2] - p_A[2] * v_B[1];
+  p_C = p_A[0] * p_B[2] - p_A[2] * v_B[0];
+  p_C = p_A[0] * p_B[1] - p_A[1] * v_B[0];
+}
+
 int main(int argc, char *argv[])
 {
   // Create a framebuffer
@@ -41,21 +47,29 @@ int main(int argc, char *argv[])
 
   // Create RayTracer
 
-
+  // create camera
+  // ?
+  
   // For each triangle in the model,
    for (int i = 0; i< pm->triangle_count; i += 1)
   {
-   // The following lines project the point onto the 2D image from 3D space.
-    float x0 = (pm->vertex[pm->triangle[i][0]].x/pm->vertex[pm->triangle[i][0]].z)*2000.0 + 1024.0;
-    float y0 = (pm->vertex[pm->triangle[i][0]].y/pm->vertex[pm->triangle[i][0]].z)*-2000.0 + 1024.0;
-    float x1 = (pm->vertex[pm->triangle[i][1]].x/pm->vertex[pm->triangle[i][1]].z)*2000.0 + 1024.0;
-    float y1 = (pm->vertex[pm->triangle[i][1]].y/pm->vertex[pm->triangle[i][1]].z)*-2000.0 + 1024.0;
-    float x2 = (pm->vertex[pm->triangle[i][2]].x/pm->vertex[pm->triangle[i][2]].z)*2000.0 + 1024.0;
-    float y2 = (pm->vertex[pm->triangle[i][2]].y/pm->vertex[pm->triangle[i][2]].z)*-2000.0 + 1024.0;
+    // Calculate Planes
+    float point_A = {pm->vertex[pm->triangle[i][0]].x, pm->vertex[pm->triangle[i][0]].y, pm->vertex[pm->triangle[i][0]].z};
+    float point_B = {pm->vertex[pm->triangle[i][1]].x, pm->vertex[pm->triangle[i][1]].y, pm->vertex[pm->triangle[i][1]].z};
+    float point_C = {pm->vertex[pm->triangle[i][2]].x, pm->vertex[pm->triangle[i][2]].y, pm->vertex[pm->triangle[i][2]].z};
 
-	// generate barycentric co-ords
+    float AB = point_B - point_A;
+    float AC = pointC - point_A;
+    float cross = {3};
+
+    crossProduct(point_A, point_B, cross);
+
+
+
 		/*
-		*	calculate plane
+		*	calculate planes
+    * Store planes
+    *
 		*	get point P by checking intersection of the plane with a triangle
 		*
 		*	cal w1, w2.
