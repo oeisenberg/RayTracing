@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
   // Create RayTracer
 
   // create camera
-  // ?
+  // create a camera class with the required attributes
   
   // For each triangle in the model,
    for (int i = 0; i< pm->triangle_count; i += 1)
