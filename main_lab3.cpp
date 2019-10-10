@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
   // Create RayTracer
 
-  // create camera
+  // create Camera
   // create a camera class with the required attributes
   
   // For each triangle in the model,
@@ -68,8 +68,8 @@ int main(int argc, char *argv[])
 
 		/*
 		*	calculate planes
-    * Store planes
-    *
+		*	Store planes
+		*
 		*	get point P by checking intersection of the plane with a triangle
 		*
 		*	cal w1, w2.
