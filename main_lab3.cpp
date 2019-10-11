@@ -5,34 +5,21 @@
  * Do what you like with this code as long as you retain this comment.
  */
 
-/* This is the entry point function for the program you need to create for lab two.
- * You should not need to modify this code.
- * It creates a framebuffer, loads an triangle mesh object, calls the drawing function to render the object and then outputs the framebuffer as a ppm file.
+/*
+ * g++ -o lab3executable main_lab3.cpp framebuffer.cpp linedrawer.cpp polymesh.cpp camera.cpp -lm
  *
- * On linux.bath.ac.uk:
- *
- * Compile the code using g++ -o lab2executable main_lab2.cpp framebuffer.cpp linedrawer.cpp polymesh.cpp -lm
- *
- * Execute the code using ./lab2executable
- *
- * This will produce an image file called test.ppm. You can convert this a png file for viewing using
+ * Execute the code using ./lab3executable
  *
  * pnmtopng test.ppm > test.png
- *
- * You are expected to fill in the missing code in polymesh.cpp.
  */
 
+#include <iostream>
 #include "framebuffer.h"
 #include "linedrawer.h"
 #include "polymesh.h"
-
-using namespace std;
-
-void crossProduct(float p_A[], float p_B[], float p_C[]){
-  p_C = p_A[1] * p_B[2] - p_A[2] * v_B[1];
-  p_C = p_A[0] * p_B[2] - p_A[2] * v_B[0];
-  p_C = p_A[0] * p_B[1] - p_A[1] * v_B[0];
-}
+#include "camera.h"
+#include "vector.h"
+#include "vertex.h"
 
 int main(int argc, char *argv[])
 {
@@ -54,21 +41,23 @@ int main(int argc, char *argv[])
   float dist = 5.555;
   Camera *camera = new Camera(eye, look, up, dist);
 
+  //std::cout << "w: ("<< camera->w.x << ", " << camera->w.y << ", " << camera->w.z << ")" << std::endl;
+  //std::cout << "u: ("<< camera->u.x << ", " << camera->u.y << ", " << camera->u.z << ")" << std::endl;
+  //std::cout << "v: ("<< camera->v.x << ", " << camera->v.y << ", " << camera->v.z << ")" << std::endl;
+
   // For each triangle in the model,
-   for (int i = 0; i< pm->triangle_count; i += 1)
-  {
+  //  for (int i = 0; i< pm->triangle_count; i += 1)
+  // {
     // Calculate Planes
-    float point_A = {pm->vertex[pm->triangle[i][0]].x, pm->vertex[pm->triangle[i][0]].y, pm->vertex[pm->triangle[i][0]].z};
-    float point_B = {pm->vertex[pm->triangle[i][1]].x, pm->vertex[pm->triangle[i][1]].y, pm->vertex[pm->triangle[i][1]].z};
-    float point_C = {pm->vertex[pm->triangle[i][2]].x, pm->vertex[pm->triangle[i][2]].y, pm->vertex[pm->triangle[i][2]].z};
-
-    float AB = point_B - point_A;
-    float AC = pointC - point_A;
-    float cross = {3};
-
-    crossProduct(point_A, point_B, cross);
-
-
+    // float point_A = {pm->vertex[pm->triangle[i][0]].x, pm->vertex[pm->triangle[i][0]].y, pm->vertex[pm->triangle[i][0]].z};
+    // float point_B = {pm->vertex[pm->triangle[i][1]].x, pm->vertex[pm->triangle[i][1]].y, pm->vertex[pm->triangle[i][1]].z};
+    // float point_C = {pm->vertex[pm->triangle[i][2]].x, pm->vertex[pm->triangle[i][2]].y, pm->vertex[pm->triangle[i][2]].z};
+    //
+    // float AB = point_B - point_A;
+    // float AC = pointC - point_A;
+    // float cross = {3};
+    //
+    // crossProduct(point_A, point_B, cross);
 
 		/*
 		*	calculate planes
@@ -88,10 +77,10 @@ int main(int argc, char *argv[])
 
 	// Run Ray tracer ?
 
-   }
+   // }
 
   // Output the framebuffer.
-  fb->writeRGBFile((char *)"test.ppm");
+  //fb->writeRGBFile((char *)"test.ppm");
 
   return 0;
 

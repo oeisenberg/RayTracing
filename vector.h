@@ -8,6 +8,7 @@
 #pragma once
 
 #include <math.h>
+#include <iostream>
 
 class Vector {
 public:
@@ -67,5 +68,29 @@ public:
 	  result.x = y*other.z - z*other.y;
 	  result.y = z*other.x - x*other.z;
 	  result.z = x*other.y - y*other.x;
+	}
+
+	Vector multiply(Vector &other)
+	{
+		x = x * other.x;
+		y = y * other.y;
+		z = z * other.z;
+	}
+
+	Vector divide(Vector other)
+	{
+		float new_x = x / other.x;
+		float new_y = y / other.y;
+		float new_z = z / other.z;
+		return Vector(new_x, new_y, new_z);
+	}
+
+	Vector absolute()
+	{
+		//std::cout << "=: ("<< x << ", " << y << ", " << z << ")" << std::endl;
+		x = abs(x);
+		y = abs(y);
+		z = abs(z);
+		//std::cout << "=: ("<< x << ", " << y << ", " << z << ")" << std::endl;
 	}
 };
