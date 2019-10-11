@@ -2,6 +2,6 @@
 #include "vector.h"
 #include "vertex.h"
 
-Camera::Camera(Vertex Eye, Vertex Look, Vector up, int d){
-	// 
+Camera::Camera(Vertex Eye, Vertex Look, Vector up, float d){
+	//
 }

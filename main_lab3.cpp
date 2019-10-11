@@ -48,8 +48,12 @@ int main(int argc, char *argv[])
   // Create RayTracer
 
   // create Camera
-  // create a camera class with the required attributes
-  
+  Vertex eye = Vertex(0, 0, 0);
+  Vertex look = Vertex(5, 5, 5);
+  Vector up = Vector(1, 4, 9);
+  float dist = 5.555;
+  Camera *camera = new Camera(eye, look, up, dist);
+
   // For each triangle in the model,
    for (int i = 0; i< pm->triangle_count; i += 1)
   {

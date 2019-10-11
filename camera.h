@@ -8,11 +8,11 @@ public:
 	Vertex e;
 	Vertex l;
 	Vertex up;
-	int d;
+	float d;
 
 	Vector w;
 	Vector u;
 	Vector v;
 
-	Camera(Vertex e, Vertex l, Vector up, int d);
+	Camera(Vertex e, Vertex l, Vector up, float d);
 };
