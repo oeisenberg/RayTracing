@@ -6,7 +6,7 @@
  */
 
 /*
- * g++ -o lab3executable main_lab3.cpp framebuffer.cpp linedrawer.cpp camera.cpp -lm
+ * g++ -o lab3executable main_lab3.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp -lm
  * // polymesh.cpp  - error using stoi?
  *
  * Execute the code using ./lab3executable
@@ -15,28 +15,62 @@
  */
 
 #include <iostream>
+#include <limits>
 #include "framebuffer.h"
 #include "linedrawer.h"
 #include "polymesh.h"
 #include "camera.h"
 #include "vector.h"
 #include "vertex.h"
+#include "sphere.h"
+#include "scene.h"
+#include "ray.h"
+#include "hit.h"
+#include "object.h"
 
 int main(int argc, char *argv[])
 {
-  // Create a framebuffer
-  FrameBuffer *fb = new FrameBuffer(2048,2048);
-
-  // create Camera
+  // Create Camera
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(5, 5, 5);
-  Vector up = Vector(1, 4, 9);
-  float dist = 5.555;
-  Camera *camera = new Camera(eye, look, up, dist);
+  Vector up = Vector(0, 1, 0);
+  float dist = 40;
+  float FOV = 0.628132; // RAD
+  Camera *camera = new Camera(eye, look, up, dist, FOV);
 
-  std::cout << "w: ("<< camera->w.x << ", " << camera->w.y << ", " << camera->w.z << ")" << std::endl;
-  std::cout << "u: ("<< camera->u.x << ", " << camera->u.y << ", " << camera->u.z << ")" << std::endl;
-  std::cout << "v: ("<< camera->v.x << ", " << camera->v.y << ", " << camera->v.z << ")" << std::endl;
+  // Create obj (Sphere)
+  int nObjs = 1;
+  Sphere *sphereA = new Sphere(Vertex(7,7,7), 10);
+  //Object *spheres = new Object[nObjs];
+  //spheres[0] = *sphereA;
+
+  // Create a framebuffer
+  Scene *sc = new Scene(2048, 2048);
+  FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
+
+  for (int x = 0; x <= sc->width - 1; x++)
+  {
+    for (int y = 0; y <= sc->height - 1; y++)
+    {
+      Ray ray = camera->getRay(sc, x, y);
+      float t = std::numeric_limits<int>::max();
+      //Object *closest = NULL;
+      for (int i = 0; i < nObjs; i++) {
+        Hit new_t = Hit();
+        //spheres[i].intersection(ray, new_t);
+        sphereA->intersection(ray, new_t);
+        if (new_t.flag == true)
+        {
+            if (new_t.t < t)
+            {
+              t = new_t.t;
+              //closest = *spheres[i];
+            }
+            fb->plotDepth(x, y, new_t.t);
+          }
+      }
+    }
+  }
 
 		/*
 		*	calculate planes
@@ -52,11 +86,8 @@ int main(int argc, char *argv[])
 		*/
 
 
-	// Run Ray tracer ?
-
-
   // Output the framebuffer.
-  //fb->writeRGBFile((char *)"test.ppm");
+   fb->writeDepthFile((char *)"test.ppm");
 
   return 0;
 

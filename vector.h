@@ -43,7 +43,6 @@ public:
 		return x*other.x + y*other.y + z*other.z;
 	}
 
-
 	void reflection(Vector initial, Vector &reflect)
 	{
 		float d;
@@ -70,11 +69,21 @@ public:
 	  result.z = x*other.y - y*other.x;
 	}
 
-	Vector multiply(Vector other)
+	Vector multiply(int scalar)
 	{
-		float new_x = x * other.x;
-		float new_y = y * other.y;
-		float new_z = z * other.z;
+		float new_x = x * scalar;
+		float new_y = y * scalar;
+		float new_z = z * scalar;
 		return Vector(new_x, new_y, new_z);
+	}
+
+	Vector operator + (Vector other)
+	{
+		return Vector(x+other.x, y+other.y, z+other.z);
+	}
+
+	Vector operator - (Vector other)
+	{
+		return Vector(x-other.x, y-other.y, z-other.z);
 	}
 };

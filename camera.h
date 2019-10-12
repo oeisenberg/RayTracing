@@ -2,6 +2,8 @@
 
 #include "vertex.h"
 #include "vector.h"
+#include "ray.h"
+#include "scene.h"
 
 class Camera {
 public:
@@ -14,5 +16,9 @@ public:
 	Vector u;
 	Vector v;
 
-	Camera(Vertex e, Vertex l, Vector up, float d);
+	float FOV;
+
+	Camera(Vertex e, Vertex l, Vector up, float d, float FOV);
+
+	Ray getRay(Scene *sc, int x, int y);
 };

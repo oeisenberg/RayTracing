@@ -2,13 +2,15 @@
 #include "camera.h"
 #include "vector.h"
 #include "vertex.h"
-#include <math.h>
+#include "ray.h"
+#include "scene.h"
 
-Camera::Camera(Vertex Eye, Vertex Look, Vector Up, float D){
+Camera::Camera(Vertex Eye, Vertex Look, Vector Up, float D, float FOV){
   this->e = Eye;
   this->l = Look;
   this->u = Up;
   this->d = D;
+  this->FOV = FOV;
 
   Vector el = Vector(Eye.x - Look.x, Eye.y - Look.y, Eye.z - Look.z);
   // Vector el = Eye - Look; // Overloading ?
@@ -24,4 +26,15 @@ Camera::Camera(Vertex Eye, Vertex Look, Vector Up, float D){
 
   this->w.cross(this->u, wu);
   this->v = wu;
+}
+
+Ray Camera::getRay(Scene *sc, int x, int y)
+{
+  float Rx = (tan(this->FOV)/2) * (x - sc->width/2);
+  float Ry = (tan(this->FOV)/2) * ((sc->height/2) - y);
+
+  Vector Dir = this->u.multiply(Rx) + (this->v.multiply(Ry)) - (this->w.multiply(this->d));
+  Dir.normalise();
+
+  return Ray(this->e, Dir);
 }
