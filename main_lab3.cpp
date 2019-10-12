@@ -6,7 +6,8 @@
  */
 
 /*
- * g++ -o lab3executable main_lab3.cpp framebuffer.cpp linedrawer.cpp polymesh.cpp camera.cpp -lm
+ * g++ -o lab3executable main_lab3.cpp framebuffer.cpp linedrawer.cpp camera.cpp -lm
+ * // polymesh.cpp  - error using stoi?
  *
  * Execute the code using ./lab3executable
  *
@@ -26,14 +27,6 @@ int main(int argc, char *argv[])
   // Create a framebuffer
   FrameBuffer *fb = new FrameBuffer(2048,2048);
 
-  // The following transform allows 4D homogeneous coordinates to be transformed. It moves the supplied teapot model to somewhere visible.
-  Transform *transform = new Transform(1.0f, 0.0f, 0.0f, 0.0f,0.0f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, 7.0f,0.0f,0.0f,0.0f,1.0f);
-
-  // Read in the teapot model.
-  PolyMesh *pm = new PolyMesh((char *)"teapot.ply", transform);
-
-  // Create RayTracer
-
   // create Camera
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(5, 5, 5);
@@ -41,23 +34,9 @@ int main(int argc, char *argv[])
   float dist = 5.555;
   Camera *camera = new Camera(eye, look, up, dist);
 
-  //std::cout << "w: ("<< camera->w.x << ", " << camera->w.y << ", " << camera->w.z << ")" << std::endl;
-  //std::cout << "u: ("<< camera->u.x << ", " << camera->u.y << ", " << camera->u.z << ")" << std::endl;
-  //std::cout << "v: ("<< camera->v.x << ", " << camera->v.y << ", " << camera->v.z << ")" << std::endl;
-
-  // For each triangle in the model,
-  //  for (int i = 0; i< pm->triangle_count; i += 1)
-  // {
-    // Calculate Planes
-    // float point_A = {pm->vertex[pm->triangle[i][0]].x, pm->vertex[pm->triangle[i][0]].y, pm->vertex[pm->triangle[i][0]].z};
-    // float point_B = {pm->vertex[pm->triangle[i][1]].x, pm->vertex[pm->triangle[i][1]].y, pm->vertex[pm->triangle[i][1]].z};
-    // float point_C = {pm->vertex[pm->triangle[i][2]].x, pm->vertex[pm->triangle[i][2]].y, pm->vertex[pm->triangle[i][2]].z};
-    //
-    // float AB = point_B - point_A;
-    // float AC = pointC - point_A;
-    // float cross = {3};
-    //
-    // crossProduct(point_A, point_B, cross);
+  std::cout << "w: ("<< camera->w.x << ", " << camera->w.y << ", " << camera->w.z << ")" << std::endl;
+  std::cout << "u: ("<< camera->u.x << ", " << camera->u.y << ", " << camera->u.z << ")" << std::endl;
+  std::cout << "v: ("<< camera->v.x << ", " << camera->v.y << ", " << camera->v.z << ")" << std::endl;
 
 		/*
 		*	calculate planes
@@ -73,11 +52,8 @@ int main(int argc, char *argv[])
 		*/
 
 
-    // store these triangles ?
-
 	// Run Ray tracer ?
 
-   // }
 
   // Output the framebuffer.
   //fb->writeRGBFile((char *)"test.ppm");

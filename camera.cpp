@@ -5,15 +5,23 @@
 #include <math.h>
 
 Camera::Camera(Vertex Eye, Vertex Look, Vector Up, float D){
-  Vector EyeMinusLook = Vector(Eye.x - Look.x, Eye.y - Look.y, Eye.z - Look.z);
+  this->e = Eye;
+  this->l = Look;
+  this->u = Up;
+  this->d = D;
 
-  std::cout << "Eye: ("<< Eye.x << ", " << Eye.y << ", " << Eye.z << ")" << std::endl;
-  std::cout << "Look: ("<< Look.x << ", " << Look.y << ", " << Look.z << ")" << std::endl;
-  std::cout << "-"<< std::endl;
-  //EyeMinusLook.absolute();
-  std::cout << "=: ("<< EyeMinusLook.x << ", " << EyeMinusLook.y << ", " << EyeMinusLook.z << ")" << std::endl;
-	//this->w = EyeMinusLook.divide(EyeMinusLook.absolute());
-  std::cout << EyeMinusLook.divide(EyeMinusLook.absolute()).x;
-  //this->u = Up.multiply(w).divide(Up.multiply(this->w).absolute());
-  //this->v = (this->w).multiply(this->u);
+  Vector el = Vector(Eye.x - Look.x, Eye.y - Look.y, Eye.z - Look.z);
+  // Vector el = Eye - Look; // Overloading ?
+  Vector uw = Vector(0, 0, 0);
+  Vector wu = Vector(0, 0, 0);
+
+  el.normalise();
+  this->w = el;
+
+  Up.cross(this->w, uw);
+  uw.normalise();
+  this->u = uw;
+
+  this->w.cross(this->u, wu);
+  this->v = wu;
 }
