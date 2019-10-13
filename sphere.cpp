@@ -17,7 +17,6 @@ Sphere::Sphere(Vertex c, float r)
 
 void Sphere::intersection(Ray ray, Hit &hit)
 {
-
 	Vector ro;
 
 	hit.flag = false;
@@ -41,7 +40,7 @@ void Sphere::intersection(Ray ray, Hit &hit)
 	}
 
 	float ds = sqrtf(disc);
-	
+
 
 	float t0 = (-b - ds) / 2.0f;
 	float t1 = (-b + ds) / 2.0f;

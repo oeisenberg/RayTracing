@@ -21,10 +21,10 @@ public:
 	{
 		next = (Object *)0;
 	}
-	
+
 	virtual void intersection(Ray ray, Hit &hit)
 	{
-
+		std::cout << "Parent" << std::endl;
 	}
 };
 

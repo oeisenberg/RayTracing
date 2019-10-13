@@ -13,7 +13,6 @@ Camera::Camera(Vertex Eye, Vertex Look, Vector Up, float D, float FOV){
   this->FOV = FOV;
 
   Vector el = Vector(Eye.x - Look.x, Eye.y - Look.y, Eye.z - Look.z);
-  // Vector el = Eye - Look; // Overloading ?
   Vector uw = Vector(0, 0, 0);
   Vector wu = Vector(0, 0, 0);
 

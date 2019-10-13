@@ -38,12 +38,6 @@ int main(int argc, char *argv[])
   float FOV = 0.628132; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
-  // Create obj (Sphere)
-  int nObjs = 1;
-  Sphere *sphereA = new Sphere(Vertex(7,7,7), 10);
-  //Object *spheres = new Object[nObjs];
-  //spheres[0] = *sphereA;
-
   // Create a framebuffer
   Scene *sc = new Scene(2048, 2048);
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
@@ -54,17 +48,18 @@ int main(int argc, char *argv[])
     {
       Ray ray = camera->getRay(sc, x, y);
       float t = std::numeric_limits<int>::max();
-      //Object *closest = NULL;
-      for (int i = 0; i < nObjs; i++) {
+      Object *closest = NULL;
+      for (int i = 0; i < sc->nObjects; i++) {
         Hit new_t = Hit();
-        //spheres[i].intersection(ray, new_t);
-        sphereA->intersection(ray, new_t);
-        if (new_t.flag == true)
+        Object *objs = sc->Objects;
+        objs[i].intersection(ray, new_t);
+        if (new_t.flag)
         {
+          std::cout << new_t.flag << std::endl;
             if (new_t.t < t)
             {
               t = new_t.t;
-              //closest = *spheres[i];
+              *closest = objs[i]; //SEGMENTAION ERR
             }
             fb->plotDepth(x, y, new_t.t);
           }
