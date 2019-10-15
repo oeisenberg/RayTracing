@@ -5,17 +5,14 @@
  * Do what you like with this code as long as you retain this comment.
  */
 
-#include <math.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
-#include <algorithm>
-
-#include "polymesh.h"
 #include <typeinfo>
 
-using namespace std;
+#include "math.h"
+#include "polymesh.h"
+
 
 PolyMesh::PolyMesh(char *file)
 {
@@ -34,27 +31,28 @@ void PolyMesh::do_construct(char *file, Transform *transform)
 	std::ifstream newFile(file);
 	std::string line;
 
+	getline(newFile, line); //Remove header line
+
 	getline(newFile, line);
-	getline(newFile, line);
-	string newline = line.c_str();
+	std::string newline = line.c_str();
 	
 	std::vector<std::string> tokens = PolyMesh::do_split(newline);
-	string noV = tokens.back();
-	PolyMesh::vertex_count = stoi(noV);
+	std::string nVerticies = tokens.back();
+	PolyMesh::vertex_count = stoi(nVerticies);
 
 	getline(newFile, line);
 	newline = line.c_str();
 
 	tokens = PolyMesh::do_split(newline);
-	string noF = tokens.back();
-	PolyMesh::triangle_count = stoi(noF);
+	std::string nFaces = tokens.back();
+	PolyMesh::triangle_count = stoi(nFaces);
 
 	Vertex *vertex = new Vertex[PolyMesh::vertex_count];
 	TriangleIndex *triangle = new TriangleIndex[PolyMesh::triangle_count];
 
 	for (int lineNo = 3; getline(newFile, line) && lineNo <= PolyMesh::vertex_count + PolyMesh::triangle_count + 3; lineNo++)
 	{
-		string newline = line.c_str();
+		std::string newline = line.c_str();
 
 		std::vector<std::string> tokens = PolyMesh::do_split(newline);
 
@@ -68,14 +66,14 @@ void PolyMesh::do_construct(char *file, Transform *transform)
 
 			transform->apply(vertex[lineNo - 3]);
 		}
-		else if (tokens.size() == 4) { //Face
+		else if (tokens.size() == 4) { // Face
 
 			for (int iToken = 1; iToken <= 3; iToken++) {
 				triangle[lineNo - PolyMesh::vertex_count - 3][iToken - 1] = atoi(tokens.at(iToken).c_str()) - 1;
 			}
 		}
 		else if (tokens.size() != 1) {
-			cerr << "Error, " << tokens.size() << ": ";
+			std::cerr << "Error, " << tokens.size() << ": ";
 		}
 	}
 
@@ -85,6 +83,7 @@ void PolyMesh::do_construct(char *file, Transform *transform)
 	newFile.close();
 }
 
+// Function to split strings into components for evaluation
 std::vector<std::string> PolyMesh::do_split(std::string inputString)
 {
 	std::string segments;					 // Have a buffer string
