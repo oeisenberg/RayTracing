@@ -16,18 +16,18 @@ Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C)
 	c = vertex_C;
 }
 
-void Sphere::intersection(Ray ray, Hit &hit)
+void Triangle::intersection(Ray ray, Hit &hit)
 {
 	Vector ro;
 
 	hit.flag = false;
 
-	// offset ray by sphere position
-	// equivalent to transforming ray into local sphere space
+	// offset ray by triangle position
+	// equivalent to transforming ray into local triangle space
 
-	ro.x = ray.position.x - center.x;
-	ro.y = ray.position.y - center.y;
-	ro.z = ray.position.z - center.z;
+	// ro.x = ray.position.x - center.x;
+	// ro.y = ray.position.y - center.y;
+	// ro.z = ray.position.z - center.z;
 
 	return;
 }

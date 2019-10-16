@@ -18,7 +18,7 @@ Sphere::Sphere(Vertex c, float r)
 void Sphere::intersection(Ray ray, Hit &hit)
 {
 	Vector ro;
-
+	// printf("%d\n", radius);
 	hit.flag = false;
 
 	// offset ray by sphere position

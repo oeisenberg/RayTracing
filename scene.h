@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+#include <vector>
 #include "Sphere.h"
 #include "object.h"
 
@@ -10,7 +12,7 @@ public:
 	int height;
 
 	int nObjects;
-	Object *Objects;
+	std::vector<Object*> objects;
 
 	Scene(int w, int h);
 };

@@ -35,7 +35,7 @@ void PolyMesh::do_construct(char *file, Transform *transform)
 
 	getline(newFile, line);
 	std::string newline = line.c_str();
-	
+
 	std::vector<std::string> tokens = PolyMesh::do_split(newline);
 	std::string nVerticies = tokens.back();
 	PolyMesh::vertex_count = stoi(nVerticies);
@@ -79,7 +79,19 @@ void PolyMesh::do_construct(char *file, Transform *transform)
 
 	PolyMesh::vertex = vertex;
 	PolyMesh::triangle = triangle;
+	std::vector<wholeTriangle*> wholeTrianglesList;
+	wholeTriangle *newTriangle = new wholeTriangle[0];
 
+	for (int i = 0; i< triangle_count; i ++)
+	{
+		newTriangle[0] = vertex[triangle[i][0]];
+		newTriangle[1] = vertex[triangle[i][1]];
+		newTriangle[2] = vertex[triangle[i][2]];
+
+		// wholeTrianglesList.push_back(newTriangle); SEGMENTAION FAULT
+	}
+
+	// PolyMesh::triangles = wholeTrianglesList;
 	newFile.close();
 }
 

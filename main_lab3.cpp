@@ -6,8 +6,7 @@
  */
 
 /*
- * g++ -o lab3executable main_lab3.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp -lm
- * // polymesh.cpp  - error using stoi?
+ * g++ -o lab3executable main_lab3.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp -lm
  *
  * Execute the code using ./lab3executable
  *
@@ -18,7 +17,6 @@
 #include <limits>
 #include "framebuffer.h"
 #include "linedrawer.h"
-#include "polymesh.h"
 #include "camera.h"
 #include "vector.h"
 #include "vertex.h"
@@ -32,15 +30,17 @@ int main(int argc, char *argv[])
 {
   // Create Camera
   Vertex eye = Vertex(0, 0, 0);
-  Vertex look = Vertex(5, 5, 5);
+  Vertex look = Vertex(3, 3, 3);
   Vector up = Vector(0, 1, 0);
   float dist = 40;
-  float FOV = 0.628132; // RAD
+  float FOV = 0.528132; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
   // Create a framebuffer
   Scene *sc = new Scene(2048, 2048);
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
+
+  std::vector<Object*> objs = sc->objects;
 
   for (int x = 0; x <= sc->width - 1; x++)
   {
@@ -48,21 +48,19 @@ int main(int argc, char *argv[])
     {
       Ray ray = camera->getRay(sc, x, y);
       float t = std::numeric_limits<int>::max();
-      Object *closest = NULL;
+      Object *closest;
       for (int i = 0; i < sc->nObjects; i++) {
-        Hit new_t = Hit();
-        Object *objs = sc->Objects;
-        objs[i].intersection(ray, new_t);
-        if (new_t.flag)
-        {
-          std::cout << new_t.flag << std::endl;
-            if (new_t.t < t)
-            {
-              t = new_t.t;
-              *closest = objs[i]; //SEGMENTAION ERR
-            }
-            fb->plotDepth(x, y, new_t.t);
-          }
+      //   Hit new_t = Hit();
+      //   objs[i]->intersection(ray, new_t);
+      //   if (new_t.flag)
+      //   {
+      //       if (new_t.t < t)
+      //       {
+      //         t = new_t.t;
+      //         closest = new_t.what; //SEGMENTAION ERR
+      //       }
+      //       fb->plotDepth(x, y, new_t.t);
+      //     }
       }
     }
   }
@@ -82,7 +80,7 @@ int main(int argc, char *argv[])
 
 
   // Output the framebuffer.
-   fb->writeDepthFile((char *)"test.ppm");
+   // fb->writeDepthFile((char *)"test.ppm");
 
   return 0;
 
