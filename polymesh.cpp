@@ -88,7 +88,7 @@ void PolyMesh::do_construct(char *file, Transform *transform)
 		newTriangle[1] = vertex[triangle[i][1]];
 		newTriangle[2] = vertex[triangle[i][2]];
 
-		// wholeTrianglesList.push_back(newTriangle); SEGMENTAION FAULT
+		// wholeTrianglesList.push_back(newTriangle); //SEGMENTAION FAULT
 	}
 
 	// PolyMesh::triangles = wholeTrianglesList;
