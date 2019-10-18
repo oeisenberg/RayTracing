@@ -13,7 +13,6 @@
 #include <string>
 
 typedef int TriangleIndex[3];
-typedef Vertex wholeTriangle;
 
 class PolyMesh {
 public:
@@ -21,7 +20,6 @@ public:
 	int triangle_count;
         Vertex *vertex;
 	TriangleIndex *triangle;
-	std::vector<wholeTriangle*> triangles;
 
 	void do_construct(char *file, Transform *transform);
 	std::vector<std::string> do_split(std::string inputString);
