@@ -16,6 +16,7 @@ Scene::Scene(int w, int h)
   // Create objs
   // objects.push_back(new Sphere(Vertex(0,0,7), 2));
   // objects.push_back(new Sphere(Vertex(6,6,5), 5));
+
   PolyMesh *pm = new PolyMesh((char *)"teapot.ply", transform);
   for (int i = 0; i < pm->triangle_count; i++)
   {

@@ -6,7 +6,7 @@
  */
 
 /*
- * g++ -o lab3executable main_lab3.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp -lm
+ * g++ -o lab3executable main_lab3.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp -lm - O3
  *
  * Execute the code using ./lab3executable
  *
@@ -32,12 +32,12 @@ int main(int argc, char *argv[])
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 10;
-  float FOV = 1.728132; // RAD
+  float dist = 650;
+  float FOV = 0.6; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
   // Create a framebuffer
-  Scene *sc = new Scene(100, 100); // 2048
+  Scene *sc = new Scene(2048, 2048); // 2048
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
   std::vector<Object*> objs = sc->objects;
@@ -48,20 +48,22 @@ int main(int argc, char *argv[])
     {
       Ray ray = camera->getRay(sc, x, y);
       float t = std::numeric_limits<int>::max();
-      Object *closest;
+      // Object *closest;
+      Hit closest = Hit();
+      Hit new_t = Hit();
       for (int i = 0; i < sc->nObjects; i++) {
-        Hit new_t = Hit();
         objs[i]->intersection(ray, new_t);
         if (new_t.flag)
         {
             if (new_t.t < t)
             {
               t = new_t.t;
-              closest = new_t.what;
+              // closest = new_t.what;
+              closest = new_t;
             }
-            fb->plotDepth(x, y, new_t.t);
           }
       }
+      fb->plotDepth(x, y, closest.t);
     }
   }
 
