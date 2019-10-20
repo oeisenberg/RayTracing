@@ -32,12 +32,12 @@ int main(int argc, char *argv[])
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 650;
-  float FOV = 0.6; // RAD
+  float dist = 100;
+  float FOV = 1; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
   // Create a framebuffer
-  Scene *sc = new Scene(2048, 2048); // 2048
+  Scene *sc = new Scene(300, 300); // 2048
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
   std::vector<Object*> objs = sc->objects;
@@ -48,17 +48,15 @@ int main(int argc, char *argv[])
     {
       Ray ray = camera->getRay(sc, x, y);
       float t = std::numeric_limits<int>::max();
-      // Object *closest;
       Hit closest = Hit();
       Hit new_t = Hit();
-      for (int i = 0; i < sc->nObjects; i++) {
+      for (int i = 0; i < sc->objects.size(); i++) {
         objs[i]->intersection(ray, new_t);
         if (new_t.flag)
         {
             if (new_t.t < t)
             {
               t = new_t.t;
-              // closest = new_t.what;
               closest = new_t;
             }
           }

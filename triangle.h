@@ -1,6 +1,6 @@
 /***************************************************************************
  *
- *
+ * ohe21 - Oliver's Triangle Classes Header file
  */
 
 #pragma once

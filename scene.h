@@ -4,6 +4,7 @@
 #include <vector>
 #include "Sphere.h"
 #include "object.h"
+#include "polymesh.h"
 
 class Scene {
 public:
@@ -15,4 +16,6 @@ public:
 	std::vector<Object*> objects;
 
 	Scene(int w, int h);
+	void addObject(Object *newObject);
+	void addObject(PolyMesh *newObject);
 };

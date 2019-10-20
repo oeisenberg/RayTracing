@@ -1,3 +1,9 @@
+/***************************************************************************
+ *
+ * ohe21 - Oliver's Scene Class
+ *
+ */
+
 #include <memory>
 #include "scene.h"
 #include "object.h"
@@ -11,21 +17,29 @@ Scene::Scene(int w, int h)
   this->width = w;
   this->height = h;
 
-  Transform *transform = new Transform(1.0f, 0.0f, 0.0f, 0.0f,0.0f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, 7.0f,0.0f,0.0f,0.0f,1.0f);
+  Transform *transform = new Transform(1.0f, 0.0f, 0.0f, 0.0f,
+                                       0.0f, 1.0f, 0.0f,-1.0f,
+                                       0.0f, 0.0f, 1.0f, 7.0f,
+                                       0.0f, 0.0f, 0.0f, 1.0f);
 
   // Create objs
-  // objects.push_back(new Sphere(Vertex(0,0,7), 2));
-  // objects.push_back(new Sphere(Vertex(6,6,5), 5));
+  addObject(new Sphere(Vertex(3, 5, 7), 2));
+  addObject(new PolyMesh((char *)"teapot.ply", transform));
+};
 
-  PolyMesh *pm = new PolyMesh((char *)"teapot.ply", transform);
-  for (int i = 0; i < pm->triangle_count; i++)
+void Scene::addObject(Object *newObject)
+{
+  objects.push_back(newObject);
+}
+
+void Scene::addObject(PolyMesh *newObject)
+{
+  for (int i = 0; i < newObject->triangle_count; i++)
   {
-  		Vertex a = pm->vertex[pm->triangle[i][0]];
-  		Vertex b = pm->vertex[pm->triangle[i][1]];
-  		Vertex c = pm->vertex[pm->triangle[i][2]];
+  		Vertex a = newObject->vertex[newObject->triangle[i][0]];
+  		Vertex b = newObject->vertex[newObject->triangle[i][1]];
+  		Vertex c = newObject->vertex[newObject->triangle[i][2]];
 
       objects.push_back(new Triangle(a, b, c));
   }
-
-  this->nObjects = objects.size();
-};
+}

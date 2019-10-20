@@ -1,12 +1,12 @@
 /***************************************************************************
  *
- * krt - Kens Raytracer - Coursework Edition. (C) Copyright 1997-2019.
+ * ohe21 - Oliver's Triangle Class
  *
  * Do what you like with this code as long as you retain this comment.
  */
 
-#include "triangle.h"
 #include <math.h>
+#include "triangle.h"
 #include "vector.h"
 
 
@@ -17,10 +17,11 @@ Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C)
 	c = vertex_C;
 }
 
+// Möller–Trumbore ray-triangle intersection algorithm
+// https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
+// https://www.scratchapixel.com/code.php?id=9&origin=/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle
 void Triangle::intersection(Ray ray, Hit &hit)
 {
-	// Möller–Trumbore ray-triangle intersection algorithm
-
 	hit.flag = false;
 	float errorValue = 1e-8;
 
@@ -29,8 +30,11 @@ void Triangle::intersection(Ray ray, Hit &hit)
 
 	Vector vecP;
 	ray.direction.cross(AC, vecP);
+
 	float det = AB.dot(vecP);
 	if (fabs(det) < errorValue){
+		// negative means that the triangle is facing away.
+		// close to 0 means that the ray misses the triangle
 		return;
 	}
 
@@ -51,19 +55,15 @@ void Triangle::intersection(Ray ray, Hit &hit)
 	}
 
 	float t = invDet * AC.dot(q);
-
 	if (t < 0)
 	{
+		// Triangle is behind the camera
 		return;
 	}
 
 	Vector P = ray.position.convertToVector() + ray.direction.multiply(t);
 	Vector N;
 	AB.cross(AC, N);
-
-	// // TO DO: Understand why this is done to get colour values (Lab 4)
-	// // u /= denom ?
-	// // v /= denom ?
 
 	hit.what = this;
 	hit.normal = N;

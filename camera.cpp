@@ -5,6 +5,7 @@
 #include "ray.h"
 #include "scene.h"
 
+// Using the given camera model from the slides
 Camera::Camera(Vertex Eye, Vertex Look, Vector Up, float D, float FOV){
   this->e = Eye;
   this->l = Look;
