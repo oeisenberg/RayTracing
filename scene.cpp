@@ -42,4 +42,6 @@ void Scene::addObject(PolyMesh *newObject)
 
       objects.push_back(new Triangle(a, b, c));
   }
+
+  // TODO: Add lighting models
 }
