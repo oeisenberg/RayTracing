@@ -71,6 +71,8 @@ void Triangle::intersection(Ray ray, Hit &hit)
 	hit.position.x = P.x;
 	hit.position.y = P.y;
 	hit.position.z = P.z;
+	hit.u = u;
+	hit.v = v;
 	hit.flag = true;
 	hit.t = t;
 

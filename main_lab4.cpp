@@ -6,7 +6,7 @@
  */
 
 /*
- * g++ -o lab3executable main_lab4.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp -lm - O3
+ * g++ -o lab4executable main_lab4.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp lighting.cpp diffuse.cpp -lm -O3
  *
  * Execute the code using ./lab4executable
  *
@@ -32,12 +32,12 @@ int main(int argc, char *argv[])
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 100;
+  float dist = 1000;
   float FOV = 1; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
   // Create a framebuffer
-  Scene *sc = new Scene(300, 300); // 2048
+  Scene *sc = new Scene(2048, 2048); // 2048
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
   std::vector<Object*> objs = sc->objects;
@@ -61,12 +61,21 @@ int main(int argc, char *argv[])
             }
           }
       }
-      fb->plotDepth(x, y, closest.t);
+      if (t != std::numeric_limits<int>::max())
+      {
+        // fb->plotDepth(x, y, closest.t);
+        float aCoeff = sc->AmbientLight->getCoeff();
+        float dCoeff = sc->DiffuseLight->getCoeff(new_t.normal);
+        float coeff = aCoeff + dCoeff;
+        // TODO: Colour is per object
+        fb->plotPixel(x, y, 255*coeff, 255*coeff, 255*coeff);
+      }
     }
   }
 
   // Output the framebuffer.
-  fb->writeDepthFile((char *)"test.ppm");
+  // fb->writeDepthFile((char *)"test.ppm");
+  fb->writeRGBFile((char *)"test.ppm");
 
   return 0;
 

@@ -24,7 +24,7 @@ public:
 
 	virtual void intersection(Ray ray, Hit &hit)
 	{
-	
+
 	}
 };
 
