@@ -6,7 +6,7 @@
  */
 
 /*
- * g++ -o lab4executable main_lab4.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp lighting.cpp diffuse.cpp -lm -O3
+ * g++ -o lab4executable main_lab4.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp diffuse.cpp ambient.cpp -lm -O3
  *
  * Execute the code using ./lab4executable
  *

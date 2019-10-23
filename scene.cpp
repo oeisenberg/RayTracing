@@ -31,8 +31,8 @@ Scene::Scene(int w, int h)
   // addObject(new PolyMesh((char *)"teapot.ply", transform));
 
   // Create lights
-  addLight(new Ambient(0.1, 0.1));
-  addLight(new Diffuse(0.3, 0.1, Vector(0, 0, -1)));
+  addLight(new Ambient(0.2, 0.1));
+  addLight(new Diffuse(0.6, 0.1, Vector(0, 0, -1)));
 
 };
 

@@ -10,5 +10,9 @@ Diffuse::Diffuse(float iD, float kD, Vector lightDir)
 
 float Diffuse::getCoeff(Vector SurfaceNormal)
 {
-  return I_diffuse * K_diffuse * SurfaceNormal.dot(lightDirection);
+  float normalCoeff = SurfaceNormal.dot(lightDirection);
+
+  if (normalCoeff < 0) return 0; // Removes negative normalCoeff values
+
+  return I_diffuse * K_diffuse * normalCoeff;
 }
