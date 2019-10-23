@@ -10,11 +10,16 @@
 #include "vector.h"
 
 
-Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C)
+Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C,  float dC, float Red, float Green, float Blue)
 {
 	a = vertex_A;
 	b = vertex_B;
 	c = vertex_C;
+
+	R = Red;
+	B = Blue;
+	G = Green;
+	dCoeff = dC;
 }
 
 // Möller–Trumbore ray-triangle intersection algorithm

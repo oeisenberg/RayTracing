@@ -14,6 +14,16 @@
 
 class Object {
 public:
+	// Colour Values
+	float R;
+	float G;
+	float B;
+
+	// Diffuse Coeff
+	float dCoeff;
+
+	// Phong coeff
+	// float pCoeff;
 
 	Object *next;
 

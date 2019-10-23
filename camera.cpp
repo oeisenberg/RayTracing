@@ -13,7 +13,7 @@ Camera::Camera(Vertex Eye, Vertex Look, Vector Up, float D, float FOV){
   this->d = D;
   this->FOV = FOV;
 
-  Vector el = Vector(Eye.x - Look.x, Eye.y - Look.y, Eye.z - Look.z);
+  Vector el = Eye - Look;
   Vector uw = Vector(0, 0, 0);
   Vector wu = Vector(0, 0, 0);
 
@@ -30,8 +30,8 @@ Camera::Camera(Vertex Eye, Vertex Look, Vector Up, float D, float FOV){
 
 Ray Camera::getRay(Scene *sc, int x, int y)
 {
-  float Rx = (tan(this->FOV)/2) * (x - sc->width/2);
-  float Ry = (tan(this->FOV)/2) * ((sc->height/2) - y);
+  float Rx = (tan(this->FOV)/2) * (sc->width/2 - x + 0.5);
+  float Ry = (tan(this->FOV)/2) * (sc->height/2 - y + 0.5);
 
   Vector Dir = this->u.multiply(Rx) + (this->v.multiply(Ry)) - (this->w.multiply(this->d));
   Dir.normalise();

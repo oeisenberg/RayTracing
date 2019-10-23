@@ -9,11 +9,10 @@
 #include "vector.h"
 
 class Diffuse : public Light {
-  float I_diffuse; // Intensity of ambient light
-  float K_diffuse; // Surface Diffuse coefficient TODO: Make it a property of the object
+  float I_diffuse; // Intensity of diffuse light
   Vector lightDirection;
 
   public:
-    Diffuse(float I_diffuse, float K_diffuse, Vector lightDir);
-    float getCoeff(Vector SurfaceNormal);
+    Diffuse(float I_diffuse, Vector lightDir);
+    float getCoeff(Vector SurfaceNormal, float K_diffuse);
 };

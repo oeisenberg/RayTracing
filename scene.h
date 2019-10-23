@@ -24,7 +24,7 @@ public:
 
 	Scene(int w, int h);
 	void addObject(Object *newObject);
-	void addObject(PolyMesh *newObject);
+	void addObject(PolyMesh *newObject, float dC, float Red, float Green, float Blue);
 	void addLight(Ambient *newLight);
 	void addLight(Diffuse *newLight);
 };

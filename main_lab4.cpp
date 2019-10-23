@@ -32,12 +32,12 @@ int main(int argc, char *argv[])
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 1000;
+  float dist = 70;
   float FOV = 1; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
   // Create a framebuffer
-  Scene *sc = new Scene(2048, 2048); // 2048
+  Scene *sc = new Scene(100, 100); // 2048
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
   std::vector<Object*> objs = sc->objects;
@@ -61,15 +61,18 @@ int main(int argc, char *argv[])
             }
           }
       }
+
       if (t != std::numeric_limits<int>::max())
       {
         // fb->plotDepth(x, y, closest.t);
+        Object *obj = closest.what;
         float aCoeff = sc->AmbientLight->getCoeff();
-        float dCoeff = sc->DiffuseLight->getCoeff(new_t.normal);
+        float dCoeff = sc->DiffuseLight->getCoeff(closest.normal, obj->dCoeff);
         float coeff = aCoeff + dCoeff;
-        // TODO: Colour is per object
-        fb->plotPixel(x, y, 255*coeff, 255*coeff, 255*coeff);
+
+        fb->plotPixel(x, y, obj->R*coeff, obj->G*coeff, obj->B*coeff);
       }
+
     }
   }
 
