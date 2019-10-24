@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 70;
+  float dist = 80;
   float FOV = 1; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
@@ -66,9 +66,12 @@ int main(int argc, char *argv[])
       {
         // fb->plotDepth(x, y, closest.t);
         Object *obj = closest.what;
-        float aCoeff = sc->AmbientLight->getCoeff();
-        float dCoeff = sc->DiffuseLight->getCoeff(closest.normal, obj->dCoeff);
-        float coeff = aCoeff + dCoeff;
+        float aCoeff = sc->AmbientLightModel->getCoeff();
+        float dCoeff = sc->DiffuseLightModel->getCoeff(closest.normal, obj->dCoeff);
+        float pCoeff = sc->PhongLightModel->getCoeff(closest.normal, camera->e, closest.position);
+        // float coeff = pCoeff;
+        // float coeff = aCoeff + dCoeff;
+        float coeff = aCoeff + dCoeff + pCoeff;
 
         fb->plotPixel(x, y, obj->R*coeff, obj->G*coeff, obj->B*coeff);
       }

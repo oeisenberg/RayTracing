@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "light.h"
+#include "lightModel.h"
 
 class Ambient : public Light {
   float I_ambient; // Intensity of ambient light

@@ -1,10 +1,10 @@
 #include "diffuse.h"
 #include "vector.h"
 
-Diffuse::Diffuse(float iD, Vector lightDir)
+Diffuse::Diffuse(float iD, Vector *lightDir)
 {
   I_diffuse = iD;
-  lightDirection = lightDir.multiply(-1);
+  lightDirection = lightDir->multiply(-1);
 }
 
 float Diffuse::getCoeff(Vector SurfaceNormal, float K_diffuse)

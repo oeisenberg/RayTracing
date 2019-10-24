@@ -11,9 +11,10 @@
 #include "polymesh.h"
 #include "triangle.h"
 #include "vertex.h"
-#include "light.h"
+#include "lightModel.h"
 #include "ambient.h"
 #include "diffuse.h"
+#include "phong.h"
 
 Scene::Scene(int w, int h)
 {
@@ -26,14 +27,17 @@ Scene::Scene(int w, int h)
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Create objs
-  addObject(new Sphere(Vertex(2, 2, 10), 3, 0.5, 1, 0, 0));
-  addObject(new Sphere(Vertex(-1, -1, 7), 2, 0.2, 0, 1, 0));
+  // addObject(new Sphere(Vertex(2, 2, 10), 3, 0.5, 1, 0, 0));
+  // addObject(new Sphere(Vertex(-1, -1, 7), 2, 0.2, 0, 1, 0));
   addObject(new PolyMesh((char *)"teapot.ply", transform), 0.5, 0, 0, 1);
 
-  // Create lights
-  addLight(new Ambient(0.2, 0.1));
-  addLight(new Diffuse(0.6, Vector(0, -1, 1)));
+  // Add Lighting
+  Vector *lightA = new Vector(0, 0, 1);
 
+  // Create light models
+  addLightModel(new Ambient(0.2, 0.1));
+  addLightModel(new Diffuse(0.6, lightA));
+  addLightModel(new Phong(0.4, 20, lightA));
 };
 
 void Scene::addObject(Object *newObject)
@@ -53,12 +57,17 @@ void Scene::addObject(PolyMesh *newObject, float dC, float Red, float Green, flo
   }
 }
 
-void Scene::addLight(Ambient *newLight)
+void Scene::addLightModel(Ambient *newLightModel)
 {
-  AmbientLight = newLight;
+  AmbientLightModel = newLightModel;
 }
 
-void Scene::addLight(Diffuse *newLight)
+void Scene::addLightModel(Diffuse *newLightModel)
 {
-  DiffuseLight = newLight;
+  DiffuseLightModel = newLightModel;
+}
+
+void Scene::addLightModel(Phong *newLightModel)
+{
+  PhongLightModel = newLightModel;
 }

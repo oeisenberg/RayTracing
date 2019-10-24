@@ -5,9 +5,10 @@
 #include "Sphere.h"
 #include "object.h"
 #include "polymesh.h"
-#include "light.h"
+#include "lightModel.h"
 #include "ambient.h"
 #include "diffuse.h"
+#include "phong.h"
 
 class Scene {
 public:
@@ -18,13 +19,15 @@ public:
 	int nObjects;
 	std::vector<Object*> objects;
 	std::vector<Light*> lights;
-	Ambient *AmbientLight;
-	Diffuse *DiffuseLight;
+	Ambient *AmbientLightModel;
+	Diffuse *DiffuseLightModel;
+	Phong *PhongLightModel;
 
 
 	Scene(int w, int h);
 	void addObject(Object *newObject);
 	void addObject(PolyMesh *newObject, float dC, float Red, float Green, float Blue);
-	void addLight(Ambient *newLight);
-	void addLight(Diffuse *newLight);
+	void addLightModel(Ambient *newLightModel);
+	void addLightModel(Diffuse *newLightModel);
+	void addLightModel(Phong *newLightModel);
 };
