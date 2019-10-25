@@ -14,5 +14,5 @@ class Specular : public Light {
 
   public:
     Specular(float I_specular, int distribution, Vector *lightDir);
-    float getCoeff(Vector SurfaceNormal, Vertex camEye, Vertex hitPos);
+    float getCoeff(Vector SurfaceNormal, Vertex camEye, Vertex hitPos, float sCoeff);
 };

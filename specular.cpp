@@ -12,7 +12,7 @@ Specular::Specular(float intensity, int n, Vector *lightDir)
   lightDirection = *lightDir;
 }
 
-float Specular::getCoeff(Vector SurfaceNormal, Vertex camEye, Vertex hitPos)
+float Specular::getCoeff(Vector SurfaceNormal, Vertex camEye, Vertex hitPos, float sCoeff)
 {
   float normalCoeff = SurfaceNormal.dot(lightDirection);
 
@@ -26,5 +26,5 @@ float Specular::getCoeff(Vector SurfaceNormal, Vertex camEye, Vertex hitPos)
 
   if (specularCoeff < 0) return 0;
 
-  return I_specular * 1 * pow(specularCoeff, distribution);
+  return I_specular * sCoeff * pow(specularCoeff, distribution);
 }

@@ -9,7 +9,7 @@
 #include <math.h>
 
 
-Sphere::Sphere(Vertex c, float r, float dC, float R_value, float G_value, float B_value)
+Sphere::Sphere(Vertex c, float r, float dC, float sC, float R_value, float G_value, float B_value)
 {
 	center = c;
 	radius = r;
@@ -17,6 +17,7 @@ Sphere::Sphere(Vertex c, float r, float dC, float R_value, float G_value, float 
 	G = G_value;
 	B = B_value;
 	dCoeff = dC;
+	sCoeff = sC;
 }
 
 void Sphere::intersection(Ray ray, Hit &hit)

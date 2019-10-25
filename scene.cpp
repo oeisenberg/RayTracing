@@ -27,9 +27,9 @@ Scene::Scene(int w, int h)
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Create objs
-  addObject(new Sphere(Vertex(1, 1, 7), 1, 0.5, 1, 0, 0));
-  addObject(new Sphere(Vertex(-1, -1, 7), 2, 0.2, 0, 1, 0));
-  addObject(new PolyMesh((char *)"teapot.ply", transform), 0.5, 0, 0, 1);
+  addObject(new Sphere(Vertex(1, 1, 7), 1, 0.5, 1, 1, 0, 0));
+  addObject(new Sphere(Vertex(-1, -1, 7), 2, 0.2, 1, 0, 1, 0));
+  addObject(new PolyMesh((char *)"teapot.ply", transform), 0.5, 1, 0, 0, 1);
 
   // Add Lighting
   Vector *lightA = new Vector(1, 0, 1);
@@ -46,7 +46,7 @@ void Scene::addObject(Object *newObject)
   objects.push_back(newObject);
 }
 
-void Scene::addObject(PolyMesh *newObject, float dC, float Red, float Green, float Blue)
+void Scene::addObject(PolyMesh *newObject, float dC, float sC, float Red, float Green, float Blue)
 {
   for (int i = 0; i < newObject->triangle_count; i++)
   {
@@ -54,7 +54,7 @@ void Scene::addObject(PolyMesh *newObject, float dC, float Red, float Green, flo
   		Vertex b = newObject->vertex[newObject->triangle[i][1]];
   		Vertex c = newObject->vertex[newObject->triangle[i][2]];
 
-      addObject(new Triangle(a, b, c, dC, Red, Green, Blue));
+      addObject(new Triangle(a, b, c, dC, sC, Red, Green, Blue));
   }
 }
 

@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
         Object *obj = closest.what;
         float aCoeff = sc->AmbientLightModel->getCoeff();
         float dCoeff = sc->DiffuseLightModel->getCoeff(closest.normal, obj->dCoeff);
-        float sCoeff = sc->SpecularLightModel->getCoeff(closest.normal, camera->e, closest.position);
+        float sCoeff = sc->SpecularLightModel->getCoeff(closest.normal, camera->e, closest.position, obj->sCoeff);
         float coeff = aCoeff + dCoeff + sCoeff;
 
         fb->plotPixel(x, y, obj->R*coeff, obj->G*coeff, obj->B*coeff);

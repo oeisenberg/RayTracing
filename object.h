@@ -22,8 +22,8 @@ public:
 	// Diffuse Coeff
 	float dCoeff;
 
-	// Phong coeff
-	// float pCoeff;
+	// Specular coeff
+	float sCoeff;
 
 	Object *next;
 
