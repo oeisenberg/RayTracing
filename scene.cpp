@@ -11,6 +11,7 @@
 #include "polymesh.h"
 #include "triangle.h"
 #include "vertex.h"
+#include "light.h"
 #include "lightModel.h"
 #include "ambient.h"
 #include "diffuse.h"
@@ -27,18 +28,17 @@ Scene::Scene(int w, int h)
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Create objs
-  addObject(new Sphere(Vertex(1, 1, 7), 1, 0.5, 1, 1, 0, 0));
-  addObject(new Sphere(Vertex(-1, -1, 7), 2, 0.2, 1, 0, 1, 0));
-  addObject(new PolyMesh((char *)"teapot.ply", transform), 0.5, 1, 0, 0, 1);
+  addObject(new Sphere(Vertex(1, 1, 7), 1, 0.2, 0.5, 1, 1, 0, 0));
+  addObject(new Sphere(Vertex(-1, -1, 7), 2, 0.2, 0.2, 1, 0, 1, 0));
+  // addObject(new PolyMesh((char *)"teapot.ply", transform), 0.2, 0.5, 1, 0, 0, 1);
 
   // Add Lighting
-  Vector *lightA = new Vector(1, 0, 1);
-  lightA->normalise();
+  // lights.push_back(new Light(0.5, new Vector(1, 0, 1)));
 
   // Create light models
-  addLightModel(new Ambient(0.4, 0.2));
-  addLightModel(new Diffuse(0.4, lightA));
-  addLightModel(new Specular(0.6, 20, lightA));
+  addLightModel(new Ambient(0.2));
+  // addLightModel(new Diffuse(0.4, lightA));
+  // addLightModel(new Specular(0.4, 20, lightA));
 };
 
 void Scene::addObject(Object *newObject)
@@ -46,7 +46,7 @@ void Scene::addObject(Object *newObject)
   objects.push_back(newObject);
 }
 
-void Scene::addObject(PolyMesh *newObject, float dC, float sC, float Red, float Green, float Blue)
+void Scene::addObject(PolyMesh *newObject, float aC, float dC, float sC, float Red, float Green, float Blue)
 {
   for (int i = 0; i < newObject->triangle_count; i++)
   {
@@ -54,7 +54,7 @@ void Scene::addObject(PolyMesh *newObject, float dC, float sC, float Red, float 
   		Vertex b = newObject->vertex[newObject->triangle[i][1]];
   		Vertex c = newObject->vertex[newObject->triangle[i][2]];
 
-      addObject(new Triangle(a, b, c, dC, sC, Red, Green, Blue));
+      addObject(new Triangle(a, b, c, aC, dC, sC, Red, Green, Blue));
   }
 }
 

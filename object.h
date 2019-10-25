@@ -19,10 +19,11 @@ public:
 	float G;
 	float B;
 
+	// Ambeint Coeff
+	float aCoeff;
 	// Diffuse Coeff
 	float dCoeff;
-
-	// Specular coeff
+	// Specular Coeff
 	float sCoeff;
 
 	Object *next;

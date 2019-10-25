@@ -8,7 +8,7 @@
 #include "lightModel.h"
 #include "vertex.h"
 
-class Specular : public Light {
+class Specular : public LightModel {
   float I_specular; // Intensity of specular light
   int distribution;
 

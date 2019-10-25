@@ -8,10 +8,13 @@
 #define _LIGHT_H_
 
 #include "vector.h"
+#include "light.h"
+#include <vector>
 
-class Light {
+class LightModel {
 public:
-  Vector lightDirection; // TODO: change to vector of lights 
+  Vector lightDirection; // TODO: change to vector of lights
+  std::vector<Light> lights;
 
   virtual float getCoeff()
   {

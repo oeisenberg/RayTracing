@@ -1,13 +1,12 @@
 
 #include "ambient.h"
 
-Ambient::Ambient(float iA, float kA)
+Ambient::Ambient(float iA)
 {
   I_ambient = iA;
-  K_ambient = kA;
 }
 
-float Ambient::getCoeff()
+float Ambient::getCoeff(float K_ambient)
 {
   return I_ambient * K_ambient;
 }

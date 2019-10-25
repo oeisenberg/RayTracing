@@ -7,11 +7,10 @@
 
 #include "lightModel.h"
 
-class Ambient : public Light {
-  float I_ambient; // Intensity of ambient light
-  float K_ambient; // Ambient Reflection coefficient
+class Ambient : public LightModel {
+  float I_ambient;
 
   public:
-    Ambient(float iA, float kA);
-    float getCoeff();
+    Ambient(float intensity);
+    float getCoeff(float K_ambient);
 };

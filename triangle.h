@@ -13,6 +13,6 @@ Vertex b;
 Vertex c;
 
 public:
-	Triangle(Vertex a, Vertex b, Vertex c, float dC, float sC, float R, float G, float B);
+	Triangle(Vertex a, Vertex b, Vertex c, float aC, float dC, float sC, float R, float G, float B);
 	void intersection(Ray ray, Hit &hit);
 };

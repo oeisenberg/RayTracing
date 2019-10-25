@@ -6,7 +6,7 @@
  */
 
 /*
- * g++ -o lab4executable main_lab4.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp diffuse.cpp ambient.cpp specular.cpp -lm -O3
+ * g++ -o lab4executable main_lab4.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp diffuse.cpp ambient.cpp specular.cpp light.cpp -lm -O3
  *
  * Execute the code using ./lab4executable
  *
@@ -66,10 +66,11 @@ int main(int argc, char *argv[])
       {
         // fb->plotDepth(x, y, closest.t);
         Object *obj = closest.what;
-        float aCoeff = sc->AmbientLightModel->getCoeff();
-        float dCoeff = sc->DiffuseLightModel->getCoeff(closest.normal, obj->dCoeff);
-        float sCoeff = sc->SpecularLightModel->getCoeff(closest.normal, camera->e, closest.position, obj->sCoeff);
-        float coeff = aCoeff + dCoeff + sCoeff;
+        float aCoeff = sc->AmbientLightModel->getCoeff(obj->aCoeff);
+        // float dCoeff = sc->DiffuseLightModel->getCoeff(closest.normal, obj->dCoeff);
+        // float sCoeff = sc->SpecularLightModel->getCoeff(closest.normal, camera->e, closest.position, obj->sCoeff);
+        // float coeff = aCoeff + dCoeff + sCoeff;
+        float coeff = aCoeff;
 
         fb->plotPixel(x, y, obj->R*coeff, obj->G*coeff, obj->B*coeff);
       }

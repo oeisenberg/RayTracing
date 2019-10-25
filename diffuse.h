@@ -8,7 +8,7 @@
 #include "lightModel.h"
 #include "vector.h"
 
-class Diffuse : public Light {
+class Diffuse : public LightModel {
   float I_diffuse; // Intensity of diffuse light
 
   public:
