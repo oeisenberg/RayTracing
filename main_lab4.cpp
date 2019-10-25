@@ -32,12 +32,12 @@ int main(int argc, char *argv[])
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 80;
+  float dist = 1200;
   float FOV = 1; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
   // Create a framebuffer
-  Scene *sc = new Scene(100, 100); // 2048
+  Scene *sc = new Scene(1500, 1500); // 2048
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
   std::vector<Object*> objs = sc->objects;
@@ -69,9 +69,9 @@ int main(int argc, char *argv[])
         float aCoeff = sc->AmbientLightModel->getCoeff();
         float dCoeff = sc->DiffuseLightModel->getCoeff(closest.normal, obj->dCoeff);
         float pCoeff = sc->PhongLightModel->getCoeff(closest.normal, camera->e, closest.position);
-        // float coeff = pCoeff;
+        float coeff = pCoeff;
         // float coeff = aCoeff + dCoeff;
-        float coeff = aCoeff + dCoeff + pCoeff;
+        // float coeff = aCoeff + dCoeff + pCoeff;
 
         fb->plotPixel(x, y, obj->R*coeff, obj->G*coeff, obj->B*coeff);
       }

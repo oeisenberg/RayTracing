@@ -11,15 +11,15 @@ float Phong::getCoeff(Vector SurfaceNormal, Vertex camEye, Vertex hitPos)
 {
   float normalCoeff = SurfaceNormal.dot(lightDirection);
 
-  if (normalCoeff < 0) return 0; // Removes negative normalCoeff values
+  Vector Reflection = lightDirection - (SurfaceNormal.multiply(2.0f * normalCoeff));
+  Reflection.normalise();
 
-  Vector R = lightDirection - (SurfaceNormal.multiply(2 * normalCoeff));
   Vector viewerDirection = camEye - hitPos;
   viewerDirection.normalise();
 
-  float specularCoeff = R.dot(viewerDirection);
+  float specularCoeff = Reflection.dot(viewerDirection);
 
-  // if (specularCoeff < 0) return 0;
+  if (specularCoeff < 0) return 0;
 
-  return I_phong * 0.4 * pow(specularCoeff, distribution);
+  return I_phong * 1 * pow(specularCoeff, distribution);
 }
