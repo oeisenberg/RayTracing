@@ -27,18 +27,18 @@ Scene::Scene(int w, int h)
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Create objs
-  addObject(new Sphere(Vertex(0, 0, 7), 1, 0.5, 1, 0, 0));
-  // addObject(new Sphere(Vertex(-1, -1, 7), 2, 0.2, 0, 1, 0));
-  // addObject(new PolyMesh((char *)"teapot.ply", transform), 0.5, 0, 0, 1);
+  addObject(new Sphere(Vertex(1, 1, 7), 1, 0.5, 1, 0, 0));
+  addObject(new Sphere(Vertex(-1, -1, 7), 2, 0.2, 0, 1, 0));
+  addObject(new PolyMesh((char *)"teapot.ply", transform), 0.5, 0, 0, 1);
 
   // Add Lighting
   Vector *lightA = new Vector(1, 0, 1);
   lightA->normalise();
 
   // Create light models
-  addLightModel(new Ambient(0.2, 0.1));
-  addLightModel(new Diffuse(0.3, lightA));
-  addLightModel(new Phong(0.3, 20, lightA));
+  addLightModel(new Ambient(0.4, 0.2));
+  addLightModel(new Diffuse(0.4, lightA));
+  addLightModel(new Phong(0.6, 20, lightA));
 };
 
 void Scene::addObject(Object *newObject)

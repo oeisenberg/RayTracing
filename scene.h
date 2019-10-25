@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <vector>
-#include "Sphere.h"
+#include "sphere.h"
 #include "object.h"
 #include "polymesh.h"
 #include "lightModel.h"

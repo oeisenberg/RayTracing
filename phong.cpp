@@ -11,8 +11,8 @@ float Phong::getCoeff(Vector SurfaceNormal, Vertex camEye, Vertex hitPos)
 {
   float normalCoeff = SurfaceNormal.dot(lightDirection);
 
-  Vector Reflection = lightDirection - (SurfaceNormal.multiply(2.0f * normalCoeff));
-  Reflection.normalise();
+  Vector Reflection;
+  SurfaceNormal.reflection(lightDirection, Reflection);
 
   Vector viewerDirection = camEye - hitPos;
   viewerDirection.normalise();
