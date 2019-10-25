@@ -6,7 +6,7 @@
  */
 
 /*
- * g++ -o lab4executable main_lab4.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp diffuse.cpp ambient.cpp phong.cpp -lm -O3
+ * g++ -o lab4executable main_lab4.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp diffuse.cpp ambient.cpp specular.cpp -lm -O3
  *
  * Execute the code using ./lab4executable
  *
@@ -68,10 +68,8 @@ int main(int argc, char *argv[])
         Object *obj = closest.what;
         float aCoeff = sc->AmbientLightModel->getCoeff();
         float dCoeff = sc->DiffuseLightModel->getCoeff(closest.normal, obj->dCoeff);
-        float pCoeff = sc->PhongLightModel->getCoeff(closest.normal, camera->e, closest.position);
-		// float coeff = pCoeff;
-        // float coeff = aCoeff + dCoeff;
-        float coeff = aCoeff + dCoeff + pCoeff;
+        float sCoeff = sc->SpecularLightModel->getCoeff(closest.normal, camera->e, closest.position);
+        float coeff = aCoeff + dCoeff + sCoeff;
 
         fb->plotPixel(x, y, obj->R*coeff, obj->G*coeff, obj->B*coeff);
       }

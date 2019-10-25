@@ -14,7 +14,7 @@
 #include "lightModel.h"
 #include "ambient.h"
 #include "diffuse.h"
-#include "phong.h"
+#include "specular.h"
 
 Scene::Scene(int w, int h)
 {
@@ -38,7 +38,7 @@ Scene::Scene(int w, int h)
   // Create light models
   addLightModel(new Ambient(0.4, 0.2));
   addLightModel(new Diffuse(0.4, lightA));
-  addLightModel(new Phong(0.6, 20, lightA));
+  addLightModel(new Specular(0.6, 20, lightA));
 };
 
 void Scene::addObject(Object *newObject)
@@ -68,7 +68,7 @@ void Scene::addLightModel(Diffuse *newLightModel)
   DiffuseLightModel = newLightModel;
 }
 
-void Scene::addLightModel(Phong *newLightModel)
+void Scene::addLightModel(Specular *newLightModel)
 {
-  PhongLightModel = newLightModel;
+  SpecularLightModel = newLightModel;
 }

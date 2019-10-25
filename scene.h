@@ -8,7 +8,7 @@
 #include "lightModel.h"
 #include "ambient.h"
 #include "diffuse.h"
-#include "phong.h"
+#include "specular.h"
 
 class Scene {
 public:
@@ -21,7 +21,7 @@ public:
 	std::vector<Light*> lights;
 	Ambient *AmbientLightModel;
 	Diffuse *DiffuseLightModel;
-	Phong *PhongLightModel;
+	Specular *SpecularLightModel;
 
 
 	Scene(int w, int h);
@@ -29,5 +29,5 @@ public:
 	void addObject(PolyMesh *newObject, float dC, float Red, float Green, float Blue);
 	void addLightModel(Ambient *newLightModel);
 	void addLightModel(Diffuse *newLightModel);
-	void addLightModel(Phong *newLightModel);
+	void addLightModel(Specular *newLightModel);
 };
