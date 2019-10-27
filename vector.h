@@ -91,4 +91,5 @@ public:
 	{
 		return Vector(x-other.x, y-other.y, z-other.z);
 	}
+
 };
