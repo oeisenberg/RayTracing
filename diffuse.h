@@ -7,11 +7,10 @@
 
 #include "lightModel.h"
 #include "vector.h"
+#include "light.h"
 
 class Diffuse : public LightModel {
-  float I_diffuse; // Intensity of diffuse light
-
   public:
-    Diffuse(float I_diffuse, Vector *lightDir);
-    float getCoeff(Vector SurfaceNormal, float K_diffuse);
+    Diffuse();
+    float getCoeff(std::vector<Light*> lights, Vector SurfaceNormal, float K_diffuse);
 };

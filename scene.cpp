@@ -11,11 +11,11 @@
 #include "polymesh.h"
 #include "triangle.h"
 #include "vertex.h"
-#include "light.h"
 #include "lightModel.h"
 #include "ambient.h"
 #include "diffuse.h"
 #include "specular.h"
+// #include "spotlight.h"
 
 Scene::Scene(int w, int h)
 {
@@ -33,12 +33,14 @@ Scene::Scene(int w, int h)
   // addObject(new PolyMesh((char *)"teapot.ply", transform), 0.2, 0.5, 1, 0, 0, 1);
 
   // Add Lighting
-  // lights.push_back(new Light(0.5, new Vector(1, 0, 1)));
+  addLight(new Spotlight(0.5, new Vector(0, 0, -1)));
+  addLight(new Spotlight(0.3, new Vector(0, 1, 0)));
+  addLight(new Spotlight(0.8, new Vector(1, 0.5, 0)));
 
   // Create light models
   addLightModel(new Ambient(0.2));
-  // addLightModel(new Diffuse(0.4, lightA));
-  // addLightModel(new Specular(0.4, 20, lightA));
+  addLightModel(new Diffuse());
+  addLightModel(new Specular(20));
 };
 
 void Scene::addObject(Object *newObject)
@@ -71,4 +73,8 @@ void Scene::addLightModel(Diffuse *newLightModel)
 void Scene::addLightModel(Specular *newLightModel)
 {
   SpecularLightModel = newLightModel;
+}
+
+void Scene::addLight(Spotlight *newLight){
+  lights.push_back(newLight);
 }

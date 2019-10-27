@@ -1,21 +1,31 @@
 /***************************************************************************
-*
-* ohe - Oliver's Light Class
-*/
+ *
+ *
+ */
 
-#pragma once
+// Object is the base class for objects.
+#ifndef _LIGHT_H_
+#define _LIGHT_H_
 
-#include "vertex.h"
 #include "vector.h"
+#include "vertex.h"
+#include <vector>
 
 class Light {
+protected:
   float intensity;
   Vertex position;
   Vector direction;
+public:
+  virtual float getIntensity(){
 
-  public:
-    Light(float i);
-    Light(float i, Vector *dir);
-    Light(float i, Vertex p);
-    Light(float i, Vertex p, Vector *dir);
+  };
+  virtual Vector getDirection(){
+
+  };
+  virtual Vertex getPosition(){
+
+  };
 };
+
+#endif

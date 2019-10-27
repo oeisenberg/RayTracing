@@ -7,12 +7,12 @@
 
 #include "lightModel.h"
 #include "vertex.h"
+#include "light.h"
 
 class Specular : public LightModel {
-  float I_specular; // Intensity of specular light
   int distribution;
 
   public:
-    Specular(float I_specular, int distribution, Vector *lightDir);
-    float getCoeff(Vector SurfaceNormal, Vertex camEye, Vertex hitPos, float sCoeff);
+    Specular(int distribution);
+    float getCoeff(std::vector<Light*> lights, Vector SurfaceNormal, Vertex camEye, Vertex hitPos, float sCoeff);
 };

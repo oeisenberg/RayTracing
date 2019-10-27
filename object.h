@@ -25,6 +25,8 @@ public:
 	float dCoeff;
 	// Specular Coeff
 	float sCoeff;
+	// Distribution
+	int n; //TODO: Fully implement so objects have their own n
 
 	Object *next;
 

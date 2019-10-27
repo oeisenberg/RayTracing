@@ -1,17 +1,23 @@
 #include "diffuse.h"
 #include "vector.h"
+#include "light.h"
 
-Diffuse::Diffuse(float iD, Vector *lightDir)
+Diffuse::Diffuse()
 {
-  I_diffuse = iD;
-  lightDirection = lightDir->multiply(-1);
+
 }
 
-float Diffuse::getCoeff(Vector SurfaceNormal, float K_diffuse)
+float Diffuse::getCoeff(std::vector<Light*> lights, Vector SurfaceNormal, float K_diffuse)
 {
-  float normalCoeff = SurfaceNormal.dot(lightDirection);
+  float dCoeffs = 0.0;
+  for (float iLight = 0; iLight < lights.size(); iLight++){
+    Vector lightDir = lights[iLight]->getDirection();
+    float normalCoeff = SurfaceNormal.dot(lightDir);
 
-  if (normalCoeff < 0) return 0; // Removes negative normalCoeff values
-
-  return I_diffuse * K_diffuse * normalCoeff;
+    if (normalCoeff > 0){
+      float intensity = lights[iLight]->getIntensity();
+      dCoeffs += (intensity * K_diffuse * normalCoeff);
+    }
+  }
+  return dCoeffs;
 }
