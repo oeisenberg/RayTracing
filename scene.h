@@ -34,6 +34,5 @@ public:
 	void addLightModel(Diffuse *newLightModel);
 	void addLightModel(Specular *newLightModel);
 	void addLight(Spotlight *newLight);
-	// void addLight(Spotlight *newLight);
-	// void addLight(Spotlight *newLight);
+	// void addLight(Pointlight *newLight);
 };
