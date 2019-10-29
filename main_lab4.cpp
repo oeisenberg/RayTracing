@@ -6,7 +6,7 @@
  */
 
 /*
- * g++ -o lab4executable main_lab4.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp diffuse.cpp ambient.cpp specular.cpp light.cpp -lm -O3
+ *  g++ -o lab4executable main_lab4.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp diffuse.cpp ambient.cpp specular.cpp spotlight.cpp -lm -O3
  *
  * Execute the code using ./lab4executable
  *
@@ -65,12 +65,12 @@ int main(int argc, char *argv[])
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 350;
+  float dist = 200;
   float FOV = 1; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
   // Create a framebuffer
-  Scene *sc = new Scene(500, 500); // 2048
+  Scene *sc = new Scene(400, 400); // 2048
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
   for (int x = 0; x <= sc->width - 1; x++)
@@ -85,7 +85,6 @@ int main(int argc, char *argv[])
 
       if (closest.t != std::numeric_limits<int>::max())
       {
-        // fb->plotDepth(x, y, closest.t);
         Object *obj = closest.what;
         float coeff = sc->AmbientLightModel->getCoeff(obj->aCoeff);
         if (!shadow){
@@ -100,7 +99,6 @@ int main(int argc, char *argv[])
   }
 
   // Output the framebuffer.
-  // fb->writeDepthFile((char *)"test.ppm");
   fb->writeRGBFile((char *)"test.ppm");
 
   return 0;
