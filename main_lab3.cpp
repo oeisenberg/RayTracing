@@ -6,7 +6,7 @@
  */
 
 /*
- * g++ -o lab3executable main_lab3.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp -lm - O3
+ * g++ -o lab3executable main_lab3.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp -lm -O3
  *
  * Execute the code using ./lab3executable
  *
