@@ -23,7 +23,7 @@ Scene::Scene(int w, int h)
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Create objs
-  addObject(new Sphere(Vertex(3, 5, 7), 2));
+  // addObject(new Sphere(Vertex(3, 5, 7), 2));
   addObject(new PolyMesh((char *)"teapot.ply", transform));
 };
 
