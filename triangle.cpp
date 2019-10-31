@@ -71,8 +71,9 @@ void Triangle::intersection(Ray ray, Hit &hit)
 
 	Vector P = ray.position.convertToVector() + ray.direction.multiply(t);
 	Vector N;
-	AB.cross(AC, N);
-
+	// Normally AB.cross(AC, N) but the normals seem to be invered for the smaller teapot
+	AC.cross(AB, N);
+	
 	hit.what = this;
 	hit.normal = N;
 	hit.normal.normalise();

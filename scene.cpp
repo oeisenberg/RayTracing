@@ -15,27 +15,26 @@
 #include "ambient.h"
 #include "diffuse.h"
 #include "specular.h"
-// #include "spotlight.h"
+#include "spotlight.h"
 
 Scene::Scene(int w, int h)
 {
   this->width = w;
   this->height = h;
 
-  //TODO: update transformation matrix to work with the smaller teapot
   Transform *transform = new Transform(1.0f, 0.0f, 0.0f, 0.0f,
-                                       0.0f, 1.0f, 0.0f,-1.0f,
-                                       0.0f, 0.0f, 1.0f, 7.0f,
+                                       0.0f, 0.0f, 1.0f, -2.0f,
+                                       0.0f, 1.0f, 0.0f, 10.0f,
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Create objs
   addObject(new Sphere(Vertex(0, 0, 200), 100, 0.2, 0.5, 1, 1, 0, 0));
   // addObject(new Sphere(Vertex(1, 2, 7), 2, 0.2, 0.2, 1, 0, 1, 0));
-  addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), 0.2, 0.5, 1, 0, 0, 1);
+  // addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), 0.2, 0.5, 1, 0, 0, 1);
 
   // Add Lighting
   addLight(new Spotlight(0.5, new Vector(0.5, 0, 1)));
-  // addLight(new Spotlight(0.3, new Vector(-1, -1, 0)));
+  addLight(new Spotlight(0.3, new Vector(0, -1, 0)));
 
   // Create light models
   addLightModel(new Ambient(0.2));
