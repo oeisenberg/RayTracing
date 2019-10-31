@@ -22,6 +22,7 @@ Scene::Scene(int w, int h)
   this->width = w;
   this->height = h;
 
+  //TODO: update transformation matrix to work with the smaller teapot
   Transform *transform = new Transform(1.0f, 0.0f, 0.0f, 0.0f,
                                        0.0f, 1.0f, 0.0f,-1.0f,
                                        0.0f, 0.0f, 1.0f, 7.0f,
@@ -30,7 +31,7 @@ Scene::Scene(int w, int h)
   // Create objs
   addObject(new Sphere(Vertex(0, 0, 200), 100, 0.2, 0.5, 1, 1, 0, 0));
   // addObject(new Sphere(Vertex(1, 2, 7), 2, 0.2, 0.2, 1, 0, 1, 0));
-  addObject(new PolyMesh((char *)"teapot.ply", transform), 0.2, 0.5, 1, 0, 0, 1);
+  addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), 0.2, 0.5, 1, 0, 0, 1);
 
   // Add Lighting
   addLight(new Spotlight(0.5, new Vector(0.5, 0, 1)));

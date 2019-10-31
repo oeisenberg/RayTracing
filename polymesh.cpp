@@ -48,6 +48,8 @@ void PolyMesh::do_construct(char *file, Transform *transform)
 
 	Vertex *vertex = new Vertex[PolyMesh::vertex_count];
 	TriangleIndex *triangle = new TriangleIndex[PolyMesh::triangle_count];
+	// Index Offset to to adjust for change in indexing for the large and smaller teapot
+	int idxOffset = 0; // 1
 
 	for (int lineNo = 3; getline(newFile, line) && lineNo <= PolyMesh::vertex_count + PolyMesh::triangle_count + 3; lineNo++)
 	{
@@ -68,7 +70,8 @@ void PolyMesh::do_construct(char *file, Transform *transform)
 		else if (tokens.size() == 4) { // Face
 
 			for (int iToken = 1; iToken <= 3; iToken++) {
-				triangle[lineNo - PolyMesh::vertex_count - 3][iToken - 1] = atoi(tokens.at(iToken).c_str()) - 1;
+
+				triangle[lineNo - PolyMesh::vertex_count - 3][iToken - 1] = atoi(tokens.at(iToken).c_str()) - idxOffset;
 			}
 		}
 		else if (tokens.size() != 1) {
