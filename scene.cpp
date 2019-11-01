@@ -47,7 +47,8 @@ void Scene::addObject(Object *newObject)
   objects.push_back(newObject);
 }
 
-void Scene::addObject(PolyMesh *newObject, float aC, float dC, float sC, float Red, float Green, float Blue)
+// Adds a Polymesh object to the scene
+void Scene::addObject(PolyMesh *newObject, float aCoeff, float dCoeff, float sCoeff, float Red, float Green, float Blue)
 {
   for (int i = 0; i < newObject->triangle_count; i++)
   {
@@ -55,7 +56,7 @@ void Scene::addObject(PolyMesh *newObject, float aC, float dC, float sC, float R
   		Vertex b = newObject->vertex[newObject->triangle[i][1]];
   		Vertex c = newObject->vertex[newObject->triangle[i][2]];
 
-      addObject(new Triangle(a, b, c, aC, dC, sC, Red, Green, Blue));
+      addObject(new Triangle(a, b, c, aCoeff, dCoeff, sCoeff, Red, Green, Blue));
   }
 }
 
