@@ -2,7 +2,6 @@
  *
  * ohe21 - Oliver's Triangle Class
  *
- * Do what you like with this code as long as you retain this comment.
  */
 
 #include <math.h>
@@ -70,10 +69,10 @@ void Triangle::intersection(Ray ray, Hit &hit)
 	}
 
 	Vector P = ray.position.convertToVector() + ray.direction.multiply(t);
+	// Normally AB.cross(AC, N) but the normals seem to be inverted for the smaller teapot
 	Vector N;
-	// Normally AB.cross(AC, N) but the normals seem to be invered for the smaller teapot
 	AC.cross(AB, N);
-	
+
 	hit.what = this;
 	hit.normal = N;
 	hit.normal.normalise();

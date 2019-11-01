@@ -42,21 +42,29 @@ Hit checkForIntersection(Ray ray, float t, Hit closest, std::vector<Object*> obj
 }
 
 float checkForShadowIntersection(Hit closest, std::vector<Object*> objs, std::vector<Light*> lights){
+  // float shadowCoeff = 1;
+  int numbOfLights = lights.size();
+  float steps = 1.0/numbOfLights;
   float shadowCoeff = 1;
-  for (int iLight = 0; iLight < lights.size(); iLight++){
+
+  for (int iLight = 0; iLight < numbOfLights; iLight++){
     Vector lightDir = lights[iLight]->getDirection();
     Ray ray = Ray(closest.position + lightDir.multiply(1), lightDir);
-
     Hit new_t = Hit();
     for (int i = 0; i < objs.size(); i++) {
       objs[i]->intersection(ray, new_t);
+
       if (new_t.flag)
       {
-        shadowCoeff -= 0.2;
-        // return true;
+        // Reduce by step count
+        shadowCoeff -= steps;
+        // No need to test for all other objects once a shadow is confirmed
+        break;
       }
     }
   }
+  // if (shadowCoeff < 0) return 0;
+
   return shadowCoeff;
   // return false;
 }
@@ -67,7 +75,7 @@ int main(int argc, char *argv[])
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 250;
+  float dist = 200;
   float FOV = 1; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
@@ -90,11 +98,8 @@ int main(int argc, char *argv[])
         Object *obj = closest.what;
         float coeff = sc->AmbientLightModel->getCoeff(obj->aCoeff);
         float dCoeff = sc->DiffuseLightModel->getCoeff(sc->lights, closest.normal, obj->dCoeff);
-        // coeff += dCoeff;
-        // if (!shadow){
-          float sCoeff = sc->SpecularLightModel->getCoeff(sc->lights, closest.normal, camera->e, closest.position, obj->sCoeff);
-          coeff += dCoeff + sCoeff;
-        // }
+        float sCoeff = sc->SpecularLightModel->getCoeff(sc->lights, closest.normal, camera->e, closest.position, obj->sCoeff);
+        coeff += dCoeff + sCoeff;
         coeff *= shadowCoeff;
         fb->plotPixel(x, y, obj->R*coeff, obj->G*coeff, obj->B*coeff);
       }
