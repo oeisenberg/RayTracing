@@ -42,7 +42,6 @@ Hit checkForIntersection(Ray ray, float t, Hit closest, std::vector<Object*> obj
 }
 
 float checkForShadowIntersection(Hit closest, std::vector<Object*> objs, std::vector<Light*> lights){
-  // float shadowCoeff = 1;
   int numbOfLights = lights.size();
   float steps = 1.0/numbOfLights;
   float shadowCoeff = 1;
@@ -63,10 +62,8 @@ float checkForShadowIntersection(Hit closest, std::vector<Object*> objs, std::ve
       }
     }
   }
-  // if (shadowCoeff < 0) return 0;
 
   return shadowCoeff;
-  // return false;
 }
 
 int main(int argc, char *argv[])
