@@ -9,6 +9,9 @@ Replacing the given line drawing function in linedrawer.cpp with an integer base
 Filling in the missing code in polymesh.cpp in order to read 3D object files. Allowing to generate a rasterised, wireframe image of the model
 
 ### Lab 3 - Simple Raytracing - 10%
+* Creating a raycaster to render the teapot. 
+* Raycasting structure (5%)
+* Triangle intersection (5%)
 
 ### Lab 4 - Basic Lighting - 10%
 Local lighting
@@ -27,7 +30,8 @@ Local lighting
   * Depth of Field 
 
 ## Final Image - 10%
-512x512 image using the teapot dataset
+* Minimum 512x512 sized image using the teapot dataset
+* Using the code from the Project submission
 
 ## Marking guide
 ### Good quality code
