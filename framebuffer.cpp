@@ -36,7 +36,7 @@ FrameBuffer::FrameBuffer(int w, int h)
     this->framebuffer[i].blue  = 0.0f;
     this->framebuffer[i].depth = 0.0f;
   }
-  
+
   return;
 }
 
@@ -72,7 +72,7 @@ int FrameBuffer::getDepth(int x, int y, float &depth)
   {
     return -1;
   }
-  
+
   depth = this->framebuffer[y * this->width + x].depth;
 
   return 0;
@@ -123,7 +123,7 @@ int FrameBuffer::writeRGBFile(char *filename)
     outfile << (unsigned char)((this->framebuffer[j].green/max)*255.0);
     outfile << (unsigned char)((this->framebuffer[j].blue/max)*255.0);
   }
-  
+
   outfile.close();
   return 0;
 }
@@ -156,10 +156,10 @@ int FrameBuffer::writeDepthFile(char *filename)
 
   for (int j = 0; j<  this->width*this->height; j += 1)
   {
-    unsigned char pd = (unsigned char)((this->framebuffer[j].red-min/diff)*255.0);
+    unsigned char pd = (unsigned char)(((this->framebuffer[j].depth-min)/diff)*255.0);
     outfile << pd << pd << pd;
   }
-  
+
   outfile.close();
   return 0;
 }
