@@ -1,9 +1,9 @@
 /***************************************************************************
  *
- *
+ *  ohe21 - Oliver's light class
  */
 
-// Object is the base class for objects.
+// LIGHT is the base class for objects.
 #ifndef _LIGHT_H_
 #define _LIGHT_H_
 
@@ -18,13 +18,12 @@ protected:
   Vector direction;
 public:
   virtual float getIntensity(){
-
   };
+  
   virtual Vector getDirection(){
-
   };
-  virtual Vertex getPosition(){
 
+  virtual Vertex getPosition(){
   };
 };
 
