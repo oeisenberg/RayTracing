@@ -27,7 +27,7 @@ Scene::Scene(int w, int h)
                                        0.0f, 1.0f, 0.0f, 10.0f,
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
-  // Create objs
+  // Add Objects
   addObject(new Sphere(Vertex(0, 0, 100), 80, 0.2, 0.5, 1, 1, 0, 0));
   // addObject(new Sphere(Vertex(1, 2, 7), 2, 0.2, 0.2, 1, 0, 1, 0));
   addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), 0.2, 0.5, 1, 0, 0, 1);
@@ -36,7 +36,7 @@ Scene::Scene(int w, int h)
   addLight(new Spotlight(0.8, new Vector(0.5, 0.1, 1)));
   addLight(new Spotlight(0.3, new Vector(0.55, 0.1, 1)));
 
-  // Create light models
+  // Add Lighting Models
   addLightModel(new Ambient(0.2));
   addLightModel(new Diffuse());
   addLightModel(new Specular(20));
@@ -47,7 +47,7 @@ void Scene::addObject(Object *newObject)
   objects.push_back(newObject);
 }
 
-// Adds a Polymesh object to the scene
+// Adds a Polymesh object to the scene as a series of triangles
 void Scene::addObject(PolyMesh *newObject, float aCoeff, float dCoeff, float sCoeff, float Red, float Green, float Blue)
 {
   for (int i = 0; i < newObject->triangle_count; i++)
@@ -78,3 +78,7 @@ void Scene::addLightModel(Specular *newLightModel)
 void Scene::addLight(Spotlight *newLight){
   lights.push_back(newLight);
 }
+
+// void Scene::addLight(Spotlight *newLight){
+//   lights.push_back(newLight);
+// }

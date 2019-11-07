@@ -1,3 +1,9 @@
+/***************************************************************************
+ *
+ * ohe21 - Oliver's Scene Class
+ *
+ */
+
 #pragma once
 
 #include <memory>
@@ -9,22 +15,20 @@
 #include "ambient.h"
 #include "diffuse.h"
 #include "specular.h"
-#include "light.h"
 #include "spotlight.h"
+#include "light.h"
 
 class Scene {
 public:
 
 	int width;
 	int height;
-
 	int nObjects;
 	std::vector<Object*> objects;
 	std::vector<Light*> lights;
 	Ambient *AmbientLightModel;
 	Diffuse *DiffuseLightModel;
 	Specular *SpecularLightModel;
-
 
 	Scene(int w, int h);
 	void addObject(Object *newObject);
