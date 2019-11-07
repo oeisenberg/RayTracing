@@ -1,3 +1,9 @@
+/***************************************************************************
+*
+* ohe - Oliver's Diffuse Lighting Model
+*
+*/
+
 #include "diffuse.h"
 #include "vector.h"
 #include "light.h"
@@ -7,6 +13,7 @@ Diffuse::Diffuse()
 
 }
 
+// Caclulates the total diffuse coefficient for the pxiel
 float Diffuse::getCoeff(std::vector<Light*> lights, Vector SurfaceNormal, float K_diffuse)
 {
   float dCoeffs = 0.0;
