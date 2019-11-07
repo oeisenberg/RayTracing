@@ -28,6 +28,7 @@ Camera::Camera(Vertex Eye, Vertex Look, Vector Up, float D, float FOV){
   this->v = wu;
 }
 
+// Ray calculation taken from the slides
 Ray Camera::getRay(Scene *sc, int x, int y)
 {
   float Rx = (tan(this->FOV)/2) * (sc->width/2 - x + 0.5);
