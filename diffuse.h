@@ -1,6 +1,6 @@
 /***************************************************************************
 *
-* ohe - Oliver's Diffuse Lighting Model
+* ohe21 - Oliver's Diffuse Lighting Model
 *
 */
 
