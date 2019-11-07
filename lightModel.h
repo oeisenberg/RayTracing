@@ -1,9 +1,10 @@
 /***************************************************************************
  *
+ * ohe21 - Oliver's Light model class
  *
  */
 
-// Object is the base class for objects.
+// LIGHTMODEL is the base class for objects.
 #ifndef _LIGHTMODEL_H_
 #define _LIGHTMODEL_H_
 
