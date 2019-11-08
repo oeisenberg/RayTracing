@@ -20,5 +20,7 @@ Vector Spotlight::getDirection()
 
 Vertex Spotlight::getPosition()
 {
+  // explicit runtime_error( const std::string& "No position!" );
   throw "No position!";
+  // throw std::runtime_error("No position");
 }

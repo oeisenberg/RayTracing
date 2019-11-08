@@ -15,8 +15,9 @@
 #include "ambient.h"
 #include "diffuse.h"
 #include "specular.h"
-#include "spotlight.h"
 #include "light.h"
+#include "spotlight.h"
+#include "pointlight.h"
 
 class Scene {
 public:
@@ -38,5 +39,5 @@ public:
 	void addLightModel(Diffuse *newLightModel);
 	void addLightModel(Specular *newLightModel);
 	void addLight(Spotlight *newLight);
-	// void addLight(Pointlight *newLight);
+	void addLight(Pointlight *newLight);
 };

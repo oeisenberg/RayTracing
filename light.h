@@ -7,9 +7,10 @@
 #ifndef _LIGHT_H_
 #define _LIGHT_H_
 
+#include <stdexcept>
+#include <vector>
 #include "vector.h"
 #include "vertex.h"
-#include <vector>
 
 class Light {
 protected:
@@ -19,12 +20,16 @@ protected:
 public:
   virtual float getIntensity(){
   };
-  
+
   virtual Vector getDirection(){
   };
 
   virtual Vertex getPosition(){
   };
+  virtual Vector getDirection(Vertex){
+  };
 };
+
+// TODO: how to show a light source?
 
 #endif

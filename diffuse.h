@@ -9,9 +9,11 @@
 #include "lightModel.h"
 #include "vector.h"
 #include "light.h"
+#include "hit.h"
 
 class Diffuse : public LightModel {
   public:
     Diffuse();
-    float getCoeff(std::vector<Light*> lights, Vector SurfaceNormal, float K_diffuse);
+    float getCoeff(std::vector<Light*> lights, Hit hitObj, float K_diffuse);
+    Vector getLightDir(std::vector<Light*> lights, int iLight, Hit hitObj);
 };

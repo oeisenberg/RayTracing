@@ -1,23 +1,20 @@
 #include "pointlight.h"
 
-Pointlight::Pointlight(float i, Vertex pos)
+Pointlight::Pointlight(float i, Vertex *pos)
 {
-  dir->normalise();
-  dir->negate();
-  // this->direction = pos - hit.pos
   this->intensity = i;
-  this->position = pos;
+  this->position = *pos;
 }
 
-Pointlight::Pointlight(float i, Vertex pos, Vector dir, float n)
-{
-  dir->normalise();
-  dir->negate();
-  this->direction = dir;
-  this->intensity = i;
-  this->position = pos;
-  this->falloff = n;
-}
+// Pointlight::Pointlight(float i, Vertex pos, Vector dir, float n)
+// {
+//   dir->normalise();
+//   dir->negate();
+//   this->direction = dir;
+//   this->intensity = i;
+//   this->position = pos;
+//   this->falloff = n;
+// }
 
 float Pointlight::getIntensity()
 {
@@ -26,7 +23,15 @@ float Pointlight::getIntensity()
 
 Vector Pointlight::getDirection()
 {
-  return this->direction;
+    const char* what_arg = "Pointlight: No direction";
+    throw std::runtime_error(what_arg);
+}
+
+Vector Pointlight::getDirection(Vertex hitPos)
+{
+  Vector newDir = this->position- hitPos;
+  newDir.normalise();
+  return newDir;
 }
 
 Vertex Pointlight::getPosition()

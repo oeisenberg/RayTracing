@@ -16,6 +16,7 @@
 #include "diffuse.h"
 #include "specular.h"
 #include "spotlight.h"
+#include "pointlight.h"
 
 Scene::Scene(int w, int h)
 {
@@ -28,16 +29,19 @@ Scene::Scene(int w, int h)
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Add Objects
-  addObject(new Sphere(Vertex(0, 0, 100), 80, 0.2, 0.5, 1, 1, 0, 0));
-  // addObject(new Sphere(Vertex(1, 2, 7), 2, 0.2, 0.2, 1, 0, 1, 0));
-  addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), 0.2, 0.5, 1, 0, 0, 1);
+  addObject(new Sphere(Vertex(0, 0, 100), 80, 0.2, 0.5, 0.7, 1, 0, 0));
+  addObject(new Sphere(Vertex(3, 0, 9),    1, 0.2, 0.5, 0.7, 0, 1, 0));
+  addObject(new Sphere(Vertex(-3, 0, 9),   1, 0.2, 0.5, 0.7, 0, 1, 0));
+  // addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), 0.2, 0.5, 1, 0, 0, 1);
 
   // Add Lighting
-  addLight(new Spotlight(0.8, new Vector(0.5, 0.1, 1)));
-  addLight(new Spotlight(0.3, new Vector(0.55, 0.1, 1)));
+  addLight(new Pointlight(0.8, new Vertex(0, 0, 9)));
+  addLight(new Spotlight(0.7, new Vector(0.5, 0.1, 1)));
+  addLight(new Spotlight(0.6, new Vector(0.55, 0.1, 1)));
+
 
   // Add Lighting Models
-  addLightModel(new Ambient(0.2));
+  addLightModel(new Ambient(0.4));
   addLightModel(new Diffuse());
   addLightModel(new Specular(20));
 };
@@ -79,6 +83,6 @@ void Scene::addLight(Spotlight *newLight){
   lights.push_back(newLight);
 }
 
-// void Scene::addLight(Spotlight *newLight){
-//   lights.push_back(newLight);
-// }
+void Scene::addLight(Pointlight *newLight){
+  lights.push_back(newLight);
+}

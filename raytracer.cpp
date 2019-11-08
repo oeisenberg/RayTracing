@@ -47,7 +47,12 @@ float checkForShadowIntersection(Hit closest, std::vector<Object*> objs, std::ve
   float shadowCoeff = 1;
 
   for (int iLight = 0; iLight < numbOfLights; iLight++){
-    Vector lightDir = lights[iLight]->getDirection();
+    Vector lightDir; // = lights[iLight]->getDirection();
+    try{
+      lightDir = lights[iLight]->getDirection();
+    } catch(const std::exception e){
+      lightDir = lights[iLight]->getDirection(closest.position);
+    }
     Ray ray = Ray(closest.position + lightDir.multiply(1), lightDir);
     Hit new_t = Hit();
     for (int i = 0; i < objs.size(); i++) {
@@ -93,11 +98,12 @@ int main(int argc, char *argv[])
       if (closest.t != std::numeric_limits<int>::max())
       {
         Object *obj = closest.what;
-        float coeff = sc->AmbientLightModel->getCoeff(obj->aCoeff);
-        float dCoeff = sc->DiffuseLightModel->getCoeff(sc->lights, closest.normal, obj->dCoeff);
-        float sCoeff = sc->SpecularLightModel->getCoeff(sc->lights, closest.normal, camera->e, closest.position, obj->sCoeff);
-        coeff += dCoeff + sCoeff;
+        float dCoeff = sc->DiffuseLightModel->getCoeff(sc->lights, closest, obj->dCoeff);
+        float sCoeff = sc->SpecularLightModel->getCoeff(sc->lights, closest, camera->e, obj->sCoeff);
+        float coeff = dCoeff + sCoeff;
+
         coeff *= shadowCoeff;
+        coeff += sc->AmbientLightModel->getCoeff(obj->aCoeff);
         fb->plotPixel(x, y, obj->R*coeff, obj->G*coeff, obj->B*coeff);
       }
 
