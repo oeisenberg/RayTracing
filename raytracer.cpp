@@ -5,7 +5,7 @@
  */
 
 /*
- * g++ -o finalexecutable raytracer.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp diffuse.cpp ambient.cpp specular.cpp spotlight.cpp -lm -O3
+ * g++ -o finalexecutable raytracer.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp triangle.cpp polymesh.cpp material.cpp diffuse.cpp ambient.cpp specular.cpp spotlight.cpp pointlight.h -lm -O3
  *
  * Execute the code using ./finalexecutable
  *
