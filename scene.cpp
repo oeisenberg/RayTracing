@@ -17,6 +17,7 @@
 #include "specular.h"
 #include "spotlight.h"
 #include "pointlight.h"
+#include "material.h"
 
 Scene::Scene(int w, int h)
 {
@@ -29,6 +30,7 @@ Scene::Scene(int w, int h)
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Add Objects
+  Material *m = new Material(0.2, 0.5, 0.7);
   addObject(new Sphere(Vertex(0, 0, 100), 80, 0.2, 0.5, 0.7, 1, 0, 0));
   addObject(new Sphere(Vertex(3, 0, 9),    1, 0.2, 0.5, 0.7, 0, 1, 0));
   addObject(new Sphere(Vertex(-3, 0, 9),   1, 0.2, 0.5, 0.7, 0, 1, 0));
