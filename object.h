@@ -10,6 +10,7 @@
 #define _OBJECT_H_
 
 #include "ray.h"
+#include "material.h"
 #include "hit.h"
 
 class Object {
@@ -25,6 +26,9 @@ public:
 	float dCoeff;
 	// Specular Coeff
 	float sCoeff;
+
+	// Material objMaterial;
+
 	// Distribution
 	int n; //TODO: Fully implement so objects have their own n
 
