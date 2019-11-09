@@ -5,16 +5,20 @@
  * Do what you like with this code as long as you retain this comment.
  */
 
-#include "sphere.h"
 #include <math.h>
+#include "sphere.h"
+#include "material.h"
 
 // Sphere Constructor
-Sphere::Sphere(Vertex c, float r, float ambientCoeff, float diffuseCoeff, float specularCoeff, float R_value, float G_value, float B_value)
+Sphere::Sphere(Vertex c, float r, Material *m, float R_value, float G_value, float B_value)
 {
 	center = c;
 	radius = r;
 	R = R_value; G = G_value; B = B_value;
-	aCoeff = ambientCoeff; dCoeff = diffuseCoeff; sCoeff = specularCoeff;
+	aCoeff = m->getAmbientValue();
+	dCoeff = m->getDiffuseValue();
+	sCoeff = m->getSpecularValue();
+	objMaterial = m;
 }
 
 void Sphere::intersection(Ray ray, Hit &hit)

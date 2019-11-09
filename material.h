@@ -4,21 +4,18 @@
  *
  */
 
-// Material is the base class for objects.
-#ifndef _MATERIAL_H_
-#define _MATERIAL_H_
+#pragma once
 
 class Material {
-public:
   float ambeintValue;
   float diffuseValue;
   float specularValue;
+  // Could be updated to hold information about colour and texture in a future update.
   float colour[3];   // float colour[3]; // std::vector<int> v; ?
 
+public:
   Material(float ambientVal, float diffVal, float specVal);
-  virtual float getAmbientValue(){};
-  virtual float getDiffuseValue(){};
-  virtual float getSpecularValue(){};
+  float getAmbientValue();
+  float getDiffuseValue();
+  float getSpecularValue();
 };
-
-#endif

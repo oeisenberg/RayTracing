@@ -27,7 +27,7 @@ public:
 	// Specular Coeff
 	float sCoeff;
 
-	// Material objMaterial;
+	Material *objMaterial;
 
 	// Distribution
 	int n; //TODO: Fully implement so objects have their own n

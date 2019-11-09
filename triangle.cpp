@@ -9,7 +9,7 @@
 #include "vector.h"
 
 
-Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C, float aC, float dC, float sC, float Red, float Green, float Blue)
+Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C, Material *m, float Red, float Green, float Blue)
 {
 	a = vertex_A;
 	b = vertex_B;
@@ -19,9 +19,10 @@ Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C, float aC, 
 	B = Blue;
 	G = Green;
 
-	aCoeff = aC;
-	dCoeff = dC;
-	sCoeff = sC;
+	aCoeff = m->getAmbientValue();
+	dCoeff = m->getDiffuseValue();
+	sCoeff = m->getSpecularValue();
+	objMaterial = m;
 }
 
 // Möller–Trumbore ray-triangle intersection algorithm

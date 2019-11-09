@@ -30,15 +30,16 @@ Scene::Scene(int w, int h)
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Add Objects
-  // Material *m = new Material(0.2, 0.5, 0.7);
-  addObject(new Sphere(Vertex(0, 0, 100), 80, 0.2, 0.5, 0.7, 1, 0, 0));
-  addObject(new Sphere(Vertex(3, 0, 9),    1, 0.2, 0.5, 0.7, 0, 1, 0));
-  addObject(new Sphere(Vertex(-3, 0, 9),   1, 0.2, 0.5, 0.7, 0, 1, 0));
-  // addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), 0.2, 0.5, 1, 0, 0, 1);
+  Material *shinyA = new Material(0.2, 0.5, 0.7);
+  Material *shinyB = new Material(0.3, 0.4, 0.8);
+  addObject(new Sphere(Vertex(0, 0, 100), 80, shinyA, 1, 0, 0));
+  addObject(new Sphere(Vertex(3, 2, 9),    1, shinyA, 0, 1, 0));
+  addObject(new Sphere(Vertex(-3, 2, 9),   1, shinyA, 0, 1, 0));
+  addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), shinyB, 0, 0, 1);
 
   // Add Lighting
-  addLight(new Pointlight(0.8, new Vertex(0, 0, 9)));
-  addLight(new Spotlight(0.7, new Vector(0.5, 0.1, 1)));
+  addLight(new Pointlight(0.8, new Vertex(0, 2, 9)));
+  addLight(new Spotlight(0.7, new Vector(0.45, 0.1, 1)));
   addLight(new Spotlight(0.6, new Vector(0.55, 0.1, 1)));
 
 
@@ -54,7 +55,7 @@ void Scene::addObject(Object *newObject)
 }
 
 // Adds a Polymesh object to the scene as a series of triangles
-void Scene::addObject(PolyMesh *newObject, float aCoeff, float dCoeff, float sCoeff, float Red, float Green, float Blue)
+void Scene::addObject(PolyMesh *newObject, Material *m, float Red, float Green, float Blue)
 {
   for (int i = 0; i < newObject->triangle_count; i++)
   {
@@ -62,7 +63,7 @@ void Scene::addObject(PolyMesh *newObject, float aCoeff, float dCoeff, float sCo
   		Vertex b = newObject->vertex[newObject->triangle[i][1]];
   		Vertex c = newObject->vertex[newObject->triangle[i][2]];
 
-      addObject(new Triangle(a, b, c, aCoeff, dCoeff, sCoeff, Red, Green, Blue));
+      addObject(new Triangle(a, b, c, m, Red, Green, Blue));
   }
 }
 

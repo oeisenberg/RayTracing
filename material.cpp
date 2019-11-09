@@ -4,8 +4,6 @@
  *
  */
 
-#pragma once
-
 #include "material.h"
 
 Material::Material(float ambientVal, float diffVal, float specVal)
@@ -14,6 +12,7 @@ Material::Material(float ambientVal, float diffVal, float specVal)
   this->diffuseValue = diffVal;
   this->specularValue = specVal;
 }
+
 float Material::getAmbientValue(){
   return this->ambeintValue;
 }

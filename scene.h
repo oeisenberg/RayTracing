@@ -18,6 +18,7 @@
 #include "light.h"
 #include "spotlight.h"
 #include "pointlight.h"
+#include "material.h"
 
 class Scene {
 public:
@@ -33,7 +34,7 @@ public:
 
 	Scene(int w, int h);
 	void addObject(Object *newObject);
-	void addObject(PolyMesh *newObject, float aC, float dC, float dS, float Red, float Green, float Blue);
+	void addObject(PolyMesh *newObject, Material *m, float Red, float Green, float Blue);
 	void addLight(Light *newLight);
 	void addLightModel(Ambient *newLightModel);
 	void addLightModel(Diffuse *newLightModel);
