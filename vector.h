@@ -32,10 +32,15 @@ public:
 
 	void normalise()
 	{
-		float len = (float)sqrt((double)(x*x + y*y + z*z));
+		float len = length();
 		x = x / len;
 		y = y / len;
 		z = z / len;
+	}
+
+	float length()
+	{
+		return sqrt((double)(x*x + y*y + z*z));
 	}
 
 	float dot(Vector &other)
@@ -77,12 +82,12 @@ public:
 		return Vector(new_x, new_y, new_z);
 	}
 
-	Vector operator + (Vector other)
+	Vector operator + (const Vector& other)
 	{
 		return Vector(x+other.x, y+other.y, z+other.z);
 	}
 
-	Vector operator - (Vector other)
+	Vector operator - (const Vector& other)
 	{
 		return Vector(x-other.x, y-other.y, z-other.z);
 	}

@@ -5,6 +5,7 @@
 #include "ray.h"
 #include "scene.h"
 
+// Using the given camera model from the slides
 Camera::Camera(Vertex Eye, Vertex Look, Vector Up, float D, float FOV){
   this->e = Eye;
   this->l = Look;
@@ -29,7 +30,7 @@ Camera::Camera(Vertex Eye, Vertex Look, Vector Up, float D, float FOV){
 
 Ray Camera::getRay(Scene *sc, int x, int y)
 {
-  float Rx = (tan(this->FOV)/2) * (x - sc->width/2);
+  float Rx = (tan(this->FOV)/2) * ((sc->width/2) - x);
   float Ry = (tan(this->FOV)/2) * ((sc->height/2) - y);
 
   Vector Dir = this->u.multiply(Rx) + (this->v.multiply(Ry)) - (this->w.multiply(this->d));
