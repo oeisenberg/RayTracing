@@ -6,6 +6,7 @@
  */
 
 #pragma once
+#include "vector.h"
 
 class Vertex {
 public:
@@ -36,5 +37,20 @@ public:
 		y = py;
 		z = pz;
 		w = 1.0f;
+	}
+
+	Vector operator + (const Vertex& other)
+	{
+		return Vector(x+other.x, y+other.y, z+other.z);
+	}
+
+	Vector operator - (const Vertex& other)
+	{
+		return Vector(this->x-other.x, this->y-other.y, this->z-other.z);
+	}
+
+	Vector convertToVector()
+	{
+		return Vector(x, y, z);
 	}
 };

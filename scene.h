@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Sphere.h"
+#include <memory>
+#include <vector>
 #include "object.h"
+#include "polymesh.h"
 
 class Scene {
 public:
@@ -10,7 +12,9 @@ public:
 	int height;
 
 	int nObjects;
-	Object *Objects;
+	std::vector<Object*> objects;
 
 	Scene(int w, int h);
+	void addObject(Object *newObject);
+	void addObject(PolyMesh *newObject);
 };

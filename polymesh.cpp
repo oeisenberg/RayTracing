@@ -35,7 +35,7 @@ void PolyMesh::do_construct(char *file, Transform *transform)
 
 	getline(newFile, line);
 	std::string newline = line.c_str();
-	
+
 	std::vector<std::string> tokens = PolyMesh::do_split(newline);
 	std::string nVerticies = tokens.back();
 	PolyMesh::vertex_count = stoi(nVerticies);
@@ -79,7 +79,7 @@ void PolyMesh::do_construct(char *file, Transform *transform)
 
 	PolyMesh::vertex = vertex;
 	PolyMesh::triangle = triangle;
-
+	
 	newFile.close();
 }
 
