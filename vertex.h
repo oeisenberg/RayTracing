@@ -44,9 +44,19 @@ public:
 		return Vector(x+other.x, y+other.y, z+other.z);
 	}
 
+	Vertex operator + (const Vector& other)
+	{
+		return Vertex(this->x+other.x, this->y+other.y, this->z+other.z);
+	}
+
 	Vector operator - (const Vertex& other)
 	{
 		return Vector(this->x-other.x, this->y-other.y, this->z-other.z);
+	}
+
+	Vertex operator - (const Vector& other)
+	{
+		return Vertex(this->x-other.x, this->y-other.y, this->z-other.z);
 	}
 
 	Vector convertToVector()

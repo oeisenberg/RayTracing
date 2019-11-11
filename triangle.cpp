@@ -10,11 +10,19 @@
 #include "vector.h"
 
 
-Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C)
+Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C, float aC, float dC, float sC, float Red, float Green, float Blue)
 {
 	a = vertex_A;
 	b = vertex_B;
 	c = vertex_C;
+
+	R = Red;
+	B = Blue;
+	G = Green;
+
+	aCoeff = aC;
+	dCoeff = dC;
+	sCoeff = sC;
 }
 
 // Möller–Trumbore ray-triangle intersection algorithm
@@ -71,6 +79,8 @@ void Triangle::intersection(Ray ray, Hit &hit)
 	hit.position.x = P.x;
 	hit.position.y = P.y;
 	hit.position.z = P.z;
+	hit.u = u;
+	hit.v = v;
 	hit.flag = true;
 	hit.t = t;
 

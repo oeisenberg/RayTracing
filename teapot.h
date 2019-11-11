@@ -9,11 +9,11 @@
 
 #include "vertex.h"
 #include "object.h"
+#include "scene.h"
 
-class Sphere : public Object {
+class Teapot : public Object {
 	Vertex center;
-	float  radius;
 public:
-	Sphere(Vertex c, float r, float aC, float dC, float sC, float R, float G, float B);
+	Teapot(Scene *s, Vertex c);
 	void intersection(Ray ray, Hit &hit);
 };

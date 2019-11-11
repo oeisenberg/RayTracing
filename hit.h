@@ -22,4 +22,6 @@ public:
 	Object *what;
 	Vertex position;
 	Vector normal;
+	float u;
+	float v;
 };

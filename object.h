@@ -14,6 +14,19 @@
 
 class Object {
 public:
+	// Colour Values
+	float R;
+	float G;
+	float B;
+
+	// Ambeint Coeff
+	float aCoeff;
+	// Diffuse Coeff
+	float dCoeff;
+	// Specular Coeff
+	float sCoeff;
+	// Distribution
+	int n; //TODO: Fully implement so objects have their own n
 
 	Object *next;
 
@@ -24,7 +37,7 @@ public:
 
 	virtual void intersection(Ray ray, Hit &hit)
 	{
-	
+
 	}
 };
 

@@ -13,7 +13,6 @@
 #include "math.h"
 #include "polymesh.h"
 
-
 PolyMesh::PolyMesh(char *file)
 {
 	Transform *transform = new Transform();
@@ -79,7 +78,7 @@ void PolyMesh::do_construct(char *file, Transform *transform)
 
 	PolyMesh::vertex = vertex;
 	PolyMesh::triangle = triangle;
-	
+
 	newFile.close();
 }
 
