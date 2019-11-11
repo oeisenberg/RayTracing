@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <vector>
-#include "Sphere.h"
 #include "object.h"
 #include "polymesh.h"
 
