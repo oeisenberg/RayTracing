@@ -28,14 +28,13 @@ Scene::Scene(int w, int h)
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Create objs
-  addObject(new Sphere(Vertex(1, 1, 7), 1, 0.2, 0.5, 1, 1, 0, 0));
-  addObject(new Sphere(Vertex(-1, -1, 7), 2, 0.2, 0.2, 1, 0, 1, 0));
-  // addObject(new PolyMesh((char *)"teapot.ply", transform), 0.2, 0.5, 1, 0, 0, 1);
+  addObject(new Sphere(Vertex(0, 0, 200), 100, 0.2, 0.5, 1, 1, 0, 0));
+  // addObject(new Sphere(Vertex(1, 2, 7), 2, 0.2, 0.2, 1, 0, 1, 0));
+  addObject(new PolyMesh((char *)"teapot.ply", transform), 0.2, 0.5, 1, 0, 0, 1);
 
   // Add Lighting
-  addLight(new Spotlight(0.5, new Vector(0, 0, -1)));
-  addLight(new Spotlight(0.3, new Vector(0, 1, 0)));
-  addLight(new Spotlight(0.8, new Vector(1, 0.5, 0)));
+  addLight(new Spotlight(0.5, new Vector(0.5, 0, 1)));
+  // addLight(new Spotlight(0.3, new Vector(-1, -1, 0)));
 
   // Create light models
   addLightModel(new Ambient(0.2));

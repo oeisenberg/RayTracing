@@ -2,8 +2,8 @@
 
 Spotlight::Spotlight(float i, Vector *dir)
 {
-  dir->normalise();
   dir->negate();
+  dir->normalise();
   this->direction = *dir;
   this->intensity = i;
 }
