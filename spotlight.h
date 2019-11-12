@@ -15,4 +15,5 @@ public:
   float getIntensity();
   Vector getDirection();
   Vertex getPosition();
+  float getDistance(Vertex pointA);
 };

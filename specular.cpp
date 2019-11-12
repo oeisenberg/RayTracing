@@ -12,7 +12,7 @@ Specular::Specular(int n)
   distribution = n;
 }
 
-float Specular::getCoeff(std::vector<Light*> lights, Hit hitObj, Vertex camEye, float sCoeff)
+float Specular::getCoeff(std::vector<Light*> lights, std::vector<Object*> objs, Hit hitObj, Vertex camEye, float sCoeff)
 {
   Vector SurfaceNormal = hitObj.normal;
   float sCoeffs = 0.0;
@@ -20,16 +20,20 @@ float Specular::getCoeff(std::vector<Light*> lights, Hit hitObj, Vertex camEye, 
   viewerDirection.normalise();
 
   for (float iLight = 0; iLight < lights.size(); iLight++){
-    Vector lightDirection = getLightDir(lights, iLight, hitObj);
+    Vector lightDir = getLightDir(lights, iLight, hitObj);
 
     Vector Reflection;
-    SurfaceNormal.reflection(lightDirection, Reflection);
+    SurfaceNormal.reflection(lightDir, Reflection);
 
     float specularCoeff = Reflection.dot(viewerDirection);
 
     if (specularCoeff > 0) {
       float intensity = lights[iLight]->getIntensity();
-      sCoeffs += (intensity * sCoeff * pow(specularCoeff, distribution));
+      lightDir = lightDir.multiply(-1); //inverse the light for ray creation
+      Ray ray = Ray(hitObj.position + lightDir.multiply(1), lightDir);
+      if (!checkForShadow(hitObj, objs, ray, lights[iLight]->getDistance(hitObj.position))){
+          sCoeffs += (intensity * sCoeff * pow(specularCoeff, distribution));
+        }
     }
   }
 

@@ -26,8 +26,13 @@ public:
 
   virtual Vertex getPosition(){
   };
+
   virtual Vector getDirection(Vertex){
   };
+
+  virtual float getDistance(Vertex){
+  };
+
 };
 
 // TODO: how to show a light source?

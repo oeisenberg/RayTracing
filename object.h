@@ -12,6 +12,7 @@
 #include "ray.h"
 #include "material.h"
 #include "hit.h"
+#include "vertex.h"
 
 class Object {
 public:

@@ -18,6 +18,7 @@
 #include "spotlight.h"
 #include "pointlight.h"
 #include "material.h"
+#include "plane.h"
 
 Scene::Scene(int w, int h)
 {
@@ -30,21 +31,23 @@ Scene::Scene(int w, int h)
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Add Objects
-  Material *shinyA = new Material(0.2, 0.5, 0.7);
-  Material *shinyB = new Material(0.3, 0.4, 0.8);
-  addObject(new Sphere(Vertex(0, 0, 100), 80, shinyA, 1, 0, 0));
-  addObject(new Sphere(Vertex(3, 2, 9),    1, shinyA, 0, 1, 0));
-  addObject(new Sphere(Vertex(-3, 2, 9),   1, shinyA, 0, 1, 0));
-  addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), shinyB, 0, 0, 1);
+  Material *shinyA = new Material(0.3, 0.3, 0.4);
+  Material *shinyB = new Material(0.3, 0.6, 0.5);
+
+  // addObject(new Sphere(Vertex(0, 0, 100), 80, shinyA, 1, 0, 0));
+  addObject(new Sphere(Vertex(3, 10, 9),    1, shinyA, 0, 1, 0));
+  // addObject(new Sphere(Vertex(-3, 2, 9),   1, shinyA, 0, 1, 0));
+  // addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), shinyB, 0, 0, 1);
+  addObject(new Plane(Vertex(0, -5, 0), Vector(0, 1, 0), shinyB, 0.578, 0.6, 1));
+  addObject(new Plane(Vertex(0, 0, 21), Vector(0, 0, -1), shinyB, 1, 0.8, 0.8));
 
   // Add Lighting
-  addLight(new Pointlight(0.8, new Vertex(0, 2, 9)));
-  addLight(new Spotlight(0.7, new Vector(0.45, 0.1, 1)));
-  addLight(new Spotlight(0.6, new Vector(0.55, 0.1, 1)));
-
+  addLight(new Pointlight(0.9, new Vertex(3, 10, 0)));
+  // addLight(new Spotlight(0.7, new Vector(0.3, -1, 0)));
+  // addLight(new Spotlight(0.8, new Vector(0, -1, 1)));
 
   // Add Lighting Models
-  addLightModel(new Ambient(0.4));
+  addLightModel(new Ambient(0.2));
   addLightModel(new Diffuse());
   addLightModel(new Specular(20));
 };

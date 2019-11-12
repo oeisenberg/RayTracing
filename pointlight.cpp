@@ -29,7 +29,7 @@ Vector Pointlight::getDirection()
 
 Vector Pointlight::getDirection(Vertex hitPos)
 {
-  Vector newDir = this->position- hitPos;
+  Vector newDir = this->position - hitPos;
   newDir.normalise();
   return newDir;
 }
@@ -37,4 +37,8 @@ Vector Pointlight::getDirection(Vertex hitPos)
 Vertex Pointlight::getPosition()
 {
   return this->position;
+}
+
+float Pointlight::getDistance(Vertex pointA){
+
 }

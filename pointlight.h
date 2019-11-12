@@ -20,4 +20,5 @@ public:
   Vector getDirection();
   Vector getDirection(Vertex hitPos);
   Vertex getPosition();
+  float getDistance(Vertex pointA);
 };
