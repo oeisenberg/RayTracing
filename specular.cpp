@@ -31,7 +31,7 @@ float Specular::getCoeff(std::vector<Light*> lights, std::vector<Object*> objs, 
       float intensity = lights[iLight]->getIntensity();
       lightDir = lightDir.multiply(-1); //inverse the light for ray creation
       Ray ray = Ray(hitObj.position + lightDir.multiply(1), lightDir);
-      if (!checkForShadow(hitObj, objs, ray, lights[iLight]->getDistance(hitObj.position))){
+      if (!checkForShadow(hitObj, objs, ray, lights[iLight])){
           sCoeffs += (intensity * sCoeff * pow(specularCoeff, distribution));
         }
     }

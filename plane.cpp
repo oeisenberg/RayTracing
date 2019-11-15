@@ -26,7 +26,7 @@ void Plane::intersection(Ray ray, Hit &hit)
   float denom = ray.direction.dot(up);
 
   // Check if ray is parallel
-  if (fabs(denom) < 1e-4) return ;  // 0 means that the ray is parallel to the plane or that the ray is contained within the plane
+  if (fabs(denom) < 1e-5) return ;  // 0 means that the ray is parallel to the plane or that the ray is contained within the plane
 
   Vector lightToPointOnPlane = this->position - ray.position;
   float t = up.dot(lightToPointOnPlane)/denom;

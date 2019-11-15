@@ -28,6 +28,6 @@ Vertex Spotlight::getPosition()
 
 float Spotlight::getDistance(Vertex pointA){
   // No position to calc distance from
-  return std::numeric_limits<float>::min();
+  return std::numeric_limits<float>::max();
   // return std::numeric_limits<float>::max();
 }

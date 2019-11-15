@@ -13,6 +13,7 @@
 #include "ray.h"
 #include "hit.h"
 #include "object.h"
+#include "light.h"
 
 class LightModel {
 public:
@@ -26,16 +27,13 @@ public:
 
   }
 
-  bool checkForShadow(Hit closest, std::vector<Object*> objs, Ray ray, float light_distance){
+  bool checkForShadow(Hit closest, std::vector<Object*> objs, Ray ray, Light* light){
       Hit new_t = Hit();
+      float light_distance = light->getDistance(closest.position);
       for (int i = 0; i < objs.size(); i++) {
         objs[i]->intersection(ray, new_t);
 
-        if (new_t.flag)
-        {
-          // No need to test for all other objects once a shadow is confirmed
-          return true;
-        }
+        if (new_t.flag && ((light_distance-new_t.t) >= 0)) return true;
       }
       return false;
     };

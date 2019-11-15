@@ -9,7 +9,6 @@
 #include <vector>
 
 class Spotlight : public Light {
-
 public:
   Spotlight(float i, Vector *dir);
   float getIntensity();

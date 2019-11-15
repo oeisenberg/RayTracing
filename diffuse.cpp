@@ -26,7 +26,7 @@ float Diffuse::getCoeff(std::vector<Light*> lights, std::vector<Object*> objs, H
     if (normalCoeff > 0){
       float intensity = lights[iLight]->getIntensity();
       Ray ray = Ray(hitObj.position + lightDir.multiply(1), lightDir);
-      if (!checkForShadow(hitObj, objs, ray, lights[iLight]->getDistance(hitObj.position))){
+      if (!checkForShadow(hitObj, objs, ray, lights[iLight])){
         dCoeffs += (intensity * K_diffuse * normalCoeff);
       }
     }
