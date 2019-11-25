@@ -6,16 +6,22 @@
 
 #pragma once
 
+#include "colour.h"
+
 class Material {
   float ambeintValue;
   float diffuseValue;
   float specularValue;
   // Could be updated to hold information about colour and texture in a future update.
-  float colour[3];   // float colour[3]; // std::vector<int> v; ?
+  Colour *colour;
+  bool isReflective = false;
+  bool isTransparant = false;
 
 public:
-  Material(float ambientVal, float diffVal, float specVal);
+  Material(Colour *colour, float ambientVal, float diffVal, float specVal);
+  Material(Colour *colour, float ambientVal, float diffVal, float specVal, bool isReflective, bool isTransparant);
   float getAmbientValue();
   float getDiffuseValue();
   float getSpecularValue();
+  Colour *getColour();
 };
