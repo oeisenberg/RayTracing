@@ -42,13 +42,38 @@ Hit checkForIntersection(Ray ray, float t, Hit closest, std::vector<Object*> obj
   return closest;
 }
 
+float getLightCoefficients(Scene *sc, Camera *camera, Hit closest, Object *obj){
+  float dCoeff = sc->DiffuseLightModel->getCoeff(sc->lights, sc->objects, closest, obj->dCoeff);
+  float sCoeff = sc->SpecularLightModel->getCoeff(sc->lights, sc->objects, closest, camera->e, obj->sCoeff);
+  float coeff = dCoeff + sCoeff;
+  coeff += sc->AmbientLightModel->getCoeff(obj->aCoeff);
+  return coeff;
+}
+
+Colour reflectionRayTrace(Scene *sc, Camera *camera, Ray &ray, int depth, std::vector<Object*> objs){
+  Colour colour;
+  Hit hit;
+  colour.clear();
+
+  if (depth == 0) return colour;
+
+  hit.t = std::numeric_limits<int>::max();
+  hit = checkForIntersection(ray, hit.t, hit, objs);
+  if(hit.flag){
+      // colour = hit.object.colour;
+      float coeff = getLightCoefficients(sc, camera, hit, hit.what);
+
+  }
+
+}
+
 int main(int argc, char *argv[])
 {
   // Create Camera
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 200;
+  float dist = 250;
   float FOV = 1; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
@@ -68,12 +93,7 @@ int main(int argc, char *argv[])
       if (closest.t != std::numeric_limits<int>::max())
       {
         Object *obj = closest.what;
-        float dCoeff = sc->DiffuseLightModel->getCoeff(sc->lights, sc->objects, closest, obj->dCoeff);
-        float sCoeff = sc->SpecularLightModel->getCoeff(sc->lights, sc->objects, closest, camera->e, obj->sCoeff);
-        float coeff = dCoeff + sCoeff;
-
-        coeff += sc->AmbientLightModel->getCoeff(obj->aCoeff);
-        fb->plotPixel(x, y, obj->R*coeff, obj->G*coeff, obj->B*coeff);
+        float coeff = getLightCoefficients(sc, camera, closest, closest.what);
         fb->plotPixel(x, y, obj->colour->R*coeff, obj->colour->G*coeff, obj->colour->B*coeff);
       }
 
