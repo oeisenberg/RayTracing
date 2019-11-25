@@ -24,6 +24,7 @@
 #include "ray.h"
 #include "hit.h"
 #include "object.h"
+#include "colour.h"
 
 Hit checkForIntersection(Ray ray, float t, Hit closest, std::vector<Object*> objs){
   Hit new_t = Hit();
@@ -73,6 +74,7 @@ int main(int argc, char *argv[])
 
         coeff += sc->AmbientLightModel->getCoeff(obj->aCoeff);
         fb->plotPixel(x, y, obj->R*coeff, obj->G*coeff, obj->B*coeff);
+        fb->plotPixel(x, y, obj->colour->R*coeff, obj->colour->G*coeff, obj->colour->B*coeff);
       }
 
     }

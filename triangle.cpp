@@ -9,19 +9,16 @@
 #include "vector.h"
 
 
-Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C, Material *m, float Red, float Green, float Blue)
+Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C, Material *m)
 {
 	a = vertex_A;
 	b = vertex_B;
 	c = vertex_C;
 
-	R = Red;
-	B = Blue;
-	G = Green;
-
 	aCoeff = m->getAmbientValue();
 	dCoeff = m->getDiffuseValue();
 	sCoeff = m->getSpecularValue();
+	colour = m->getColour();
 	objMaterial = m;
 }
 
@@ -70,9 +67,13 @@ void Triangle::intersection(Ray ray, Hit &hit)
 	}
 
 	Vector P = ray.position.convertToVector() + ray.direction.multiply(t);
-	// Normally AB.cross(AC, N) but the normals seem to be inverted for the smaller teapot
+
 	Vector N;
-	AC.cross(AB, N);
+	AC.cross(AB, N); 	// Normally AB.cross(AC, N) but the normals seem to be inverted for the smaller teapot
+
+	// Smooth shading
+	// calculate avg normal at each vertex (using connectivity info for surrounding faces)
+	// baracentric coordinates to use the three normals on the interior of the triangle
 
 	hit.what = this;
 	hit.normal = N;

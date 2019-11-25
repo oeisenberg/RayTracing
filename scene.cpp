@@ -30,16 +30,19 @@ Scene::Scene(int w, int h)
                                        0.0f, 1.0f, 0.0f, 10.0f,
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
-  // Add Objects
-  Material *shinyA = new Material(0.3, 0.6, 0.5);
-  Material *shinyB = new Material(0.2, 0.3, 0.1);
+  // Init Objs Materials
+  Material *shinyA = new Material(new Colour(0.578, 0.6, 1), 0.2, 0.3, 0.1);
+  Material *planes = new Material(new Colour(0.3, 0.3, 0.3), 0.2, 0.3, 0.1);
+  Material *tpot = new Material(new Colour(1, 0, 0), 0.2, 0.3, 0.1);
+  Material *reflectiveA = new Material(new Colour(0, 1, 0), 0.3, 0.3, 0.6, true, false);
+  Material *transparantA = new Material(new Colour(1, 0, 0), 0.3, 0.3, 0.6, false, true);
 
-  // addObject(new Sphere(Vertex(0, 0, 100), 80, shinyA, 1, 0, 0));
-  addObject(new Sphere(Vertex(2, -1, 7),  1, shinyA, 0, 1, 0));
-  addObject(new Sphere(Vertex(-2, -1, 7), 1, shinyA, 0, 0.8, 0));
-  addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), shinyB, 0, 0, 1);
-  addObject(new Plane(Vertex(0, -3, 0), Vector(0, 1, 0), shinyB, 0.578, 0.6, 1));
-  addObject(new Plane(Vertex(0, 0, 21), Vector(0, 0, 1), shinyB, 1, 0.8, 0.8));
+  // Add Objects
+  addObject(new Sphere(Vertex(2, -1, 7),  1, reflectiveA));
+  addObject(new Sphere(Vertex(-2, -1, 7), 1, reflectiveA));
+  addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), shinyA);
+  addObject(new Plane(Vertex(0, -3, 0), Vector(0, 1, 0), planes));
+  addObject(new Plane(Vertex(0, 0, 21), Vector(0, 0, 1), planes));
 
   // Add Lighting
   addLight(new Pointlight(0.6, new Vertex(0, 1, 7)));
@@ -58,7 +61,7 @@ void Scene::addObject(Object *newObject)
 }
 
 // Adds a Polymesh object to the scene as a series of triangles
-void Scene::addObject(PolyMesh *newObject, Material *m, float Red, float Green, float Blue)
+void Scene::addObject(PolyMesh *newObject, Material *m)
 {
   for (int i = 0; i < newObject->triangle_count; i++)
   {
@@ -66,7 +69,7 @@ void Scene::addObject(PolyMesh *newObject, Material *m, float Red, float Green, 
   		Vertex b = newObject->vertex[newObject->triangle[i][1]];
   		Vertex c = newObject->vertex[newObject->triangle[i][2]];
 
-      addObject(new Triangle(a, b, c, m, Red, Green, Blue));
+      addObject(new Triangle(a, b, c, m));
   }
 }
 

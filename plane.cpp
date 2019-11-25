@@ -6,14 +6,14 @@
 
 #include "plane.h"
 
-Plane::Plane(Vertex position, Vector up, Material *m, float R_value, float G_value, float B_value){
+Plane::Plane(Vertex position, Vector up, Material *m){
   this->position = position;
   up.normalise();
   this->up = up;
-  R = R_value; G = G_value; B = B_value;
   aCoeff = m->getAmbientValue();
 	dCoeff = m->getDiffuseValue();
 	sCoeff = m->getSpecularValue();
+  colour = m->getColour();
 	objMaterial = m;
 }
 

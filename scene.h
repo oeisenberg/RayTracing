@@ -34,7 +34,7 @@ public:
 
 	Scene(int w, int h);
 	void addObject(Object *newObject);
-	void addObject(PolyMesh *newObject, Material *m, float Red, float Green, float Blue);
+	void addObject(PolyMesh *newObject, Material *m);
 	void addLight(Light *newLight);
 	void addLightModel(Ambient *newLightModel);
 	void addLightModel(Diffuse *newLightModel);
