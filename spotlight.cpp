@@ -1,4 +1,5 @@
 #include "spotlight.h"
+#include <limits>
 
 Spotlight::Spotlight(float i, Vector *dir)
 {
@@ -20,5 +21,13 @@ Vector Spotlight::getDirection()
 
 Vertex Spotlight::getPosition()
 {
+  // explicit runtime_error( const std::string& "No position!" );
   throw "No position!";
+  // throw std::runtime_error("No position");
+}
+
+float Spotlight::getDistance(Vertex pointA){
+  // No position to calc distance from
+  return std::numeric_limits<float>::max();
+  // return std::numeric_limits<float>::max();
 }

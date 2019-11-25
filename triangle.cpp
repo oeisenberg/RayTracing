@@ -2,7 +2,6 @@
  *
  * ohe21 - Oliver's Triangle Class
  *
- * Do what you like with this code as long as you retain this comment.
  */
 
 #include <math.h>
@@ -10,7 +9,7 @@
 #include "vector.h"
 
 
-Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C, float aC, float dC, float sC, float Red, float Green, float Blue)
+Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C, Material *m, float Red, float Green, float Blue)
 {
 	a = vertex_A;
 	b = vertex_B;
@@ -20,9 +19,10 @@ Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C, float aC, 
 	B = Blue;
 	G = Green;
 
-	aCoeff = aC;
-	dCoeff = dC;
-	sCoeff = sC;
+	aCoeff = m->getAmbientValue();
+	dCoeff = m->getDiffuseValue();
+	sCoeff = m->getSpecularValue();
+	objMaterial = m;
 }
 
 // Möller–Trumbore ray-triangle intersection algorithm
@@ -70,8 +70,9 @@ void Triangle::intersection(Ray ray, Hit &hit)
 	}
 
 	Vector P = ray.position.convertToVector() + ray.direction.multiply(t);
+	// Normally AB.cross(AC, N) but the normals seem to be inverted for the smaller teapot
 	Vector N;
-	AB.cross(AC, N);
+	AC.cross(AB, N);
 
 	hit.what = this;
 	hit.normal = N;
