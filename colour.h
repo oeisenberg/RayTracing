@@ -24,4 +24,12 @@ public:
     B = 0;
   }
 
+  Colour operator + (const Colour& other){
+    return Colour(R+other.R, G+other.G, B+other.B);
+  }
+
+  Colour operator * (const Colour& other){
+    return Colour(R*other.R, G*other.G, B*other.B);
+  }
+
 };
