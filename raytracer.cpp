@@ -42,10 +42,10 @@ Hit checkForIntersection(Ray ray, float t, Hit closest, std::vector<Object*> obj
   return closest;
 }
 
-float getLightCoefficients(Scene *sc, Camera *camera, Hit closest, Object *obj){
-  float dCoeff = sc->DiffuseLightModel->getCoeff(sc->lights, sc->objects, closest, obj->dCoeff);
-  float sCoeff = sc->SpecularLightModel->getCoeff(sc->lights, sc->objects, closest, camera->e, obj->sCoeff);
-  float coeff = dCoeff + sCoeff;
+Colour getLightCoefficients(Scene *sc, Camera *camera, Hit closest, Object *obj){
+  Colour dCoeff = sc->DiffuseLightModel->getCoeff(sc->lights, sc->objects, closest, obj->dCoeff);
+  Colour sCoeff = sc->SpecularLightModel->getCoeff(sc->lights, sc->objects, closest, camera->e, obj->sCoeff);
+  Colour coeff = dCoeff + sCoeff;
   coeff += sc->AmbientLightModel->getCoeff(obj->aCoeff);
   // coeff += reflectionRayTrace(sc, camera, obj);
   return coeff;
@@ -61,13 +61,13 @@ Colour reflectionRayTrace(Scene *sc, Camera *camera, Ray &ray, int depth, std::v
   hit.t = std::numeric_limits<int>::max();
   hit = checkForIntersection(ray, hit.t, hit, objs);
   if(hit.flag){
-    colour = hit.what.reflectiveValue *
-      for (float iLight = 0; iLight < sc->lights.size(); iLight++){
-        float coeff = getLightCoefficients(sc, camera, hit, hit.what);
-        Vector reflection;
-        SurfaceNormal.reflection(lightDir, reflection);
-        colour += hit.what.reflectiveValue * reflectionRayTrace(sc, camera, rray, depth-1, objs);
-      }
+    // colour = hit.what.reflectiveValue *
+      // for (float iLight = 0; iLight < sc->lights.size(); iLight++){
+      //   float coeff = getLightCoefficients(sc, camera, hit, hit.what);
+      //   Vector reflection;
+      //   SurfaceNormal.reflection(lightDir, reflection);
+      //   colour += hit.what.reflectiveValue * reflectionRayTrace(sc, camera, rray, depth-1, objs);
+      // }
   }
 
 }
@@ -98,8 +98,8 @@ int main(int argc, char *argv[])
       if (closest.t != std::numeric_limits<int>::max())
       {
         Object *obj = closest.what;
-        float coeff = getLightCoefficients(sc, camera, closest, closest.what);
-        fb->plotPixel(x, y, obj->colour->R*coeff, obj->colour->G*coeff, obj->colour->B*coeff);
+        Colour coeff = getLightCoefficients(sc, camera, closest, closest.what);
+        fb->plotPixel(x, y, coeff.R, coeff.G, coeff.B);
       }
 
     }

@@ -1,7 +1,7 @@
 #include "spotlight.h"
 #include <limits>
 
-Spotlight::Spotlight(float i, Vector *dir)
+Spotlight::Spotlight(Colour i, Vector *dir)
 {
   dir->negate();
   dir->normalise();
@@ -9,7 +9,7 @@ Spotlight::Spotlight(float i, Vector *dir)
   this->intensity = i;
 }
 
-float Spotlight::getIntensity()
+Colour Spotlight::getIntensity()
 {
   return this->intensity;
 }

@@ -8,9 +8,9 @@
 #include "lightModel.h"
 
 class Ambient : public LightModel {
-  float I_ambient;
+  Colour *I_ambient;
 
   public:
-    Ambient(float intensity);
-    float getCoeff(float K_ambient);
+    Ambient(Colour *intensity);
+    Colour getCoeff(float K_ambient);
 };

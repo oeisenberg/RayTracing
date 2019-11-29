@@ -1,12 +1,13 @@
 
 #include "ambient.h"
 
-Ambient::Ambient(float iA)
+Ambient::Ambient(Colour *iA)
 {
   I_ambient = iA;
 }
 
-float Ambient::getCoeff(float K_ambient)
+Colour Ambient::getCoeff(float K_ambient)
 {
-  return I_ambient * K_ambient;
+  Colour &intensity = *I_ambient;
+  return intensity * K_ambient;
 }

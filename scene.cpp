@@ -45,12 +45,12 @@ Scene::Scene(int w, int h)
   addObject(new Plane(Vertex(0, 0, 21), Vector(0, 0, 1), planes));
 
   // Add Lighting
-  addLight(new Pointlight(0.6, new Vertex(0, 1, 7)));
-  addLight(new Spotlight(0.6, new Vector(0.3, -1, 1)));
-  addLight(new Spotlight(0.85, new Vector(-0.3, -1, 1)));
+  addLight(new Pointlight(new Colour(1, 1, 1), new Vertex(0, 1, 7)));
+  // addLight(new Spotlight(new Colour(0.6, 0.6, 0.6), new Vector(0.3, -1, 1)));
+  // addLight(new Spotlight(new Colour(0.85, 0.85, 0.85), new Vector(-0.3, -1, 1)));
 
   // Add Lighting Models
-  addLightModel(new Ambient(0.2));
+  addLightModel(new Ambient(new Colour(0.2, 0.2, 0.2)));
   addLightModel(new Diffuse());
   addLightModel(new Specular(20));
 };
