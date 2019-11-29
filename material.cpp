@@ -13,9 +13,12 @@ Material::Material(Colour *colour, float ambientVal, float diffVal, float specVa
   this->ambeintValue = ambientVal;
   this->diffuseValue = diffVal;
   this->specularValue = specVal;
+
+  this->reflectiveValue = 0;
+  this->transparentValue = 0;
 }
 
-Material::Material(Colour *colour, float ambientVal, float diffVal, float specVal, bool isReflective, bool isTransparant)
+Material::Material(Colour *colour, float ambientVal, float diffVal, float specVal, float reflectiveValue, float transparentValue)
 {
   this->colour = colour;
 
@@ -23,13 +26,8 @@ Material::Material(Colour *colour, float ambientVal, float diffVal, float specVa
   this->diffuseValue = diffVal;
   this->specularValue = specVal;
 
-  this->isReflective = isReflective;
-  if (!isReflective && isTransparant){
-    this->isTransparant = isTransparant;
-  } else {
-    this->isTransparant = false;
-  }
-
+  this->reflectiveValue = reflectiveValue;
+  this->transparentValue = transparentValue;
 }
 
 float Material::getAmbientValue(){
