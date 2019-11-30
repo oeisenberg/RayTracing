@@ -14,10 +14,6 @@ Sphere::Sphere(Vertex c, float r, Material *m)
 {
 	center = c;
 	radius = r;
-	aCoeff = m->getAmbientValue();
-	dCoeff = m->getDiffuseValue();
-	sCoeff = m->getSpecularValue();
-	colour = m->getColour();
 	objMaterial = m;
 }
 
