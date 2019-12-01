@@ -47,7 +47,6 @@ Colour getLightCoefficients(Scene *sc, Camera *camera, Hit closest, Object *obj)
   Colour sCoeff = sc->SpecularLightModel->getCoeff(sc->lights, sc->objects, closest, camera->e, obj->sCoeff);
   Colour coeff = dCoeff + sCoeff;
   coeff += sc->AmbientLightModel->getCoeff(obj->aCoeff);
-  // coeff += reflectionRayTrace(sc, camera, obj);
   return coeff;
 }
 
@@ -79,19 +78,6 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth){
   closest.t = std::numeric_limits<int>::max();
   closest = checkForIntersection(lRay, closest.t, closest, sc->objects);
 
-<<<<<<< HEAD
-  hit.t = std::numeric_limits<int>::max();
-  hit = checkForIntersection(ray, hit.t, hit, objs);
-  if(hit.flag){
-    colour = hit.what.reflectiveValue *
-      for (float iLight = 0; iLight < sc->lights.size(); iLight++){
-        float coeff = getLightCoefficients(sc, camera, hit, hit.what);
-        Vector reflection;
-        SurfaceNormal.reflection(lightDir, reflection);
-        colour += hit.what.reflectiveValue * reflectionRayTrace(sc, camera, rray, depth-1, objs);
-      }
-  }
-=======
   if (closest.t != std::numeric_limits<int>::max()){
 
     colour = closest.what->objMaterial->computeBaseColour();
@@ -118,14 +104,13 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth){
       Vector r;
       SurfaceNormal.reflection(lRay.direction, r);
       Ray reflectionRay = Ray(closest.position + r.multiply(1), r);
->>>>>>> ce94bd8b6ba00acc78be880af9220c6dcd311f47
 
       colour += raytrace(sc, camera, reflectionRay, depth-1) * 0.5;
     }
 
     // TODO: compute refraction ray if material supports it.
     if(closest.what->objMaterial->isTransparent){
-      
+
     }
   }
   return colour;
@@ -162,3 +147,4 @@ int main(int argc, char *argv[])
   return 0;
 
 }
+>>>>>>> mergingkensCode

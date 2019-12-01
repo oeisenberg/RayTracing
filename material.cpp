@@ -15,26 +15,6 @@ Material::Material(Colour col, Colour ambientVal, Colour diffVal, Colour specVal
   specular = specVal;
   this->power = power;
 
-<<<<<<< HEAD
-  this->ambeintValue = ambientVal;
-  this->diffuseValue = diffVal;
-  this->specularValue = specVal;
-
-  this->reflectiveValue = 0;
-  this->transparentValue = 0;
-}
-
-Material::Material(Colour *colour, float ambientVal, float diffVal, float specVal, float reflectiveValue, float transparentValue)
-{
-  this->colour = colour;
-
-  this->ambeintValue = ambientVal;
-  this->diffuseValue = diffVal;
-  this->specularValue = specVal;
-
-  this->reflectiveValue = reflectiveValue;
-  this->transparentValue = transparentValue;
-=======
   this->isReflective = false;
   this->isTransparent = false;
 }
@@ -50,7 +30,6 @@ Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour spec
 
   this->isReflective = reflectiveValue;
   this->isTransparent = transparentValue;
->>>>>>> ce94bd8b6ba00acc78be880af9220c6dcd311f47
 }
 
 Colour Material::getColour(){
