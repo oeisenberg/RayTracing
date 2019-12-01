@@ -3,7 +3,6 @@
 
 Spotlight::Spotlight(Colour i, Vector *dir)
 {
-  dir->negate();
   dir->normalise();
   this->direction = *dir;
   this->intensity = i;

@@ -1,8 +1,8 @@
 #include "pointlight.h"
 
-Pointlight::Pointlight(Colour *i, Vertex *pos)
+Pointlight::Pointlight(Colour i, Vertex *pos)
 {
-  this->intensity = *i;
+  this->intensity = i;
   this->position = *pos;
 }
 
@@ -19,7 +19,7 @@ Vector Pointlight::getDirection()
 
 Vector Pointlight::getDirection(Vertex hitPos)
 {
-  Vector newDir = this->position - hitPos;
+  Vector newDir = hitPos- this->position;
   newDir.normalise();
   return newDir;
 }
