@@ -15,10 +15,6 @@ Triangle::Triangle(Vertex vertex_A, Vertex vertex_B, Vertex vertex_C, Material *
 	b = vertex_B;
 	c = vertex_C;
 
-	aCoeff = m->getAmbientValue();
-	dCoeff = m->getDiffuseValue();
-	sCoeff = m->getSpecularValue();
-	colour = m->getColour();
 	objMaterial = m;
 }
 

@@ -14,6 +14,7 @@
 #include "hit.h"
 #include "object.h"
 #include "light.h"
+#include "colour.h"
 
 class LightModel {
 public:

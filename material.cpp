@@ -6,44 +6,57 @@
 
 #include "material.h"
 
-Material::Material(Colour *colour, float ambientVal, float diffVal, float specVal)
+Material::Material(Colour col, Colour ambientVal, Colour diffVal, Colour specVal, float power)
 {
-  this->colour = colour;
+  colour = col;
 
-  this->ambeintValue = ambientVal;
-  this->diffuseValue = diffVal;
-  this->specularValue = specVal;
+  ambeint = ambientVal;
+  diffuse = diffVal;
+  specular = specVal;
+  this->power = power;
+
+  this->isReflective = false;
+  this->isTransparent = false;
 }
 
-Material::Material(Colour *colour, float ambientVal, float diffVal, float specVal, bool isReflective, bool isTransparant)
+Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour specVal, float power, bool reflectiveValue, bool transparentValue)
 {
   this->colour = colour;
 
-  this->ambeintValue = ambientVal;
-  this->diffuseValue = diffVal;
-  this->specularValue = specVal;
+  this->ambeint = ambientVal;
+  this->diffuse = diffVal;
+  this->specular = specVal;
+  this->power = power;
 
-  this->isReflective = isReflective;
-  if (!isReflective && isTransparant){
-    this->isTransparant = isTransparant;
-  } else {
-    this->isTransparant = false;
+  this->isReflective = reflectiveValue;
+  this->isTransparent = transparentValue;
+}
+
+Colour Material::getColour(){
+  return this->colour;
+}
+
+Colour Material::computeBaseColour(){
+  return this->colour;
+}
+
+Colour Material::compute_light_colour(Vector SurfaceNormal, Vector toViewer, Vector lightDir, float diff){
+  lightDir.negate();
+  toViewer.normalise();
+  // toViewer.negate();
+
+  Colour result;
+  result += diffuse * diff;
+
+  Vector r;
+  SurfaceNormal.reflection(lightDir, r);
+  r.normalise();
+  float specularCoeff = r.dot(toViewer);
+
+    if (specularCoeff > 0.0f) {
+      float p = (float)pow(specularCoeff, 20);
+      result += specular * p;
   }
 
-}
-
-float Material::getAmbientValue(){
-  return this->ambeintValue;
-}
-
-float Material::getDiffuseValue(){
-  return this->diffuseValue;
-}
-
-float Material::getSpecularValue(){
-  return this->specularValue;
-}
-
-Colour *Material::getColour(){
-  return this->colour;
+  return result;
 }

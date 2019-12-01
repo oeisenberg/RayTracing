@@ -31,28 +31,29 @@ Scene::Scene(int w, int h)
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Init Objs Materials
-  Material *shinyA = new Material(new Colour(0.578, 0.6, 1), 0.2, 0.3, 0.1);
-  Material *planes = new Material(new Colour(0.3, 0.3, 0.3), 0.2, 0.3, 0.1);
-  Material *tpot = new Material(new Colour(1, 0, 0), 0.2, 0.3, 0.1);
-  Material *reflectiveA = new Material(new Colour(0, 1, 0), 0.3, 0.3, 0.6, true, false);
-  Material *transparantA = new Material(new Colour(1, 0, 0), 0.3, 0.3, 0.6, false, true);
+  Material *shinyA = new Material(Colour(1, 0, 0), Colour(0.2, 0.2, 0.2), Colour(0.4, 0.4, 0.4), Colour(0.4, 0.4, 0.4), 20);
+  Material *planes = new Material(Colour(0.3, 0.3, 0.3), Colour(0.2, 0.2, 0.2), Colour(0.3, 0.3, 0.3), Colour(0.1, 0.1, 0.1), 20);
+  // Material *tpot = new Material(Colour(1, 0, 0), 0.2, 0.3, 0.1);
+  Material *reflectiveA = new Material(Colour(0, 1, 0), Colour(0.5, 0.5, 0.5), Colour(0.5, 0.5, 0.5), Colour(0.3, 0.3, 0.3), 20, true, false);
+  Material *transparantA = new Material(Colour(0, 0, 1), Colour(0.5, 0.5, 0.5), Colour(0.5, 0.5, 0.5), Colour(0.3, 0.3, 0.3), 20, false, true);
 
   // Add Objects
-  addObject(new Sphere(Vertex(2, -1, 7),  1, reflectiveA));
-  addObject(new Sphere(Vertex(-2, -1, 7), 1, reflectiveA));
-  addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), shinyA);
+  addObject(new Sphere(Vertex(2, -1, 7),  1, shinyA));
+  addObject(new Sphere(Vertex(-2, -1, 7), 1, shinyA));
+  addObject(new Sphere(Vertex(0, 0, 7), 0.8, reflectiveA));
+  addObject(new Sphere(Vertex(0, 0, 4), 1.3, transparantA));
+  // addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), shinyA);
   addObject(new Plane(Vertex(0, -3, 0), Vector(0, 1, 0), planes));
   addObject(new Plane(Vertex(0, 0, 21), Vector(0, 0, 1), planes));
 
   // Add Lighting
-  addLight(new Pointlight(0.6, new Vertex(0, 1, 7)));
-  addLight(new Spotlight(0.6, new Vector(0.3, -1, 1)));
-  addLight(new Spotlight(0.85, new Vector(-0.3, -1, 1)));
+  addLight(new Pointlight(Colour(0.5, 0.5, 0.5), new Vertex(0, 3, 7)));
+  addLight(new Spotlight(Colour(0.6, 0.6, 0.6), new Vector(0.3, -1, 1)));
+  addLight(new Spotlight(Colour(0.85, 0.85, 0.85), new Vector(-0.3, -1, 1)));
 
   // Add Lighting Models
-  addLightModel(new Ambient(0.2));
+  addLightModel(new Ambient(new Colour(0.2, 0.2, 0.2)));
   addLightModel(new Diffuse());
-  addLightModel(new Specular(20));
 };
 
 void Scene::addObject(Object *newObject)

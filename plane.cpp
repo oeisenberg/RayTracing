@@ -10,10 +10,6 @@ Plane::Plane(Vertex position, Vector up, Material *m){
   this->position = position;
   up.normalise();
   this->up = up;
-  aCoeff = m->getAmbientValue();
-	dCoeff = m->getDiffuseValue();
-	sCoeff = m->getSpecularValue();
-  colour = m->getColour();
 	objMaterial = m;
 }
 

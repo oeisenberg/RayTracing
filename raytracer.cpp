@@ -42,29 +42,78 @@ Hit checkForIntersection(Ray ray, float t, Hit closest, std::vector<Object*> obj
   return closest;
 }
 
-float getLightCoefficients(Scene *sc, Camera *camera, Hit closest, Object *obj){
-  float dCoeff = sc->DiffuseLightModel->getCoeff(sc->lights, sc->objects, closest, obj->dCoeff);
-  float sCoeff = sc->SpecularLightModel->getCoeff(sc->lights, sc->objects, closest, camera->e, obj->sCoeff);
-  float coeff = dCoeff + sCoeff;
+Colour getLightCoefficients(Scene *sc, Camera *camera, Hit closest, Object *obj){
+  Colour dCoeff = sc->DiffuseLightModel->getCoeff(sc->lights, sc->objects, closest, obj->dCoeff);
+  Colour sCoeff = sc->SpecularLightModel->getCoeff(sc->lights, sc->objects, closest, camera->e, obj->sCoeff);
+  Colour coeff = dCoeff + sCoeff;
   coeff += sc->AmbientLightModel->getCoeff(obj->aCoeff);
   return coeff;
 }
 
-Colour reflectionRayTrace(Scene *sc, Camera *camera, Ray &ray, int depth, std::vector<Object*> objs){
-  Colour colour;
-  Hit hit;
-  colour.clear();
-
-  if (depth == 0) return colour;
-
-  hit.t = std::numeric_limits<int>::max();
-  hit = checkForIntersection(ray, hit.t, hit, objs);
-  if(hit.flag){
-      // colour = hit.object.colour;
-      float coeff = getLightCoefficients(sc, camera, hit, hit.what);
-
+Vector getLightDir(std::vector<Light*> lights, int iLight, Hit hitObj){
+  Vector lightDir;
+  try{
+    lightDir = lights[iLight]->getDirection();
+  } catch(const std::exception e){
+    lightDir = lights[iLight]->getDirection(hitObj.position);
   }
+  return lightDir;
+}
 
+bool checkForShadow(Hit closest, std::vector<Object*> objs, Ray ray, Light* light){
+    Hit new_t = Hit();
+    float light_distance = light->getDistance(closest.position);
+    for (int i = 0; i < objs.size(); i++) {
+      objs[i]->intersection(ray, new_t);
+
+      if (new_t.flag && ((light_distance-new_t.t) >= 0)) return true;
+    }
+    return false;
+  };
+
+Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth){
+  Colour colour;
+
+  Hit closest = Hit();
+  closest.t = std::numeric_limits<int>::max();
+  closest = checkForIntersection(lRay, closest.t, closest, sc->objects);
+
+  if (closest.t != std::numeric_limits<int>::max()){
+
+    colour = closest.what->objMaterial->computeBaseColour();
+
+    if (depth == 0) return colour;
+
+    Vector SurfaceNormal = closest.normal;
+    for (float iLight = 0; iLight < sc->lights.size(); iLight++){
+      Vector lightDir = getLightDir(sc->lights, iLight, closest);
+      lightDir.negate();
+      float diff = SurfaceNormal.dot(lightDir);
+      if (diff > 0.0f){
+        Ray shadowRay = Ray(closest.position + lightDir.multiply(1), lightDir);
+        if(!checkForShadow(closest, sc->objects, shadowRay, sc->lights[iLight])){
+          Colour scale = sc->lights[iLight]->getIntensity();
+          Colour intensity = closest.what->objMaterial->compute_light_colour(SurfaceNormal, camera->e - closest.position, lightDir, diff);
+          colour += intensity * scale;
+        }
+      }
+    }
+
+    // TODO: compute reflection ray if material supports it.
+    if(closest.what->objMaterial->isReflective){
+      Vector r;
+      SurfaceNormal.reflection(lRay.direction, r);
+      Ray reflectionRay = Ray(closest.position + r.multiply(1), r);
+
+      colour += raytrace(sc, camera, reflectionRay, depth-1) * 0.5;
+    }
+
+    // TODO: compute refraction ray if material supports it.
+    if(closest.what->objMaterial->isTransparent){
+      
+    }
+  }
+  return colour;
 }
 
 int main(int argc, char *argv[])
@@ -73,12 +122,12 @@ int main(int argc, char *argv[])
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 250;
+  float dist = 350;
   float FOV = 1; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
   // Create a framebuffer
-  Scene *sc = new Scene(400, 400); // 2048
+  Scene *sc = new Scene(600, 600); // 2048
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
   for (int x = 0; x <= sc->width - 1; x++)
@@ -86,17 +135,9 @@ int main(int argc, char *argv[])
     for (int y = 0; y <= sc->height - 1; y++)
     {
       Ray ray = camera->getRay(sc, x, y);
-      Hit closest = Hit();
-      closest.t = std::numeric_limits<int>::max();
-      closest = checkForIntersection(ray, closest.t, closest, sc->objects);
-
-      if (closest.t != std::numeric_limits<int>::max())
-      {
-        Object *obj = closest.what;
-        float coeff = getLightCoefficients(sc, camera, closest, closest.what);
-        fb->plotPixel(x, y, obj->colour->R*coeff, obj->colour->G*coeff, obj->colour->B*coeff);
-      }
-
+      int depth = 2;
+      Colour baseColour = raytrace(sc, camera, ray, depth);
+      fb->plotPixel(x, y, baseColour.R, baseColour.G, baseColour.B);
     }
   }
 

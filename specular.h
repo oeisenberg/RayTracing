@@ -15,6 +15,6 @@ class Specular : public LightModel {
 
   public:
     Specular(int distribution);
-    float getCoeff(std::vector<Light*> lights, std::vector<Object*> objs, Hit hitObj, Vertex camEye, float sCoeff);
+    Colour getCoeff(std::vector<Light*> lights, std::vector<Object*> objs, Hit hitObj, Vertex camEye, float sCoeff);
     Vector getLightDir(std::vector<Light*> lights, int iLight, Hit hitObj);
 };
