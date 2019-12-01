@@ -10,15 +10,16 @@
 #include <stdexcept>
 #include <vector>
 #include "vector.h"
+#include "colour.h"
 #include "vertex.h"
 
 class Light {
 protected:
-  float intensity;
+  Colour intensity;
   Vertex position;
   Vector direction;
 public:
-  virtual float getIntensity(){
+  virtual Colour getIntensity(){
   };
 
   virtual Vector getDirection(){

@@ -14,6 +14,6 @@
 class Diffuse : public LightModel {
   public:
     Diffuse();
-    float getCoeff(std::vector<Light*> lights, std::vector<Object*> objs, Hit hitObj, float K_diffuse);
+    Colour getCoeff(std::vector<Light*> lights, std::vector<Object*> objs, Hit hitObj, float K_diffuse);
     Vector getLightDir(std::vector<Light*> lights, int iLight, Hit hitObj);
 };

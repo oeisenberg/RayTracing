@@ -15,16 +15,16 @@ Diffuse::Diffuse()
 }
 
 // Caclulates the total diffuse coefficient for the pxiel
-float Diffuse::getCoeff(std::vector<Light*> lights, std::vector<Object*> objs, Hit hitObj, float K_diffuse)
+Colour Diffuse::getCoeff(std::vector<Light*> lights, std::vector<Object*> objs, Hit hitObj, float K_diffuse)
 {
   Vector SurfaceNormal = hitObj.normal;
-  float dCoeffs = 0.0;
+  Colour dCoeffs;
   for (float iLight = 0; iLight < lights.size(); iLight++){
     Vector lightDir = getLightDir(lights, iLight, hitObj);
     float normalCoeff = SurfaceNormal.dot(lightDir);
 
     if (normalCoeff > 0){
-      float intensity = lights[iLight]->getIntensity();
+      Colour intensity = lights[iLight]->getIntensity();
       Ray ray = Ray(hitObj.position + lightDir.multiply(1), lightDir);
       if (!checkForShadow(hitObj, objs, ray, lights[iLight])){
         dCoeffs += (intensity * K_diffuse * normalCoeff);
