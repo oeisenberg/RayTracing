@@ -34,8 +34,8 @@ Scene::Scene(int w, int h)
   Material *shinyA = new Material(new Colour(0.578, 0.6, 1), 0.2, 0.3, 0.1);
   Material *planes = new Material(new Colour(0.3, 0.3, 0.3), 0.2, 0.3, 0.1);
   Material *tpot = new Material(new Colour(1, 0, 0), 0.2, 0.3, 0.1);
-  Material *reflectiveA = new Material(new Colour(0, 1, 0), 0.3, 0.3, 0.6, true, false);
-  Material *transparantA = new Material(new Colour(1, 0, 0), 0.3, 0.3, 0.6, false, true);
+  Material *reflectiveA = new Material(new Colour(0, 1, 0), 0.3, 0.3, 0.6, 0.3, 0);
+  Material *transparantA = new Material(new Colour(1, 0, 0), 0.3, 0.3, 0.6, 0, 1);
 
   // Add Objects
   addObject(new Sphere(Vertex(2, -1, 7),  1, reflectiveA));
