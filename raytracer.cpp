@@ -71,8 +71,32 @@ bool checkForShadow(Hit closest, std::vector<Object*> objs, Ray ray, Light* ligh
     return false;
   };
 
+float fresnel(Vector lRayDir, Vector N, float ior){
+    float cosi = N.dot(lRayDir);
+    cosi = std::min(1.0f, std::max(cosi, -1.0f));
+    float etai = 1, etat = ior;
+    if (cosi > 0) { std::swap(etai, etat); }
+    // Compute sini using Snell's law
+    float sint = etai / etat * sqrtf(std::max(0.f, 1 - cosi * cosi));
+    // Total internal reflection
+    if (sint >= 1) {
+        float kr = 1;
+        return kr;
+    } else {
+        float cost = sqrtf(std::max(0.f, 1 - sint * sint));
+        cosi = fabsf(cosi);
+        float Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost));
+        float Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost));
+        float kr = (Rs * Rs + Rp * Rp) / 2;
+        return kr;
+    }
+    // As a consequence of the conservation of energy, transmittance is given by:
+    // kt = 1 - kr;
+
+}
+
 Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth){
-  Colour colour;
+  Colour colour = Colour();
 
   Hit closest = Hit();
   closest.t = std::numeric_limits<int>::max();
@@ -90,7 +114,7 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth){
       lightDir.negate();
       float diff = SurfaceNormal.dot(lightDir);
       if (diff > 0.0f){
-        Ray shadowRay = Ray(closest.position + lightDir.multiply(1), lightDir);
+        Ray shadowRay = Ray(closest.position + lightDir.multiply(0.0001f), lightDir);
         if(!checkForShadow(closest, sc->objects, shadowRay, sc->lights[iLight])){
           Colour scale = sc->lights[iLight]->getIntensity();
           Colour intensity = closest.what->objMaterial->compute_light_colour(SurfaceNormal, camera->e - closest.position, lightDir, diff);
@@ -99,19 +123,42 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth){
       }
     }
 
-    // TODO: compute reflection ray if material supports it.
-    if(closest.what->objMaterial->isReflective){
-      Vector r;
-      SurfaceNormal.reflection(lRay.direction, r);
-      Ray reflectionRay = Ray(closest.position + r.multiply(1), r);
+    if(closest.what->objMaterial->isReflective && closest.what->objMaterial->isTransparent){
 
-      colour += raytrace(sc, camera, reflectionRay, depth-1) * 0.5;
+        Colour refractionColour = Colour();
+        // float kr = fresnel(lRay.direction, SurfaceNormal, closest.what->objMaterial->ior);
+        float kr = 0;
+
+        if (kr < 1) {
+          Vector refraction;
+          lRay.direction.normalise();
+          Vector bias = closest.normal.multiply(0.001f);
+          bool outside = lRay.direction.dot(SurfaceNormal) < 0;
+          SurfaceNormal.refraction(lRay.direction, closest.what->objMaterial->ior, refraction);
+          refraction.normalise();
+          Vertex origin = outside ? closest.position - bias  : closest.position + bias;
+          Ray transparentRay = Ray(origin, refraction);
+          refractionColour += raytrace(sc, camera, transparentRay, depth-1) * 0.5;  // TODO: Fix to use a value associated with material.
+        }
+
+        Vector r;
+        SurfaceNormal.reflection(lRay.direction, r);
+        r.normalise();
+        Ray reflectionRay = Ray(closest.position + r.multiply(1), r);
+        Colour reflectionColour = raytrace(sc, camera, reflectionRay, depth-1) * 0.5; // TODO: Fix to use a value associated with material.
+
+        colour += reflectionColour * kr + refractionColour * (1 - kr);
+    } else {
+      if(closest.what->objMaterial->isReflective){
+        Vector r;
+        SurfaceNormal.reflection(lRay.direction, r);
+        r.normalise();
+        Ray reflectionRay = Ray(closest.position + r.multiply(1), r);
+
+        colour += raytrace(sc, camera, reflectionRay, depth-1) * 0.5; // TODO: Fix to use a value associated with material.
+      }
     }
 
-    // TODO: compute refraction ray if material supports it.
-    if(closest.what->objMaterial->isTransparent){
-
-    }
   }
   return colour;
 }
@@ -122,7 +169,7 @@ int main(int argc, char *argv[])
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 350;
+  float dist = 400;
   float FOV = 1; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
@@ -135,7 +182,7 @@ int main(int argc, char *argv[])
     for (int y = 0; y <= sc->height - 1; y++)
     {
       Ray ray = camera->getRay(sc, x, y);
-      int depth = 2;
+      int depth = 4;
       Colour baseColour = raytrace(sc, camera, ray, depth);
       fb->plotPixel(x, y, baseColour.R, baseColour.G, baseColour.B);
     }

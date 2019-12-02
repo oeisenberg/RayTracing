@@ -63,4 +63,14 @@ public:
 	{
 		return Vector(x, y, z);
 	}
+
+	Vertex operator + (const float other)
+	{
+		return Vertex(this->x+other, this->y+other, this->z+other);
+	}
+
+	Vertex operator - (const float other)
+	{
+		return Vertex(this->x-other, this->y-other, this->z-other);
+	}
 };

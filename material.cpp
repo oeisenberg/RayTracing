@@ -17,9 +17,10 @@ Material::Material(Colour col, Colour ambientVal, Colour diffVal, Colour specVal
 
   this->isReflective = false;
   this->isTransparent = false;
+  this->ior = 1;
 }
 
-Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour specVal, float power, bool reflectiveValue, bool transparentValue)
+Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour specVal, float power, bool reflectiveValue, float ior)
 {
   this->colour = colour;
 
@@ -29,7 +30,14 @@ Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour spec
   this->power = power;
 
   this->isReflective = reflectiveValue;
-  this->isTransparent = transparentValue;
+  if (ior != 1){
+    this->isTransparent = true;
+    this->ior = ior;
+  } else {
+    this->isTransparent = false;
+    this->ior = 1;
+  }
+
 }
 
 Colour Material::getColour(){
@@ -43,7 +51,6 @@ Colour Material::computeBaseColour(){
 Colour Material::compute_light_colour(Vector SurfaceNormal, Vector toViewer, Vector lightDir, float diff){
   lightDir.negate();
   toViewer.normalise();
-  // toViewer.negate();
 
   Colour result;
   result += diffuse * diff;
