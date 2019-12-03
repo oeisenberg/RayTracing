@@ -62,7 +62,6 @@ public:
 
 	void refraction(Vector initial, float ior, Vector &refraction)
 	{
-		// TODO: Complete refraction behaviour
 		// https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel
 		Vector n = Vector(x, y, z);
 		n.normalise();
