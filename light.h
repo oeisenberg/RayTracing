@@ -34,6 +34,15 @@ public:
   virtual float getDistance(Vertex){
   };
 
+  virtual Vector getRandEmittionDirection(){
+  };
+
+  virtual Vertex getRandEmittionPosition(){
+  };
+
+  float getStrength(){
+    return intensity.getStrength();
+  };
 };
 
 // TODO: how to show a light source?

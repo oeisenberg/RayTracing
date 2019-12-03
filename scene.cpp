@@ -15,6 +15,7 @@
 #include "pointlight.h"
 #include "material.h"
 #include "plane.h"
+#include "light.h"
 
 Scene::Scene(int w, int h)
 {

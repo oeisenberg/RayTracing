@@ -11,11 +11,13 @@
 
 #include "vertex.h"
 #include "vector.h"
+#include "photon.h"
 
 class Ray {
 public:
 	Vertex position;
 	Vector direction;
+	Photon photon;
 
 	Ray()
 	{
@@ -25,5 +27,12 @@ public:
 	{
 		position = p;
 		direction = d;
+	}
+
+	Ray(Vertex p, Vector d, Photon ph)
+	{
+		position = p;
+		direction = d;
+		photon = ph;
 	}
 };

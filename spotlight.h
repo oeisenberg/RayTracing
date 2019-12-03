@@ -15,4 +15,6 @@ public:
   Vector getDirection();
   Vertex getPosition();
   float getDistance(Vertex pointA);
+  Vector getRandEmittionDirection();
+  Vertex getRandEmittionPosition();
 };

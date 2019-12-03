@@ -5,7 +5,7 @@
  */
 
 /*
- * g++ -o finalexecutable raytracer.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp plane.cpp triangle.cpp polymesh.cpp material.cpp diffuse.cpp ambient.cpp specular.cpp spotlight.cpp pointlight.cpp -lm -O3
+ * g++ -o finalexecutable raytracer.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp plane.cpp triangle.cpp polymesh.cpp material.cpp spotlight.cpp pointlight.cpp -lm -O3
  *
  * Execute the code using ./finalexecutable
  *
@@ -14,6 +14,9 @@
 
 #include <iostream>
 #include <limits>
+#include <stdlib.h>
+#include <time.h>
+
 #include "framebuffer.h"
 #include "linedrawer.h"
 #include "camera.h"
@@ -154,8 +157,13 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth){
   return colour;
 }
 
-int main(int argc, char *argv[])
-{
+void photontrace(Scene *sc, Camera *camera, Ray pRay, int depth){
+
+}
+
+int main(int argc, char *argv[]){
+  srand (static_cast <unsigned> (time(0))); // https://stackoverflow.com/questions/686353/random-float-number-generation
+
   // Create Camera
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
@@ -167,6 +175,47 @@ int main(int argc, char *argv[])
   // Create a framebuffer
   Scene *sc = new Scene(600, 600); // 2048
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
+
+  // Create PhotonMap
+  int scale = 100;
+  for (float iLight = 0; iLight < sc->lights.size(); iLight++){
+    int n_emittedPhotons = 0;
+    Vector pDir; Vertex pPos;
+    while (n_emittedPhotons < scale * sc->lights[iLight]->getStrength()){
+      pDir = sc->lights[iLight]->getRandEmittionDirection();
+      pPos = sc->lights[iLight]->getRandEmittionPosition();
+
+      Photon ph = Photon(sc->lights[iLight]->getIntensity() / scale * sc->lights[iLight]->getStrength());
+
+      // trace from pPos to pDir
+      Ray photonRay = Ray(pPos, pDir, ph);
+      Hit closest = Hit();
+      closest.t = std::numeric_limits<int>::max();
+      closest = checkForIntersection(photonRay, closest.t, closest, sc->objects);
+
+      if (closest.t != std::numeric_limits<int>::max()){
+        float probDiffuse = (sc->lights[iLight]->getIntensity() * closest.what->objMaterial->diffuse).getStrength() / sc->lights[iLight]->getStrength();
+        float probSpecular = (sc->lights[iLight]->getIntensity() * closest.what->objMaterial->specular).getStrength() / sc->lights[iLight]->getStrength();
+        float probAbsorbtion = 1 - (probDiffuse + probSpecular);
+
+        float r = (float) ((rand() % 100) + 1) / 100; // 0.00 to 1.00
+
+        // switch to determine type of ray
+        if (0 <= r && r < probDiffuse){
+          // diffuse reflection
+          
+        } else if (probDiffuse <= r && r < probDiffuse+probSpecular){
+          // specular reflection
+
+        } else if (probDiffuse+probSpecular <= r && r <= 1) {
+          // absorbed
+        }
+      }
+
+      n_emittedPhotons ++;
+    }
+  }
+  // Scale & Balance KD tree
 
   for (int x = 0; x <= sc->width - 1; x++)
   {

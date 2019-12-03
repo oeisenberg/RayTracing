@@ -10,6 +10,7 @@
 #include "vector.h"
 
 class Material {
+public:
   Colour ambeint;
   Colour diffuse;
   Colour specular;
@@ -18,7 +19,7 @@ class Material {
   // Could be updated to hold information about texture in a future update.
   Colour colour;
 
-public:
+
   bool isReflective = false;
   float reflectionDegree = 0;
   bool isTransparent = false;

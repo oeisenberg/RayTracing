@@ -1,5 +1,7 @@
 #pragma once
 
+#include<algorithm>
+
 class Colour {
 public:
   float R;
@@ -44,5 +46,17 @@ public:
   Colour operator * (const float& other){
     return Colour(R*other, G*other, B*other);
   }
+
+  Colour operator / (const int& other){
+    return Colour(R/(float)other, G/(float)other, B/(float)other);
+  }
+
+  Colour operator / (const float& other){
+    return Colour(R/other, G/other, B/other);
+  }
+
+  float getStrength(){
+    return std::max(std::max(R, G), B);
+  };
 
 };
