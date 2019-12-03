@@ -8,9 +8,12 @@ public:
 
   Colour()
 	{
+    R = 0;
+    G = 0;
+    B = 0;
 	}
 
-	Colour(float r, float b, float g)
+	Colour(float r, float g, float b)
 	{
 		R = r;
     G = g;

@@ -19,11 +19,15 @@ class Material {
   Colour colour;
 
 public:
-  bool isReflective;
-  bool isTransparent;
+  bool isReflective = false;
+  float reflectionDegree = 0;
+  bool isTransparent = false;
+  float transparentDegree = 0;
+  float ior = 1; 	// Index of refraction Vacuum: 1.0, Air: 1.003, Water: 1.33, Glass 1.52
 
   Material(Colour colour, Colour ambientVal, Colour diffuseVal, Colour specularVal, float power);
-  Material(Colour colour, Colour ambientVal, Colour diffVal, Colour specVal, float power, bool isReflective, bool isTransparent);
+  Material(Colour colour, Colour ambientVal, Colour diffVal, Colour specVal, float power, float reflectionDegree);
+  Material(Colour colour, Colour ambientVal, Colour diffVal, Colour specVal, float power,  float reflectionDegree, float transparentDegree, float ior);
   Colour getAmbientValue();
   Colour getDiffuseValue();
   Colour getSpecularValue();

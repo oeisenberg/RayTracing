@@ -14,12 +14,9 @@ Material::Material(Colour col, Colour ambientVal, Colour diffVal, Colour specVal
   diffuse = diffVal;
   specular = specVal;
   this->power = power;
-
-  this->isReflective = false;
-  this->isTransparent = false;
 }
 
-Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour specVal, float power, bool reflectiveValue, bool transparentValue)
+Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour specVal, float power, float reflectionDegree)
 {
   this->colour = colour;
 
@@ -28,8 +25,32 @@ Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour spec
   this->specular = specVal;
   this->power = power;
 
-  this->isReflective = reflectiveValue;
-  this->isTransparent = transparentValue;
+  if (reflectionDegree != 0){
+    this->isReflective = true;
+    this->reflectionDegree = reflectionDegree;
+  }
+}
+
+Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour specVal, float power, float reflectionDegree, float transparentDegree, float ior)
+{
+  this->colour = colour;
+
+  this->ambeint = ambientVal;
+  this->diffuse = diffVal;
+  this->specular = specVal;
+  this->power = power;
+
+  if (reflectionDegree != 0){
+    this->isReflective = true;
+    this->reflectionDegree = reflectionDegree;
+  }
+
+  if (transparentDegree != 0){
+    this->isTransparent = true;
+    this->transparentDegree = transparentDegree;
+    this->ior = ior;
+  }
+
 }
 
 Colour Material::getColour(){
@@ -43,7 +64,6 @@ Colour Material::computeBaseColour(){
 Colour Material::compute_light_colour(Vector SurfaceNormal, Vector toViewer, Vector lightDir, float diff){
   lightDir.negate();
   toViewer.normalise();
-  // toViewer.negate();
 
   Colour result;
   result += diffuse * diff;
