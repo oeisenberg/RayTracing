@@ -126,8 +126,7 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth){
     if(closest.what->objMaterial->isReflective && closest.what->objMaterial->isTransparent){
 
         Colour refractionColour = Colour();
-        // float kr = fresnel(lRay.direction, SurfaceNormal, closest.what->objMaterial->ior);
-        float kr = 0;
+        float kr = fresnel(lRay.direction, SurfaceNormal, closest.what->objMaterial->ior);
 
         if (kr < 1) {
           Vector refraction;
@@ -138,14 +137,14 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth){
           refraction.normalise();
           Vertex origin = outside ? closest.position - bias  : closest.position + bias;
           Ray transparentRay = Ray(origin, refraction);
-          refractionColour += raytrace(sc, camera, transparentRay, depth-1) * 0.5;  // TODO: Fix to use a value associated with material.
+          refractionColour += raytrace(sc, camera, transparentRay, depth-1) * closest.what->objMaterial->transparentDegree;
         }
 
         Vector r;
         SurfaceNormal.reflection(lRay.direction, r);
         r.normalise();
         Ray reflectionRay = Ray(closest.position + r.multiply(1), r);
-        Colour reflectionColour = raytrace(sc, camera, reflectionRay, depth-1) * 0.5; // TODO: Fix to use a value associated with material.
+        Colour reflectionColour = raytrace(sc, camera, reflectionRay, depth-1) * closest.what->objMaterial->reflectionDegree;
 
         colour += reflectionColour * kr + refractionColour * (1 - kr);
     } else {
@@ -155,7 +154,7 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth){
         r.normalise();
         Ray reflectionRay = Ray(closest.position + r.multiply(1), r);
 
-        colour += raytrace(sc, camera, reflectionRay, depth-1) * 0.5; // TODO: Fix to use a value associated with material.
+        colour += raytrace(sc, camera, reflectionRay, depth-1) * closest.what->objMaterial->reflectionDegree;
       }
     }
 

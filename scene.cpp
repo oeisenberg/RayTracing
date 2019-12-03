@@ -34,15 +34,15 @@ Scene::Scene(int w, int h)
   Material *shinyA = new Material(Colour(1.0, 0.0, 1.0), Colour(0.2, 0.2, 0.2), Colour(0.4, 0.4, 0.4), Colour(0.4, 0.4, 0.4), 20);
   Material *planes = new Material(Colour(0.3, 0.3, 0.3), Colour(0.2, 0.2, 0.2), Colour(0.3, 0.3, 0.3), Colour(0.1, 0.1, 0.1), 20);
   // Material *tpot = new Material(Colour(1, 0, 0), 0.2, 0.3, 0.1);
-  Material *reflectiveA = new Material(Colour(0.0, 0.5, 0.0), Colour(0.5, 0.5, 0.5), Colour(0.5, 0.5, 0.5), Colour(0.3, 0.3, 0.3), 20, true, 1);
-  Material *transparantA = new Material(Colour(0.3, 0.3, 0.3), Colour(0.2, 0.2, 0.2), Colour(0.5, 0.5, 0.5), Colour(0.2, 0.2, 0.2), 20, true, 1.52);
+  Material *reflectiveA = new Material(Colour(0.3, 1, 0.3), Colour(0.5, 0.5, 0.5), Colour(0.5, 0.5, 0.5), Colour(0.3, 0.3, 0.3), 20, 1);
+  Material *transparantA = new Material(Colour(0.5, 0.5, 0.5), Colour(0.2, 0.2, 0.2), Colour(0.3, 0.3, 0.3), Colour(0.2, 0.2, 0.2), 20, 0.5, 1, 1.33);
 
 
   // Add Objects
   addObject(new Sphere(Vertex(-2, 0, 7), 1, shinyA));
   addObject(new Sphere(Vertex( 2, 0, 7), 1, shinyA));
-  addObject(new Sphere(Vertex(0, 0, 9), 1.5, reflectiveA));
-  addObject(new Sphere(Vertex(0, -1, 5), 0.5, transparantA));
+  addObject(new Sphere(Vertex(0, 0, 11), 2.5, reflectiveA));
+  addObject(new Sphere(Vertex(0, -1, 5), 0.8, transparantA));
   // addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), shinyA);
   addObject(new Plane(Vertex(0, -3, 0), Vector(0, 1, 0), planes));
   addObject(new Plane(Vertex(0, 0, 21), Vector(0, 0, 1), planes));

@@ -14,13 +14,9 @@ Material::Material(Colour col, Colour ambientVal, Colour diffVal, Colour specVal
   diffuse = diffVal;
   specular = specVal;
   this->power = power;
-
-  this->isReflective = false;
-  this->isTransparent = false;
-  this->ior = 1;
 }
 
-Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour specVal, float power, bool reflectiveValue, float ior)
+Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour specVal, float power, float reflectionDegree)
 {
   this->colour = colour;
 
@@ -29,13 +25,30 @@ Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour spec
   this->specular = specVal;
   this->power = power;
 
-  this->isReflective = reflectiveValue;
-  if (ior != 1){
+  if (reflectionDegree != 0){
+    this->isReflective = true;
+    this->reflectionDegree = reflectionDegree;
+  }
+}
+
+Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour specVal, float power, float reflectionDegree, float transparentDegree, float ior)
+{
+  this->colour = colour;
+
+  this->ambeint = ambientVal;
+  this->diffuse = diffVal;
+  this->specular = specVal;
+  this->power = power;
+
+  if (reflectionDegree != 0){
+    this->isReflective = true;
+    this->reflectionDegree = reflectionDegree;
+  }
+
+  if (transparentDegree != 0){
     this->isTransparent = true;
+    this->transparentDegree = transparentDegree;
     this->ior = ior;
-  } else {
-    this->isTransparent = false;
-    this->ior = 1;
   }
 
 }
