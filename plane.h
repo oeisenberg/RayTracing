@@ -12,6 +12,6 @@ class Plane : public Object {
 	Vertex position;
 	Vector up;
 public:
-	Plane(Vertex position, Vector up, Material *m, float R, float G, float B);
+	Plane(Vertex position, Vector up, Material *m);
 	void intersection(Ray ray, Hit &hit);
 };

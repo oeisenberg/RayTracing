@@ -10,14 +10,10 @@
 #include "material.h"
 
 // Sphere Constructor
-Sphere::Sphere(Vertex c, float r, Material *m, float R_value, float G_value, float B_value)
+Sphere::Sphere(Vertex c, float r, Material *m)
 {
 	center = c;
 	radius = r;
-	R = R_value; G = G_value; B = B_value;
-	aCoeff = m->getAmbientValue();
-	dCoeff = m->getDiffuseValue();
-	sCoeff = m->getSpecularValue();
 	objMaterial = m;
 }
 

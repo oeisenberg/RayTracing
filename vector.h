@@ -60,6 +60,33 @@ public:
 		reflect.z = initial.z - d * z;
 	}
 
+	void refraction(Vector initial, float ior, Vector &refraction)
+	{
+		// https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel
+		Vector n = Vector(x, y, z);
+		n.normalise();
+
+		float NdotI = n.dot(initial);
+		NdotI = std::min(1.0f, std::max(NdotI, -1.0f));
+		float etai = 1; float etat = ior;
+
+		if (NdotI < 0){
+			NdotI = -NdotI;
+		} else {
+			n.negate();
+			std::swap(etai, etat);
+		}
+
+		float eta = etai / etat;
+		float k = 1 - eta * eta * (1 - NdotI * NdotI);
+
+		if (k < 0) {
+			//TIR therefore no refraction.
+		} else {
+			refraction = initial.multiply(eta) + n.multiply(eta * NdotI - sqrtf(k));
+		}
+	}
+
 	void negate()
 	{
 		x = -x;
@@ -74,7 +101,7 @@ public:
 	  result.z = x*other.y - y*other.x;
 	}
 
-	Vector multiply(int scalar)
+	Vector multiply(float scalar)
 	{
 		float new_x = x * scalar;
 		float new_y = y * scalar;

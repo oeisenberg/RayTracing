@@ -13,6 +13,7 @@
 #include "material.h"
 #include "hit.h"
 #include "vertex.h"
+#include "colour.h"
 
 class Object {
 public:
@@ -20,6 +21,8 @@ public:
 	float R;
 	float G;
 	float B;
+
+	Colour *colour;
 
 	// Ambeint Coeff
 	float aCoeff;
