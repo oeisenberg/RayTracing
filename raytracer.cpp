@@ -42,14 +42,6 @@ Hit checkForIntersection(Ray ray, float t, Hit closest, std::vector<Object*> obj
   return closest;
 }
 
-Colour getLightCoefficients(Scene *sc, Camera *camera, Hit closest, Object *obj){
-  Colour dCoeff = sc->DiffuseLightModel->getCoeff(sc->lights, sc->objects, closest, obj->dCoeff);
-  Colour sCoeff = sc->SpecularLightModel->getCoeff(sc->lights, sc->objects, closest, camera->e, obj->sCoeff);
-  Colour coeff = dCoeff + sCoeff;
-  coeff += sc->AmbientLightModel->getCoeff(obj->aCoeff);
-  return coeff;
-}
-
 Vector getLightDir(std::vector<Light*> lights, int iLight, Hit hitObj){
   Vector lightDir;
   try{

@@ -11,10 +11,6 @@
 #include "polymesh.h"
 #include "triangle.h"
 #include "vertex.h"
-#include "lightModel.h"
-#include "ambient.h"
-#include "diffuse.h"
-#include "specular.h"
 #include "spotlight.h"
 #include "pointlight.h"
 #include "material.h"
@@ -51,10 +47,6 @@ Scene::Scene(int w, int h)
   addLight(new Pointlight(Colour(0.5, 0.5, 0.5), new Vertex(0, 3, 7)));
   addLight(new Spotlight(Colour(0.6, 0.6, 0.6), new Vector(0.3, -1, 2)));
   addLight(new Spotlight(Colour(0.85, 0.85, 0.85), new Vector(-0.3, -1, 2)));
-
-  // Add Lighting Models
-  addLightModel(new Ambient(new Colour(0.2, 0.2, 0.2)));
-  addLightModel(new Diffuse());
 };
 
 void Scene::addObject(Object *newObject)
@@ -73,21 +65,6 @@ void Scene::addObject(PolyMesh *newObject, Material *m)
 
       addObject(new Triangle(a, b, c, m));
   }
-}
-
-void Scene::addLightModel(Ambient *newLightModel)
-{
-  AmbientLightModel = newLightModel;
-}
-
-void Scene::addLightModel(Diffuse *newLightModel)
-{
-  DiffuseLightModel = newLightModel;
-}
-
-void Scene::addLightModel(Specular *newLightModel)
-{
-  SpecularLightModel = newLightModel;
 }
 
 void Scene::addLight(Spotlight *newLight){
