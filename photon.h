@@ -27,8 +27,12 @@ public:
     flag = false;
 	}
 
-  void calcReflectionPower(float probability){
-    power = power / probability;
+  void addColour(Colour other){
+    power += other;
+  }
+
+  void calcReflectionPower(float probability, Colour coefficients){
+    power = (power * coefficients) / probability;
   }
 
   void storePosition(Hit h){
