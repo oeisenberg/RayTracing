@@ -27,8 +27,7 @@
 #include "object.h"
 #include "colour.h"
 #include "photon.h"
-#include "ap.h"
-#include "alglibmisc.h"
+#include "photonmap.h"
 
 
 Hit checkForIntersection(Ray ray, float t, Hit closest, std::vector<Object*> objs){
@@ -67,6 +66,7 @@ bool checkForShadow(Hit closest, std::vector<Object*> objs, Ray ray, Light* ligh
     }
     return false;
   };
+
 
 float fresnel(Vector lRayDir, Vector N, float ior){
     float cosi = N.dot(lRayDir);
@@ -181,7 +181,8 @@ Colour photontrace(Scene *sc, Camera *camera, Ray pRay, std::vector<Photon> &pho
       Vector r;
       closest.normal.reflection(pRay.direction, r);
       r.normalise();
-      pRay.photon.calcReflectionPower(probDiffuse);
+      pRay.photon.addColour(closest.what->objMaterial->computeBaseColour());
+      pRay.photon.calcReflectionPower(probDiffuse, closest.what->objMaterial->diffuse);
       Ray photonRay = Ray(closest.position, r.multiply(0.001f), pRay.photon);
       colour += photontrace(sc, camera, photonRay, photonHitsMap);
       // store photon-surface interaction
@@ -192,12 +193,14 @@ Colour photontrace(Scene *sc, Camera *camera, Ray pRay, std::vector<Photon> &pho
       Vector r;
       closest.normal.reflection(pRay.direction, r);
       r.normalise();
-      pRay.photon.calcReflectionPower(probSpecular);
+      pRay.photon.addColour(closest.what->objMaterial->computeBaseColour());
+      pRay.photon.calcReflectionPower(probSpecular, closest.what->objMaterial->specular);
       Ray photonRay = Ray(closest.position, r.multiply(0.001f), pRay.photon);
       colour += photontrace(sc, camera, photonRay, photonHitsMap);
     } else if (probDiffuse+probSpecular <= r && r <= 1) {
       // absorbed
       // store photon-surface interaction
+      // pRay.photon.addColour(closest.what->objMaterial->computeBaseColour());
       pRay.photon.storePosition(closest);
       photonHitsMap.push_back(pRay.photon);
     }
@@ -206,31 +209,10 @@ Colour photontrace(Scene *sc, Camera *camera, Ray pRay, std::vector<Photon> &pho
   return colour;
 }
 
-alglib::kdtree initKDTreeInput(std::vector<Photon> photonHitsMap) {
-    alglib::real_2d_array photons;
-    Photon ph;
-    photons.setlength(photonHitsMap.size(), 6);
-    for (int i = 0; i < photonHitsMap.size(); i++){
-        ph = photonHitsMap[i];
-        photons[i][0] = ph.x;
-        photons[i][1] = ph.y;
-        photons[i][2] = ph.z;
-        photons[i][3] = ph.power.R;
-        photons[i][4] = ph.power.G;
-        photons[i][5] = ph.power.B;
-    }
-
-    alglib::kdtree kdt;
-    alglib::ae_int_t nx = 3;
-    alglib::ae_int_t ny = 3;
-    alglib::ae_int_t normtype = 2;
-    kdtreebuild(photons, nx, ny, normtype, kdt);
-    return kdt;
-}
-
-void createPhotonMap(Scene *sc, Camera *camera){
-  int scale = 10000;
+PhotonMap createPhotonMap(Scene *sc, Camera *camera){
+  int scale = 100000;
   std::vector<Photon> photonHitsMap;
+  PhotonMap pm;
   for (float iLight = 0; iLight < sc->lights.size(); iLight++){
     int n_emittedPhotons = 0;
     Vector pDir; Vertex pPos;
@@ -238,7 +220,7 @@ void createPhotonMap(Scene *sc, Camera *camera){
       pDir = sc->lights[iLight]->getRandEmittionDirection();
       pPos = sc->lights[iLight]->getRandEmittionPosition();
 
-      Photon ph = Photon(sc->lights[iLight]->getIntensity() / scale * sc->lights[iLight]->getStrength());
+      Photon ph = Photon(sc->lights[iLight]->getIntensity());
 
       // trace from pPos to pDir
       Ray photonRay = Ray(pPos, pDir, ph);
@@ -249,9 +231,9 @@ void createPhotonMap(Scene *sc, Camera *camera){
   }
 
   // Add to KD Tree
-  // Scale & Balance KD tree
-  alglib::kdtree tree = initKDTreeInput(photonHitsMap);
-
+  // TODO: Scale tree? - take account of min max ?
+  pm.populateMap(photonHitsMap);
+  return pm;  
 }
 
 int main(int argc, char *argv[]){
@@ -273,7 +255,7 @@ int main(int argc, char *argv[]){
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
   // Create PhotonMap
-  createPhotonMap(sc, camera);
+  PhotonMap pm = createPhotonMap(sc, camera);
 
    for (int x = 0; x <= sc->width - 1; x++)
    {
