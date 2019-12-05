@@ -1,3 +1,0 @@
-/mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075/cmake-build-debug/CMakeFiles/finalexecutable.dir
-/mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075/cmake-build-debug/CMakeFiles/edit_cache.dir
