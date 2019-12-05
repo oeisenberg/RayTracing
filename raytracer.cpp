@@ -5,29 +5,31 @@
  */
 
 /*
- * g++ -o finalexecutable raytracer.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp plane.cpp triangle.cpp polymesh.cpp material.cpp spotlight.cpp pointlight.cpp -lm -O3
+ * g++ -o finalexecutable raytracer.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp plane.cpp triangle.cpp polymesh.cpp material.cpp spotlight.cpp pointlight.cpp alglibmisc.cpp alglibinternal.cpp ap.cpp -lm -O3
  *
  * Execute the code using ./finalexecutable
  *
  * pnmtopng test.ppm > test.png
  */
 
-#include <iostream>
+
 #include <limits>
 #include <stdlib.h>
 #include <time.h>
 
 #include "framebuffer.h"
-#include "linedrawer.h"
 #include "camera.h"
 #include "vector.h"
 #include "vertex.h"
-#include "sphere.h"
 #include "scene.h"
 #include "ray.h"
 #include "hit.h"
 #include "object.h"
 #include "colour.h"
+#include "photon.h"
+#include "ap.h"
+#include "alglibmisc.h"
+
 
 Hit checkForIntersection(Ray ray, float t, Hit closest, std::vector<Object*> objs){
   Hit new_t = Hit();
@@ -138,7 +140,7 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth){
         Vector r;
         SurfaceNormal.reflection(lRay.direction, r);
         r.normalise();
-        Ray reflectionRay = Ray(closest.position + r.multiply(1), r);
+        Ray reflectionRay = Ray(closest.position + r.multiply(0.001f), r);
         Colour reflectionColour = raytrace(sc, camera, reflectionRay, depth-1) * closest.what->objMaterial->reflectionDegree;
 
         colour += reflectionColour * kr + refractionColour * (1 - kr);
@@ -147,7 +149,7 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth){
         Vector r;
         SurfaceNormal.reflection(lRay.direction, r);
         r.normalise();
-        Ray reflectionRay = Ray(closest.position + r.multiply(1), r);
+        Ray reflectionRay = Ray(closest.position + r.multiply(0.001f), r);
 
         colour += raytrace(sc, camera, reflectionRay, depth-1) * closest.what->objMaterial->reflectionDegree;
       }
@@ -157,27 +159,78 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth){
   return colour;
 }
 
-void photontrace(Scene *sc, Camera *camera, Ray pRay, int depth){
+Colour photontrace(Scene *sc, Camera *camera, Ray pRay, std::vector<Photon> &photonHitsMap){
+  Colour colour = Colour();
 
+  Hit closest = Hit();
+  closest.t = std::numeric_limits<int>::max();
+  closest = checkForIntersection(pRay, closest.t, closest, sc->objects);
+
+  if (closest.t != std::numeric_limits<int>::max()){
+    colour = closest.what->objMaterial->computeBaseColour();
+
+    float probDiffuse = (pRay.photon.power * closest.what->objMaterial->diffuse).getStrength() / pRay.photon.power.getStrength();
+    float probSpecular = (pRay.photon.power * closest.what->objMaterial->specular).getStrength() / pRay.photon.power.getStrength();
+    float probAbsorbtion = 1 - (probDiffuse + probSpecular);
+
+    float r = (float) ((rand() % 100) + 1) / 100; // 0.00 to 1.00
+
+    // switch to determine type of ray
+    if (0 <= r && r < probDiffuse){
+      // diffuse reflection : calc power of new photon and trace it recursively until absorbtion
+      Vector r;
+      closest.normal.reflection(pRay.direction, r);
+      r.normalise();
+      pRay.photon.calcReflectionPower(probDiffuse);
+      Ray photonRay = Ray(closest.position, r.multiply(0.001f), pRay.photon);
+      colour += photontrace(sc, camera, photonRay, photonHitsMap);
+      // store photon-surface interaction
+      pRay.photon.storePosition(closest);
+      photonHitsMap.push_back(pRay.photon);
+    } else if (probDiffuse <= r && r < probDiffuse+probSpecular){
+      // specular reflection : calc power of new photon and trace it recursively until absorbtion
+      Vector r;
+      closest.normal.reflection(pRay.direction, r);
+      r.normalise();
+      pRay.photon.calcReflectionPower(probSpecular);
+      Ray photonRay = Ray(closest.position, r.multiply(0.001f), pRay.photon);
+      colour += photontrace(sc, camera, photonRay, photonHitsMap);
+    } else if (probDiffuse+probSpecular <= r && r <= 1) {
+      // absorbed
+      // store photon-surface interaction
+      pRay.photon.storePosition(closest);
+      photonHitsMap.push_back(pRay.photon);
+    }
+  }
+
+  return colour;
 }
 
-int main(int argc, char *argv[]){
-  srand (static_cast <unsigned> (time(0))); // https://stackoverflow.com/questions/686353/random-float-number-generation
+alglib::kdtree initKDTreeInput(std::vector<Photon> photonHitsMap) {
+    alglib::real_2d_array photons;
+    Photon ph;
+    photons.setlength(photonHitsMap.size(), 6);
+    for (int i = 0; i < photonHitsMap.size(); i++){
+        ph = photonHitsMap[i];
+        photons[i][0] = ph.x;
+        photons[i][1] = ph.y;
+        photons[i][2] = ph.z;
+        photons[i][3] = ph.power.R;
+        photons[i][4] = ph.power.G;
+        photons[i][5] = ph.power.B;
+    }
 
-  // Create Camera
-  Vertex eye = Vertex(0, 0, 0);
-  Vertex look = Vertex(0, 0, 7);
-  Vector up = Vector(0, 1, 0);
-  float dist = 400;
-  float FOV = 1; // RAD
-  Camera *camera = new Camera(eye, look, up, dist, FOV);
+    alglib::kdtree kdt;
+    alglib::ae_int_t nx = 3;
+    alglib::ae_int_t ny = 3;
+    alglib::ae_int_t normtype = 2;
+    kdtreebuild(photons, nx, ny, normtype, kdt);
+    return kdt;
+}
 
-  // Create a framebuffer
-  Scene *sc = new Scene(600, 600); // 2048
-  FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
-
-  // Create PhotonMap
-  int scale = 100;
+void createPhotonMap(Scene *sc, Camera *camera){
+  int scale = 10000;
+  std::vector<Photon> photonHitsMap;
   for (float iLight = 0; iLight < sc->lights.size(); iLight++){
     int n_emittedPhotons = 0;
     Vector pDir; Vertex pPos;
@@ -189,44 +242,49 @@ int main(int argc, char *argv[]){
 
       // trace from pPos to pDir
       Ray photonRay = Ray(pPos, pDir, ph);
-      Hit closest = Hit();
-      closest.t = std::numeric_limits<int>::max();
-      closest = checkForIntersection(photonRay, closest.t, closest, sc->objects);
-
-      if (closest.t != std::numeric_limits<int>::max()){
-        float probDiffuse = (sc->lights[iLight]->getIntensity() * closest.what->objMaterial->diffuse).getStrength() / sc->lights[iLight]->getStrength();
-        float probSpecular = (sc->lights[iLight]->getIntensity() * closest.what->objMaterial->specular).getStrength() / sc->lights[iLight]->getStrength();
-        float probAbsorbtion = 1 - (probDiffuse + probSpecular);
-
-        float r = (float) ((rand() % 100) + 1) / 100; // 0.00 to 1.00
-
-        // switch to determine type of ray
-        if (0 <= r && r < probDiffuse){
-          // diffuse reflection
-          
-        } else if (probDiffuse <= r && r < probDiffuse+probSpecular){
-          // specular reflection
-
-        } else if (probDiffuse+probSpecular <= r && r <= 1) {
-          // absorbed
-        }
-      }
+      photontrace(sc, camera, photonRay, photonHitsMap);
 
       n_emittedPhotons ++;
     }
   }
-  // Scale & Balance KD tree
 
-  for (int x = 0; x <= sc->width - 1; x++)
-  {
-    for (int y = 0; y <= sc->height - 1; y++)
-    {
-      Ray ray = camera->getRay(sc, x, y);
-      int depth = 4;
-      Colour baseColour = raytrace(sc, camera, ray, depth);
-      fb->plotPixel(x, y, baseColour.R, baseColour.G, baseColour.B);
-    }
-  }
+  // Add to KD Tree
+  // Scale & Balance KD tree
+  alglib::kdtree tree = initKDTreeInput(photonHitsMap);
+
+}
+
+int main(int argc, char *argv[]){
+    using namespace alglib_impl;
+
+  // https://stackoverflow.com/questions/686353/random-float-number-generation
+  srand (static_cast <unsigned> (time(0)));
+
+  // Create Camera
+  Vertex eye = Vertex(0, 0, 0);
+  Vertex look = Vertex(0, 0, 7);
+  Vector up = Vector(0, 1, 0);
+  float dist = 700;
+  float FOV = 0.9; // RAD
+  Camera *camera = new Camera(eye, look, up, dist, FOV);
+
+  // Create a framebuffer
+  Scene *sc = new Scene(1024, 1024); // 2048
+  FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
+
+  // Create PhotonMap
+  createPhotonMap(sc, camera);
+
+   for (int x = 0; x <= sc->width - 1; x++)
+   {
+     for (int y = 0; y <= sc->height - 1; y++)
+     {
+       Ray ray = camera->getRay(sc, x, y);
+       int depth = 4;
+       Colour baseColour = raytrace(sc, camera, ray, depth);
+       fb->plotPixel(x, y, baseColour.R, baseColour.G, baseColour.B);
+     }
+   }
 
   // Output the framebuffer.
   fb->writeRGBFile((char *)"test.ppm");

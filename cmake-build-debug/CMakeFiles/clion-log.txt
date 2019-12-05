@@ -1,0 +1,4 @@
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=/usr/bin/c++ -G "CodeBlocks - Unix Makefiles" "/mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075/cmake-build-debug

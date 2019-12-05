@@ -1,0 +1,55 @@
+The system is: Linux - 4.4.0-18362-Microsoft - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075/cmake-build-debug/CMakeFiles/3.10.2/CompilerIdC/a.out"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /usr/bin/c++ 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is GNU, found in "/mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075/cmake-build-debug/CMakeFiles/3.10.2/CompilerIdCXX/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_8a46c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8a46c.dir/build.make CMakeFiles/cmTC_8a46c.dir/build
+make[1]: Entering directory '/mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_8a46c.dir/testCCompiler.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_8a46c.dir/testCCompiler.c.o   -c "/mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075/cmake-build-debug/CMakeFiles/CMakeTmp/testCCompiler.c"
+Linking C executable cmTC_8a46c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8a46c.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_8a46c.dir/testCCompiler.c.o  -o cmTC_8a46c 
+make[1]: Leaving directory '/mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_830e9/fast"
+/usr/bin/make -f CMakeFiles/cmTC_830e9.dir/build.make CMakeFiles/cmTC_830e9.dir/build
+make[1]: Entering directory '/mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_830e9.dir/testCXXCompiler.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTC_830e9.dir/testCXXCompiler.cxx.o -c "/mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075/cmake-build-debug/CMakeFiles/CMakeTmp/testCXXCompiler.cxx"
+Linking CXX executable cmTC_830e9
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_830e9.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_830e9.dir/testCXXCompiler.cxx.o  -o cmTC_830e9 
+make[1]: Leaving directory '/mnt/c/Users/olive/Dropbox/University/Y4/Semester 1/CM30075 Advanced Computer Graphics/CM30075/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
