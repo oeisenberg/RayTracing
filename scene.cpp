@@ -28,10 +28,10 @@ Scene::Scene(int w, int h)
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Init Objs Materials
-  Material *shinyA = new Material(Colour(1.0, 0.0, 1.0), Colour(0.2, 0.2, 0.2), Colour(0.5, 0.5, 0.5), Colour(0.7, 0.7, 0.7), 20);
+  Material *shinyA = new Material(Colour(1.0, 0.0, 1.0), Colour(0.2, 0.2, 0.2), Colour(0.5, 0.0, 0.5), Colour(0.7, 0.7, 0.7), 20);
   Material *planesA = new Material(Colour(1.0, 1.0, 1.0), Colour(0.4, 0.4, 0.4), Colour(0.3, 0.3, 0.3), Colour(0.5, 0.5, 0.5), 20);
-  Material *planesB = new Material(Colour(0.1, 0.1, 0.8), Colour(0.4, 0.4, 0.4), Colour(0.3, 0.3, 0.3), Colour(0.5, 0.5, 0.5), 20);
-  Material *planesC = new Material(Colour(0.8, 0.1, 0.1), Colour(0.4, 0.4, 0.4), Colour(0.3, 0.3, 0.3), Colour(0.5, 0.5, 0.5), 20);
+  Material *planesB = new Material(Colour(0.1, 0.1, 0.8), Colour(0.4, 0.4, 0.4), Colour(0.3, 0.3, 0.5), Colour(0.5, 0.5, 0.5), 20);
+  Material *planesC = new Material(Colour(0.8, 0.1, 0.1), Colour(0.4, 0.4, 0.4), Colour(0.5, 0.3, 0.3), Colour(0.5, 0.5, 0.5), 20);
   Material *planesD = new Material(Colour(0.1, 0.1, 0.1), Colour(0.2, 0.2, 0.2), Colour(0.1, 0.1, 0.1), Colour(0.1, 0.1, 0.1), 20);
   // Material *tpot = new Material(Colour(1, 0, 0), 0.2, 0.3, 0.1);
   Material *reflectiveA = new Material(Colour(0.5, 0.5, 0.5), Colour(0.5, 0.5, 0.5), Colour(0.5, 0.5, 0.5), Colour(0.6, 0.6, 0.6), 20, 1);
