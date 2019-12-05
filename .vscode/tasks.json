@@ -1,0 +1,45 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558 
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "g++ build active file",
+            "command": "/usr/bin/g++",
+            // g++ -o finalexecutable raytracer.cpp framebuffer.cpp linedrawer.cpp camera.cpp sphere.cpp scene.cpp plane.cpp triangle.cpp polymesh.cpp material.cpp spotlight.cpp pointlight.cpp alglibmisc.cpp alglibinternal.cpp ap.cpp -lm -O3
+            "args": [
+                "-g",
+                "~/University/CM30075/raytracer.cpp",
+                "~/University/CM30075/framebuffer.cpp",
+                "~/University/CM30075/linedrawer.cpp",
+                "~/University/CM30075/camera.cpp",
+                "~/University/CM30075/sphere.cpp",
+                "~/University/CM30075/scene.cpp",
+                "~/University/CM30075/plane.cpp",
+                "~/University/CM30075/triangle.cpp",
+                "~/University/CM30075/polymesh.cpp",
+                "~/University/CM30075/material.cpp",
+                "~/University/CM30075/spotlight.cpp",
+                "~/University/CM30075/pointlight.cpp",
+                "~/University/CM30075/alglibmisc.cpp",
+                "~/University/CM30075/alglibinternal.cpp",
+                "~/University/CM30075/ap.cpp",
+                "-o",
+                "~/University/CM30075/finalexcecutable",
+                "-lm",
+                "-O3"
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
