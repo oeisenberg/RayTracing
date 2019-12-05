@@ -23,6 +23,7 @@
                 }
             ],
             "preLaunchTask": "g++ build active file",
+            "postDebugTask": "view ppm",
             "miDebuggerPath": "/usr/bin/gdb"
         }
     ]

@@ -37,6 +37,11 @@
                 "kind": "build",
                 "isDefault": true
             }
+        }, 
+        {
+            "type": "shell",
+            "label": "view ppm",
+            "command": "pnmtopng test.ppm > test.png"
         }
     ]
 }
