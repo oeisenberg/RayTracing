@@ -177,9 +177,8 @@ Colour photontrace(Scene *sc, Camera *camera, Photon pRay, std::vector<Photon> &
     // switch to determine type of ray
     if (0 <= r && r < probDiffuse){
       // diffuse reflection : calc power of new photon and trace it recursively until absorbtion
-      pRay.addColour(closest.what->objMaterial->computeBaseColour());
       photonHitsMap.push_back(pRay); // store photon-surface interaction
-
+      pRay.addColour(closest.what->objMaterial->computeBaseColour());
       Vector r;
       closest.normal.reflection(pRay.direction, r);
       r.normalise();
@@ -198,7 +197,6 @@ Colour photontrace(Scene *sc, Camera *camera, Photon pRay, std::vector<Photon> &
     } else if (probDiffuse+probSpecular <= r && r <= 1) {
       // absorbed
       // store photon-surface interaction
-      pRay.addColour(closest.what->objMaterial->computeBaseColour());
       photonHitsMap.push_back(pRay);
     }
   }
