@@ -32,12 +32,15 @@ private:
 		Photon ph;
 		for (int i = 0; i < inputData.size(); i++){
 			ph = inputData[i];
-			data[i][0] = ph.x;
-			data[i][1] = ph.y;
-			data[i][2] = ph.z;
-			data[i][3] = ph.power.R;
-			data[i][4] = ph.power.G;
-			data[i][5] = ph.power.B;
+			data[i][0] = ph.position.x;
+			data[i][1] = ph.position.y;
+			data[i][2] = ph.position.z;
+			data[i][3] = ph.direction.x;
+			data[i][4] = ph.direction.y;
+			data[i][5] = ph.direction.z;
+			data[i][6] = ph.power.R;
+			data[i][7] = ph.power.G;
+			data[i][8] = ph.power.B;
 		}
 
 		return data;
@@ -46,9 +49,12 @@ private:
 		std::vector<Photon> outputData;
 		Photon ph;
 		for (int i = 0; i < inputData.rows(); i++){
-			ph.x = inputData[i][0];
-			ph.y = inputData[i][1];
-			ph.z = inputData[i][2];
+			ph.position.x = inputData[i][0];
+			ph.position.y = inputData[i][1];
+			ph.position.z = inputData[i][2];
+			ph.direction.x = inputData[i][3];
+			ph.direction.y = inputData[i][4];
+			ph.direction.z = inputData[i][5];
 			ph.power.R = inputData[i][3];
 			ph.power.G = inputData[i][4];
 			ph.power.B = inputData[i][5];
@@ -67,7 +73,7 @@ public:
 	void populateMap(std::vector<Photon> inputData){
 		// wrapper function that prepares vector input into a 2D.
 		alglib::ae_int_t nx = 3;
-		alglib::ae_int_t ny = 3;
+		alglib::ae_int_t ny = 6;
 		alglib::ae_int_t normtype = 2;
 		alglib::real_2d_array photons = convertPhotonVectorTo2DArr(inputData, nx, ny);
 		kdtreebuild(photons, nx, ny, normtype, tree);
