@@ -11,14 +11,11 @@
 class Photon : public Ray {
 public:
   Colour power;
-  float x;
-  float y;
-  float z;
 
   Photon(){
 
   }
-  
+
   Photon(Vertex p, Vector d, Colour i)
 	{
 		position = p;
@@ -32,11 +29,5 @@ public:
 
   void calcReflectionPower(float probability, Colour coefficients){
     power = (power * coefficients) / probability;
-  }
-
-  void storePosition(Hit h){
-    x = h.position.x;
-    y = h.position.z;
-    z = h.position.y;
   }
 };

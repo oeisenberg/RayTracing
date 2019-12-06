@@ -177,16 +177,15 @@ Colour photontrace(Scene *sc, Camera *camera, Photon pRay, std::vector<Photon> &
     // switch to determine type of ray
     if (0 <= r && r < probDiffuse){
       // diffuse reflection : calc power of new photon and trace it recursively until absorbtion
+      pRay.addColour(closest.what->objMaterial->computeBaseColour());
+      photonHitsMap.push_back(pRay); // store photon-surface interaction
+
       Vector r;
       closest.normal.reflection(pRay.direction, r);
       r.normalise();
-      pRay.addColour(closest.what->objMaterial->computeBaseColour());
       pRay.calcReflectionPower(probDiffuse, closest.what->objMaterial->diffuse);
       Photon photonRay = Photon(closest.position, r.multiply(0.001f), pRay.power);
       colour += photontrace(sc, camera, photonRay, photonHitsMap);
-      // store photon-surface interaction
-      pRay.storePosition(closest);
-      photonHitsMap.push_back(pRay);
     } else if (probDiffuse <= r && r < probDiffuse+probSpecular){
       // specular reflection : calc power of new photon and trace it recursively until absorbtion
       Vector r;
@@ -199,8 +198,7 @@ Colour photontrace(Scene *sc, Camera *camera, Photon pRay, std::vector<Photon> &
     } else if (probDiffuse+probSpecular <= r && r <= 1) {
       // absorbed
       // store photon-surface interaction
-      // pRay.photon.addColour(closest.what->objMaterial->computeBaseColour());
-      pRay.storePosition(closest);
+      pRay.addColour(closest.what->objMaterial->computeBaseColour());
       photonHitsMap.push_back(pRay);
     }
   }
