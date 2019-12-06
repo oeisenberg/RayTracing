@@ -67,7 +67,6 @@ bool checkForShadow(Hit closest, std::vector<Object*> objs, Ray ray, Light* ligh
     return false;
   };
 
-
 float fresnel(Vector lRayDir, Vector N, float ior){
     float cosi = N.dot(lRayDir);
     cosi = std::min(1.0f, std::max(cosi, -1.0f));
@@ -159,7 +158,7 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth){
   return colour;
 }
 
-Colour photontrace(Scene *sc, Camera *camera, Ray pRay, std::vector<Photon> &photonHitsMap){
+Colour photontrace(Scene *sc, Camera *camera, Photon pRay, std::vector<Photon> &photonHitsMap){
   Colour colour = Colour();
 
   Hit closest = Hit();
@@ -169,8 +168,8 @@ Colour photontrace(Scene *sc, Camera *camera, Ray pRay, std::vector<Photon> &pho
   if (closest.t != std::numeric_limits<int>::max()){
     colour = closest.what->objMaterial->computeBaseColour();
 
-    float probDiffuse = (pRay.photon.power * closest.what->objMaterial->diffuse).getStrength() / pRay.photon.power.getStrength();
-    float probSpecular = (pRay.photon.power * closest.what->objMaterial->specular).getStrength() / pRay.photon.power.getStrength();
+    float probDiffuse = (pRay.power * closest.what->objMaterial->diffuse).getStrength() / pRay.power.getStrength();
+    float probSpecular = (pRay.power * closest.what->objMaterial->specular).getStrength() / pRay.power.getStrength();
     float probAbsorbtion = 1 - (probDiffuse + probSpecular);
 
     float r = (float) ((rand() % 100) + 1) / 100; // 0.00 to 1.00
@@ -181,28 +180,28 @@ Colour photontrace(Scene *sc, Camera *camera, Ray pRay, std::vector<Photon> &pho
       Vector r;
       closest.normal.reflection(pRay.direction, r);
       r.normalise();
-      pRay.photon.addColour(closest.what->objMaterial->computeBaseColour());
-      pRay.photon.calcReflectionPower(probDiffuse, closest.what->objMaterial->diffuse);
-      Ray photonRay = Ray(closest.position, r.multiply(0.001f), pRay.photon);
+      pRay.addColour(closest.what->objMaterial->computeBaseColour());
+      pRay.calcReflectionPower(probDiffuse, closest.what->objMaterial->diffuse);
+      Photon photonRay = Photon(closest.position, r.multiply(0.001f), pRay.power);
       colour += photontrace(sc, camera, photonRay, photonHitsMap);
       // store photon-surface interaction
-      pRay.photon.storePosition(closest);
-      photonHitsMap.push_back(pRay.photon);
+      pRay.storePosition(closest);
+      photonHitsMap.push_back(pRay);
     } else if (probDiffuse <= r && r < probDiffuse+probSpecular){
       // specular reflection : calc power of new photon and trace it recursively until absorbtion
       Vector r;
       closest.normal.reflection(pRay.direction, r);
       r.normalise();
-      pRay.photon.addColour(closest.what->objMaterial->computeBaseColour());
-      pRay.photon.calcReflectionPower(probSpecular, closest.what->objMaterial->specular);
-      Ray photonRay = Ray(closest.position, r.multiply(0.001f), pRay.photon);
+      pRay.addColour(closest.what->objMaterial->computeBaseColour());
+      pRay.calcReflectionPower(probSpecular, closest.what->objMaterial->specular);
+      Photon photonRay = Photon(closest.position, r.multiply(0.001f), pRay.power);
       colour += photontrace(sc, camera, photonRay, photonHitsMap);
     } else if (probDiffuse+probSpecular <= r && r <= 1) {
       // absorbed
       // store photon-surface interaction
       // pRay.photon.addColour(closest.what->objMaterial->computeBaseColour());
-      pRay.photon.storePosition(closest);
-      photonHitsMap.push_back(pRay.photon);
+      pRay.storePosition(closest);
+      photonHitsMap.push_back(pRay);
     }
   }
 
@@ -220,10 +219,8 @@ PhotonMap createPhotonMap(Scene *sc, Camera *camera){
       pDir = sc->lights[iLight]->getRandEmittionDirection();
       pPos = sc->lights[iLight]->getRandEmittionPosition();
 
-      Photon ph = Photon(sc->lights[iLight]->getIntensity());
-
       // trace from pPos to pDir
-      Ray photonRay = Ray(pPos, pDir, ph);
+      Photon photonRay = Photon(pPos, pDir, sc->lights[iLight]->getIntensity());
       photontrace(sc, camera, photonRay, photonHitsMap);
 
       n_emittedPhotons ++;

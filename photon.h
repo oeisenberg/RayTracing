@@ -7,24 +7,23 @@
 #pragma once
 
 #include "colour.h"
-#include "hit.h"
 
-class Photon {
+class Photon : public Ray {
 public:
   Colour power;
-  bool flag;
   float x;
   float y;
   float z;
 
-	Photon()
-	{
-	}
+  Photon(){
 
-	Photon(Colour i)
+  }
+  
+  Photon(Vertex p, Vector d, Colour i)
 	{
-    power = i;
-    flag = false;
+		position = p;
+		direction = d;
+	  power = i;
 	}
 
   void addColour(Colour other){
