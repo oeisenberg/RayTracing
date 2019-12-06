@@ -10,13 +10,26 @@
 
 #include "ap.h"
 #include "alglibmisc.h"
+#include <math.h>
 #include "photon.h"
 #include "vertex.h"
+#include "colour.h"
 
 class PhotonMap {
 private:
+	int nSamples;
 	alglib::kdtree tree;
 
+	Colour calcTotalIncomingFlux(Vertex position){
+		return getTotalIntensity(getNSurroundingPoints(position));
+	}
+	std::vector<Photon> getNSurroundingPoints(Vertex position){
+		alglib::real_1d_array query = convertVertex(position);
+		alglib::real_2d_array outputData;
+		kdtreequeryknn(tree, query, nSamples);
+		kdtreequeryresultsxy(tree, outputData);
+		return convert2DArrToPhotonVector(outputData);
+	}
 	alglib::real_1d_array convertVertex(Vertex point){
 		alglib::real_1d_array data;
 		data.setlength(3);
@@ -63,11 +76,36 @@ private:
 
 		return outputData;
 	}
+	Colour getTotalIntensity(std::vector<Photon> ph){
+		Colour maxColour;
+
+		for (int i = 0; i < ph.size(); i++){
+			maxColour += ph[i].power;
+		}
+		return maxColour;
+	}
+	float getMax(alglib::real_1d_array arr){
+		float max = std::numeric_limits<float>::min();
+		for (int iElement = 0; iElement <= arr.length(); iElement++){
+			if (arr[iElement] > max){
+				max = arr[iElement];
+			}
+		}
+		return max;
+	}	
+	float calculateAreaofPoints(){
+		alglib::real_1d_array outputData;
+		outputData.setlength(nSamples);
+	 	kdtreequeryresultsdistances(tree, outputData);
+		float maxDistance = getMax(outputData);
+		return M_PI * pow(maxDistance, 2);
+	}
 
 public:
 
-	PhotonMap(){
-		// wrapper class constructor 
+	PhotonMap(int nsamples){
+		// wrapper class constructor
+		nSamples = nsamples;
 	}
 
 	void populateMap(std::vector<Photon> inputData){
@@ -79,12 +117,9 @@ public:
 		kdtreebuild(photons, nx, ny, normtype, tree);
 	}
 
-	std::vector<Photon> getNSurroundingPoints(Vertex position, int nSamples){
-		alglib::real_1d_array query = convertVertex(position);
-		alglib::real_2d_array outputData;
-		kdtreequeryknn(tree, query, nSamples);
-		kdtreequeryresultsxy(tree, outputData);
-		return convert2DArrToPhotonVector(outputData);
+	Colour calcRadiance(Vertex position){
+		Colour c = calcTotalIncomingFlux(position);
+		float a = calculateAreaofPoints();
+		return c / a;
 	}
-
 };

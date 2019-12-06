@@ -207,7 +207,7 @@ Colour photontrace(Scene *sc, Camera *camera, Photon pRay, std::vector<Photon> &
 PhotonMap createPhotonMap(Scene *sc, Camera *camera){
   int scale = 100000;
   std::vector<Photon> photonHitsMap;
-  PhotonMap pm;
+  PhotonMap pm(15);
   for (float iLight = 0; iLight < sc->lights.size(); iLight++){
     int n_emittedPhotons = 0;
     Vector pDir; Vertex pPos;
