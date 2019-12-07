@@ -32,7 +32,7 @@ float Spotlight::getDistance(Vertex pointA){
 }
 
 Vector Spotlight::getRandEmittionDirection(){
-  // TODO: Complete fcn stub
+  return this->direction;
 }
 
 Vertex Spotlight::getRandEmittionPosition(){
