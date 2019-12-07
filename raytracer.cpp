@@ -57,41 +57,41 @@ Vector getLightDir(std::vector<Light*> lights, int iLight, Hit hitObj){
 }
 
 bool checkForShadow(Hit closest, std::vector<Object*> objs, Ray ray, Light* light){
-    Hit new_t = Hit();
-    float light_distance = light->getDistance(closest.position);
-    for (int i = 0; i < objs.size(); i++) {
-      objs[i]->intersection(ray, new_t);
+  Hit new_t = Hit();
+  float light_distance = light->getDistance(closest.position);
+  for (int i = 0; i < objs.size(); i++) {
+    objs[i]->intersection(ray, new_t);
 
-      if (new_t.flag && ((light_distance-new_t.t) >= 0)) return true;
-    }
-    return false;
-  };
+    if (new_t.flag && ((light_distance-new_t.t) >= 0)) return true;
+  }
+  return false;
+}
 
 float fresnel(Vector lRayDir, Vector N, float ior){
-    float cosi = N.dot(lRayDir);
-    cosi = std::min(1.0f, std::max(cosi, -1.0f));
-    float etai = 1, etat = ior;
-    if (cosi > 0) { std::swap(etai, etat); }
-    // Compute sini using Snell's law
-    float sint = etai / etat * sqrtf(std::max(0.f, 1 - cosi * cosi));
-    // Total internal reflection
-    if (sint >= 1) {
-        float kr = 1;
-        return kr;
-    } else {
-        float cost = sqrtf(std::max(0.f, 1 - sint * sint));
-        cosi = fabsf(cosi);
-        float Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost));
-        float Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost));
-        float kr = (Rs * Rs + Rp * Rp) / 2;
-        return kr;
-    }
-    // As a consequence of the conservation of energy, transmittance is given by:
-    // kt = 1 - kr;
+  float cosi = N.dot(lRayDir);
+  cosi = std::min(1.0f, std::max(cosi, -1.0f));
+  float etai = 1, etat = ior;
+  if (cosi > 0) { std::swap(etai, etat); }
+  // Compute sini using Snell's law
+  float sint = etai / etat * sqrtf(std::max(0.f, 1 - cosi * cosi));
+  // Total internal reflection
+  if (sint >= 1) {
+      float kr = 1;
+      return kr;
+  } else {
+      float cost = sqrtf(std::max(0.f, 1 - sint * sint));
+      cosi = fabsf(cosi);
+      float Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost));
+      float Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost));
+      float kr = (Rs * Rs + Rp * Rp) / 2;
+      return kr;
+  }
+  // As a consequence of the conservation of energy, transmittance is given by:
+  // kt = 1 - kr;
 
 }
 
-Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth, PhotonMap &pm){
+Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth, PhotonMap &dPm, PhotonMap &cPm){
   Colour colour = Colour();
 
   Hit closest = Hit();
@@ -115,7 +115,8 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth, PhotonMap &pm){
           // Colour scale = sc->lights[iLight]->getIntensity();
           // Colour intensity = closest.what->objMaterial->compute_light_colour(SurfaceNormal, camera->e - closest.position, lightDir, diff);
           // colour += intensity * scale;
-          colour += pm.calcRadiance(closest.position);
+          // colour += dPm.calcRadiance(closest.position);
+          colour += cPm.calcRadiance(closest.position);
         }
       }
     }
@@ -134,14 +135,14 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth, PhotonMap &pm){
           refraction.normalise();
           Vertex origin = outside ? closest.position - bias  : closest.position + bias;
           Ray transparentRay = Ray(origin, refraction);
-          refractionColour += raytrace(sc, camera, transparentRay, depth-1, pm) * closest.what->objMaterial->transparentDegree;
+          refractionColour += raytrace(sc, camera, transparentRay, depth-1, dPm, cPm) * closest.what->objMaterial->transparentDegree;
         }
 
         Vector r;
         SurfaceNormal.reflection(lRay.direction, r);
         r.normalise();
         Ray reflectionRay = Ray(closest.position + r.multiply(0.001f), r);
-        Colour reflectionColour = raytrace(sc, camera, reflectionRay, depth-1, pm) * closest.what->objMaterial->reflectionDegree;
+        Colour reflectionColour = raytrace(sc, camera, reflectionRay, depth-1, dPm, cPm) * closest.what->objMaterial->reflectionDegree;
 
         colour += reflectionColour * kr + refractionColour * (1 - kr);
     } else {
@@ -150,7 +151,7 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth, PhotonMap &pm){
         SurfaceNormal.reflection(lRay.direction, r);
         r.normalise();
         Ray reflectionRay = Ray(closest.position + r.multiply(0.001f), r);
-        colour += raytrace(sc, camera, reflectionRay, depth-1, pm) * closest.what->objMaterial->reflectionDegree;
+        colour += raytrace(sc, camera, reflectionRay, depth-1, dPm, cPm) * closest.what->objMaterial->reflectionDegree;
       }
     }
 
@@ -228,20 +229,20 @@ PhotonMap createCausticPhotonMap(Scene *sc, Camera *camera, int scale, int nSamp
   PhotonMap pm(nSamples);
   for (float iLight = 0; iLight < sc->lights.size(); iLight++){
     for (float iObj = 0; iObj < sc->objects.size(); iObj++){
-      if (!sc->objects[iObj]->objMaterial->isTransparent) break;
+      if (sc->objects[iObj]->objMaterial->isTransparent){
+        int n_emittedPhotons = 0;
+        Vector pDir; Vertex pPos;
+        while (n_emittedPhotons < scale * sc->lights[iLight]->getStrength()){
+          pPos = sc->lights[iLight]->getRandEmittionPosition();
+          pDir = sc->objects[iObj]->calcSurfacePoint() - pPos;
+          pDir.normalise();
 
-      int n_emittedPhotons = 0;
-      Vector pDir; Vertex pPos;
-      while (n_emittedPhotons < scale * sc->lights[iLight]->getStrength()){
-        pDir = sc->lights[iLight]->getRandEmittionDirection(sc->objects[iObj]);
-        pPos = sc->lights[iLight]->getRandEmittionPosition();
+          Photon photonRay = Photon(pPos, pDir, sc->lights[iLight]->getIntensity());
+          photontrace(sc, camera, photonRay, photonHitsMap);
 
-        Photon photonRay = Photon(pPos, pDir, sc->lights[iLight]->getIntensity());
-        // photontrace(sc, camera, photonRay, photonHitsMap);
-
-        n_emittedPhotons ++;
+          n_emittedPhotons ++;
+        }
       }
-
     }
   }
 
@@ -259,18 +260,18 @@ int main(int argc, char *argv[]){
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 200;
+  float dist = 350;
   float FOV = 0.9; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
   // Create a framebuffer
-  Scene *sc = new Scene(256, 256); // 2048
+  Scene *sc = new Scene(512, 512); // 2048
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
   // Create direct photon map
   PhotonMap directPm = createDirectPhotonMap(sc, camera, 100000, 300);
-  // Create indirect photon map
-  PhotonMap causticPm = createCausticPhotonMap(sc, camera, 500, 10);
+  // Create caustic photon map
+  PhotonMap causticPm = createCausticPhotonMap(sc, camera, 5000, 100);
 
    for (int x = 0; x <= sc->width - 1; x++)
    {
@@ -278,7 +279,7 @@ int main(int argc, char *argv[]){
      { 
       Ray ray = camera->getRay(sc, x, y);
       int depth = 4;
-      Colour baseColour = raytrace(sc, camera, ray, depth, directPm);
+      Colour baseColour = raytrace(sc, camera, ray, depth, directPm, causticPm);
       fb->plotPixel(x, y, baseColour.R, baseColour.G, baseColour.B);
      }
      std::cout << "Col " << x << std::endl;

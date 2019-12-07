@@ -16,4 +16,5 @@ class Sphere : public Object {
 public:
 	Sphere(Vertex c, float r, Material *m);
 	void intersection(Ray ray, Hit &hit);
+	Vertex calcSurfacePoint();
 };

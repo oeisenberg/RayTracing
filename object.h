@@ -47,6 +47,9 @@ public:
 	{
 
 	}
+
+	virtual Vertex calcSurfacePoint(){
+	}
 };
 
 #endif
