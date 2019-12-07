@@ -68,9 +68,9 @@ private:
 			ph.direction.x = inputData[i][3];
 			ph.direction.y = inputData[i][4];
 			ph.direction.z = inputData[i][5];
-			ph.power.R = inputData[i][3];
-			ph.power.G = inputData[i][4];
-			ph.power.B = inputData[i][5];
+			ph.power.R = inputData[i][6];
+			ph.power.G = inputData[i][7];
+			ph.power.B = inputData[i][8];
 			outputData.push_back(ph);
 		}
 
@@ -85,13 +85,7 @@ private:
 		return maxColour;
 	}
 	float getMax(alglib::real_1d_array arr){
-		float max = std::numeric_limits<float>::min();
-		for (int iElement = 0; iElement <= arr.length(); iElement++){
-			if (arr[iElement] > max){
-				max = arr[iElement];
-			}
-		}
-		return max;
+		return arr[arr.length()-1]; 
 	}	
 	float calculateAreaofPoints(){
 		alglib::real_1d_array outputData;
