@@ -23,9 +23,9 @@
                 "${workspaceFolder}/alglibinternal.cpp",
                 "${workspaceFolder}/ap.cpp",
                 "-o",
-                "${workspaceFolder}/finalexcecutable",
+                "${workspaceFolder}/finalexecutable",
                 "-lm",
-                "-O3"
+                "-O3" // -O3
             ],
             "options": {
                 "cwd": "/usr/bin"
