@@ -20,7 +20,7 @@ public:
 
 	int width;
 	int height;
-	int nObjects;
+	int nObjects = 0;
 	std::vector<Object*> objects;
 	std::vector<Light*> lights;
 
