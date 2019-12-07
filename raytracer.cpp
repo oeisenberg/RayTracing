@@ -115,9 +115,9 @@ Colour raytrace(Scene *sc, Camera *camera, Ray lRay, int depth, PhotonMap &dPm, 
           // Colour scale = sc->lights[iLight]->getIntensity();
           // Colour intensity = closest.what->objMaterial->compute_light_colour(SurfaceNormal, camera->e - closest.position, lightDir, diff);
           // colour += intensity * scale;
-          // colour += dPm.calcRadiance(closest.position);
-          colour += cPm.calcRadiance(closest.position);
+          colour += dPm.calcRadiance(closest.position);
         }
+         colour += cPm.calcRadiance(closest.position);
       }
     }
  
@@ -271,7 +271,7 @@ int main(int argc, char *argv[]){
   // Create direct photon map
   PhotonMap directPm = createDirectPhotonMap(sc, camera, 100000, 300);
   // Create caustic photon map
-  PhotonMap causticPm = createCausticPhotonMap(sc, camera, 5000, 100);
+  PhotonMap causticPm = createCausticPhotonMap(sc, camera, 5000, 10);
 
    for (int x = 0; x <= sc->width - 1; x++)
    {
