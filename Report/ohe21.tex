@@ -12,9 +12,11 @@
 \twocolumn
 \section{Labs}
 \subsection{Lab 1 - Rasterising Lines}
+The line drawing function was updated to use an interger based approach. Originally the algorithm was used for positive x,y values and then altered by mirroring the result onto the other three quadrants. This created the following image \textit{ref}. This seems correct, however, on further inspecution it was realised that the lines seemed to have a double thickness. This was thought to have occoured as the conditions to be in what quadrant was changing as the line was drawn. Therefore the process was reattempted in an effort to improve and refactor code.
 
+The result was the correct output as shown here. This was done by .. . Code was refactered into a single x and y direction methods where an intial function call was responsible for determining when to call the relevant one. By calulating directions based off of the start and end coordinates.
 \subsection{Lab 2 - Reading Models}
-
+As the teapot consists of several triangles, a single triganle was considered to be an object. Therefore in the scene class a 
 \subsection{Lab 3 - Simple Raytracing}
 \subsubsection{Raycasting }
 \subsubsection{Triangle intersection}
@@ -24,13 +26,25 @@ To compute triangle intersections the Möller–Trumbore algorithm was used. Thi
 \subsubsection{Spotlights}
 
 \subsubsection{Pointlights}
-The slides refer to two methods to create pointlights, with and without an associated direction. As spot lights are directional, pointlights with a constant intensity were implemented. This allows a pointlight to be placed between objects to cast shadow outwa
+The slides refer to two methods to create pointlights, with and without an associated direction. As spot lights are directional, pointlights with a constant intensity were implemented. This allows a pointlight to be placed between objects to cast shadow outwardss.
 \subsubsection{Shadows}
-
+r
 \section{Optimisations}
+Coloured Diffuse
+
 
 \section{Advanced Features}
-
-
+\subsection{Photon Mapping}
+Some difficulty was encounted when choosing static libraries, this heavily influenced the choosen library to handle KD Trees. The library choosen is \textit{Alglib} was it was written to be added like normal classes where you include the relevant headers and compile the cpp files. 
+\subsubsection{Random emmition - Lighting}
+Lights had to updated with relevant random emisision direction and position functions. Dending on the light 
+Pointlight
+Direction
+\textbf{Position}
+Spotlight
+Direction
+\textbf{Position}
+\subsubsection{Specular}
+\subsubsection{Caustics}
 
 \end{document}
