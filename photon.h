@@ -11,13 +11,17 @@
 class Photon : public Ray {
 public:
   Colour power;
+  std::string type;
 
   Photon(){
-
+    position = Vertex();
+    direction = Vector();
+    power = Colour();
   }
 
-  Photon(Vertex p, Vector d, Colour i)
+  Photon(std::string t, Vertex p, Vector d, Colour i)
 	{
+    type = t;
 		position = p;
 		direction = d;
 	  power = i;
