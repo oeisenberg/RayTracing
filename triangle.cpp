@@ -84,3 +84,13 @@ void Triangle::intersection(Ray ray, Hit &hit)
 
 	return;
 }
+
+Vertex Triangle::calcSurfacePoint(){
+	int min = -1;
+  	int max = 1;
+	float x, y, z, r;
+	r = (float) rand() / (float) RAND_MAX; x = min + r * (max - min);
+	r = (float) rand() / (float) RAND_MAX; y = min + r * (max - min);
+	r = (float) rand() / (float) RAND_MAX; z = min + r * (max - min);
+	return Vertex(a.x+x, a.y+y, a.z+z);
+}

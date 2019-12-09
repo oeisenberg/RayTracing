@@ -14,4 +14,5 @@ class Plane : public Object {
 public:
 	Plane(Vertex position, Vector up, Material *m);
 	void intersection(Ray ray, Hit &hit);
+	Vertex calcSurfacePoint();
 };

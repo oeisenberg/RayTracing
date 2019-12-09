@@ -40,3 +40,23 @@ void Plane::intersection(Ray ray, Hit &hit)
 
   return;
 }
+
+Vertex Plane::calcSurfacePoint(){
+	int min = -10;
+  int max = 10;
+  float a, b, r;
+  r = (float) rand() / (float) RAND_MAX; a = min + r * (max - min);
+  r = (float) rand() / (float) RAND_MAX; b = min + r * (max - min);
+
+  if (up.x == 1){
+    return Vertex(1, a, b);
+  } else if (up.y == 1){
+    return Vertex(a, 1, b);
+  } else if  (up.z == 1){
+    return Vertex(a, b, 1);
+  } else {
+    // Throw exception?
+    std::cout << "Plane.cpp ln 59: What is up?" << std::endl;
+    return Vertex(0,0,0);
+  }
+}

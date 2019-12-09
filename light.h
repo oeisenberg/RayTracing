@@ -12,6 +12,7 @@
 #include "vector.h"
 #include "colour.h"
 #include "vertex.h"
+#include "object.h"
 
 class Light {
 protected:
@@ -43,6 +44,7 @@ public:
   float getStrength(){
     return intensity.getStrength();
   };
+
 };
 
 // TODO: how to show a light source?
