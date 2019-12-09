@@ -10,8 +10,7 @@
 
 class Photon : public Ray {
 public:
-  Colour power;
-  std::string type;
+  Colour power; 
 
   Photon(){
     position = Vertex();
@@ -33,5 +32,6 @@ public:
 
   void calcReflectionPower(float probability, Colour coefficients){
     power = (power * coefficients) / probability;
+    // power = coefficients;
   }
 };

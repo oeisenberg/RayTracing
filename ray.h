@@ -16,6 +16,7 @@ class Ray {
 public:
 	Vertex position;
 	Vector direction;
+	std::string type;
 
 	Ray()
 	{
@@ -23,6 +24,14 @@ public:
 
 	Ray(Vertex p, Vector d)
 	{
+		type = " ";
+		position = p;
+		direction = d;
+	}
+
+	Ray(std::string t, Vertex p, Vector d)
+	{
+		type = t;
 		position = p;
 		direction = d;
 	}
