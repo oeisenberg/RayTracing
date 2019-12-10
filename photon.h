@@ -30,7 +30,7 @@ public:
     power += other;
   }
 
-  void calcReflectionPower(float probability, Colour coefficients){
+  void calcTransmissivePower(float probability, Colour coefficients){
     power = (power * coefficients) / probability;
     // power = coefficients;
   }
