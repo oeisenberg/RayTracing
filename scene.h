@@ -24,6 +24,7 @@ public:
 	std::vector<Object*> objects;
 	std::vector<Light*> lights;
 
+	Scene();
 	Scene(int w, int h);
 	void addObject(Object *newObject);
 	void addObject(PolyMesh *newObject, Material *m);

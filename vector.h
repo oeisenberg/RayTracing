@@ -87,6 +87,21 @@ public:
 		}
 	}
 
+	void diffreflection(Vector initial, Vector &reflect){
+	int min = -1;
+	int max = 1;
+	float x, y, z, r;
+	Vector v;
+	do {
+		r = (float) rand() / (float) RAND_MAX; x = min + r * (max - min);
+		r = (float) rand() / (float) RAND_MAX; y = min + r * (max - min);
+		r = (float) rand() / (float) RAND_MAX; z = min + r * (max - min);
+		v = Vector(x, y, z);
+	} while (v.dot(initial)>0);
+
+		reflect = v;
+	}
+
 	void negate()
 	{
 		x = -x;

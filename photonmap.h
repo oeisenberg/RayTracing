@@ -23,13 +23,7 @@ private:
 	Colour calcTotalIncomingFlux(Vertex position){
 		return getTotalIntensity(getNSurroundingPoints(position));
 	}
-	std::vector<Photon> getNSurroundingPoints(Vertex position){
-		alglib::real_1d_array query = convertVertex(position);
-		alglib::real_2d_array outputData;
-		kdtreequeryknn(tree, query, nSamples);
-		kdtreequeryresultsxy(tree, outputData);
-		return convert2DArrToPhotonVector(outputData);
-	}
+	
 	alglib::real_1d_array convertVertex(Vertex point){
 		alglib::real_1d_array data;
 		data.setlength(3);
@@ -115,5 +109,13 @@ public:
 		Colour c = calcTotalIncomingFlux(position);
 		float a = calculateAreaofPoints();
 		return c / a;
+	}
+
+	std::vector<Photon> getNSurroundingPoints(Vertex position){
+		alglib::real_1d_array query = convertVertex(position);
+		alglib::real_2d_array outputData;
+		kdtreequeryknn(tree, query, nSamples);
+		kdtreequeryresultsxy(tree, outputData);
+		return convert2DArrToPhotonVector(outputData);
 	}
 };

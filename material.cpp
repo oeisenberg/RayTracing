@@ -6,21 +6,19 @@
 
 #include "material.h"
 
-Material::Material(Colour col, Colour ambientVal, Colour diffVal, Colour specVal, float power)
+Material::Material(Colour col, Colour diffVal, Colour specVal, float power)
 {
   colour = col;
 
-  ambeint = ambientVal;
   diffuse = diffVal;
   specular = specVal;
   this->power = power;
 }
 
-Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour specVal, float power, float reflectionDegree)
+Material::Material(Colour colour, Colour diffVal, Colour specVal, float power, Colour reflectionDegree)
 {
   this->colour = colour;
 
-  this->ambeint = ambientVal;
   this->diffuse = diffVal;
   this->specular = specVal;
   this->power = power;
@@ -31,11 +29,10 @@ Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour spec
   }
 }
 
-Material::Material(Colour colour, Colour ambientVal, Colour diffVal, Colour specVal, float power, float reflectionDegree, float transparentDegree, float ior)
+Material::Material(Colour colour, Colour diffVal, Colour specVal, float power, Colour reflectionDegree, Colour transparentDegree, float ior)
 {
   this->colour = colour;
 
-  this->ambeint = ambientVal;
   this->diffuse = diffVal;
   this->specular = specVal;
   this->power = power;
