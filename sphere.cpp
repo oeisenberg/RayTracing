@@ -95,5 +95,5 @@ Vertex Sphere::calcSurfacePoint(){
 		r = (float) rand() / (float) RAND_MAX; y = min + r * (max - min);
 		r = (float) rand() / (float) RAND_MAX; z = min + r * (max - min);
   	} while (pow(y,2)-4*x*z>0);
-	return Vertex(x, y, z);
+	return Vertex(center.x+x, center.y+y, center.z+z);
 }
