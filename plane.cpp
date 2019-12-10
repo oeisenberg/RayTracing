@@ -48,11 +48,11 @@ Vertex Plane::calcSurfacePoint(){
   r = (float) rand() / (float) RAND_MAX; a = min + r * (max - min);
   r = (float) rand() / (float) RAND_MAX; b = min + r * (max - min);
 
-  if (up.x == 1){
+  if (abs(up.x) == 1){
     return Vertex(1, a, b);
-  } else if (up.y == 1){
+  } else if (abs(up.y) == 1){
     return Vertex(a, 1, b);
-  } else if  (up.z == 1){
+  } else if  (abs(up.z) == 1){
     return Vertex(a, b, 1);
   } else {
     // Throw exception?
