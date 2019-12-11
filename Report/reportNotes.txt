@@ -1,0 +1,19 @@
+Lab 2
+
+The given code in polymesh.cpp was updated to be able to read 3D objects and generate wireframes.
+
+Lab 3
+
+Lab 4
+Starting to work on lighting prompted refactoring the code. In doing so, a scene class was created. This made sense to create and store all the objectes and lighting. Origianlly objects had three intensity values representing the three primary colours in addition to the diffuse and specular coefficients. This was later updated to use a material and colour class.
+
+By splitting intensity into colours it allows the addition of coloured lights and control over what colout objects can reflect.
+
+Spotlights
+Spotlights were first added to the scene. They are directional lights and therefore straight forward to use as they contain a direction vector as the emitted rays are all parallel.
+
+Pointlights
+The slides refer to two methods to create pointlights, with and without an associated direction. As spot lights are  directional, pointlights with a constant intensity were implemented. This allows a pointlight to be placed between objects to cast shadow outwards.
+
+Shadows
+Shadows are checked by sending a ray from the hit position to each light in the scene. If an intersection occours the intensity from that light is removed. This allows for shadows of different intensity depening on the source.
