@@ -9,7 +9,7 @@
 class Tracer {
 public:
 
-    Hit checkForIntersection(Ray ray, float t, Hit closest, std::vector<Object*> objs){
+    Hit checkForIntersection(Ray ray, float t, Hit closest, std::vector<Object*> &objs){
         Hit new_t = Hit();
         for (int i = 0; i < objs.size(); i++) {
             objs[i]->intersection(ray, new_t);

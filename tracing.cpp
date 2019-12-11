@@ -79,7 +79,7 @@ PhotonMap createCausticPhotonMap(Scene scene, Camera camera, PhotonTracer pt, in
 }
 
 int main(int argc, char *argv[]){
-    using namespace alglib_impl;
+    using namespace alglib_impl; // https://www.alglib.net/translator/man/manual.cpp.html
 
   // https://stackoverflow.com/questions/686353/random-float-number-generation
   srand (static_cast <unsigned> (time(0)));
@@ -96,12 +96,12 @@ int main(int argc, char *argv[]){
   Scene *sc = new Scene(256, 256);
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
-  // Create gloabl photon map
+  // // Create gloabl photon map
   PhotonTracer *pta = new PhotonTracer();
   PhotonMap gloabalPm = createGlobalPhotonMap(*sc, *camera, *pta, 1000000, 200);
   // Create caustic photon map
   PhotonTracer *ptb = new PhotonTracer();
-  PhotonMap causticPm = createCausticPhotonMap(*sc, *camera, *ptb, 100, 10);
+  PhotonMap causticPm = createCausticPhotonMap(*sc, *camera, *ptb, 10000, 200);
 
   std::cout << "Finished building the KD Tree" << std::endl;
 
@@ -119,8 +119,13 @@ int main(int argc, char *argv[]){
     std::cout << "Col " << x << std::endl;
   }
 
-  // Output the framebuffer.
   fb->writeRGBFile((char *)"test.ppm");
+
+  // Output the framebuffer.
+  std::cout << "Applying blur" << std::endl;
+  fb->gaussianBlur();
+  fb->writeRGBFile((char *)"test-blur.ppm");
+
 
   return 0;
 

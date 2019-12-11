@@ -7,7 +7,7 @@
             "command": "/usr/bin/g++",
             "args": [
                 "-g",
-                "${workspaceFolder}/raytracer.cpp",
+                "${workspaceFolder}/tracing.cpp",
                 "${workspaceFolder}/framebuffer.cpp",
                 "${workspaceFolder}/linedrawer.cpp",
                 "${workspaceFolder}/camera.cpp",
@@ -25,7 +25,7 @@
                 "-o",
                 "${workspaceFolder}/finalexecutable",
                 "-lm",
-                "-O3" // -O3
+                "-O0" // -O3
             ],
             "options": {
                 "cwd": "/usr/bin"
@@ -41,6 +41,11 @@
         {
             "type": "shell",
             "label": "view ppm",
+            "command": "pnmtopng test.ppm > test.png"
+        },
+        {
+            "type": "shell",
+            "label": "view blur ppm",
             "command": "pnmtopng test.ppm > test.png"
         }
     ]

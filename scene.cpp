@@ -28,15 +28,14 @@ Scene::Scene(int w, int h)
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Init Objs Materials
-  Material *shinyA = new Material(Colour(1.0, 0.0, 1.0), Colour(0.4, 0.0, 0.4), Colour(0.4), 20, Colour(0.1));
-  Material *planesA = new Material(Colour(1.0),Colour(0.3), Colour(0.1), 20, Colour(0.1));
-  Material *planesB = new Material(Colour(0.0, 0.0, 0.3), Colour(0.2, 0.2, 0.4), Colour(0.2), 20, Colour(0.1));
-  Material *planesC = new Material(Colour(0.3, 0.0, 0.0), Colour(0.4, 0.2, 0.2), Colour(0.2), 20, Colour(0.1));
-  Material *planesD = new Material(Colour(0.1), Colour(0.1), Colour(0.1), 20, Colour(0.1));
-  Material *planesE = new Material(Colour(1.0), Colour(0.3), Colour(0.1), 20, Colour(0.1));
+  Material *planesA = new Material(Colour(1.0),Colour(0.3), Colour(0.1), 20);
+  Material *planesB = new Material(Colour(0.0, 0.3, 0.0), Colour(0.2, 0.4, 0.2), Colour(0.1), 20, Colour(0.1));
+  Material *planesC = new Material(Colour(0.3, 0.0, 0.0), Colour(0.4, 0.2, 0.2), Colour(0.1), 20, Colour(0.1));
+  Material *planesD = new Material(Colour(0.1), Colour(0.1), Colour(0.1), 20,Colour(0.1));
+  Material *planesE = new Material(Colour(1.0), Colour(0.3), Colour(0.1), 20);
   // Material *tpot = new Material(Colour(1, 0, 0), 0.2, 0.3, 0.1);
-  Material *reflectiveA = new Material(Colour(0.2), Colour(0.3), Colour(0.75), 20, Colour(1));
-  Material *transparantA = new Material(Colour(0.2), Colour(0.05), Colour(0.05), 20, Colour(0.01), Colour(0.8), 1.51);
+  Material *reflectiveA = new Material(Colour(0.2), Colour(0.3), Colour(0.65), 20, Colour(1));
+  Material *transparantA = new Material(Colour(0.2), Colour(0.05), Colour(0.05), 20, Colour(0.01), Colour(1), 1.51);
 
 
   // Add Objects
@@ -51,7 +50,11 @@ Scene::Scene(int w, int h)
   addObject(new Plane(Vertex(0, 0, -0.5), Vector(0, 0, 1), planesD));
 
   // Add Lighting
+  // addLight(new Pointlight(Colour(1, 1, 1), new Vertex(0, 2.5, 10)));
+  // addLight(new Pointlight(Colour(1, 1, 1), new Vertex(0, 2.5, 10.5)));
   addLight(new Pointlight(Colour(1, 1, 1), new Vertex(0, 3, 10)));
+  // addLight(new Pointlight(Colour(1, 1, 1), new Vertex(0, 3, 10.2)));
+  // addLight(new Pointlight(Colour(1, 1, 1), new Vertex(0, 3.5, 10)));
   // addLight(new Spotlight(Colour(1.0, 1.0, 1.0), new Vector(0, 0, 1)));
   // addLight(new Spotlight(Colour(0.85, 0.85, 0.85), new Vector(-0.3, -1, 2)));
 };

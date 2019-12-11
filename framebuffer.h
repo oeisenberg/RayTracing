@@ -8,6 +8,9 @@
 #ifndef _FRAMEBUFFER_H_
 #define _FRAMEBUFFER_H_
 
+#include <vector>
+using namespace std;
+
 typedef struct {
   float red;
   float green;
@@ -19,6 +22,8 @@ class FrameBuffer {
   int width;
   int height;
   Pixel *framebuffer;
+protected:
+  vector<vector<double>> getGaussian(int height, int width, double sigma);
  public:
   FrameBuffer(int w, int h);
   int plotPixel(int x, int y, float red, float green, float blue);
@@ -27,6 +32,7 @@ class FrameBuffer {
   int getDepth(int x, int y, float &depth);
   int writeRGBFile(char *filename);
   int writeDepthFile(char *filename);
+  void gaussianBlur();
 };
 
 #endif

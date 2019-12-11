@@ -32,15 +32,23 @@ public:
         return false;
     }
 
-    Colour reflect(Scene scene, Camera camera, Hit closest, Ray lRay, float depth, PhotonMap &gPm, PhotonMap &cPm){
+    Colour specularReflect(Scene &scene, Camera &camera, Hit closest, Ray lRay, float depth, PhotonMap &gPm, PhotonMap &cPm){
         Vector r;
         closest.normal.reflection(lRay.direction, r);
         r.normalise();
-        Ray reflectionRay = Ray("reflection", closest.position + r.multiply(0.001f), r);
+        Ray reflectionRay = Ray("specReflection", closest.position + r.multiply(0.001f), r);
         return raytrace(scene, camera, reflectionRay, depth-1, gPm, cPm) * closest.what->objMaterial->reflectionDegree;
     }
 
-    Colour refract(Scene scene, Camera camera, Hit closest, Ray lRay, float depth, PhotonMap &gPm, PhotonMap &cPm){
+    Colour diffuseReflect(Scene &scene, Camera &camera, Hit closest, Ray lRay, float depth, PhotonMap &gPm, PhotonMap &cPm){
+        Vector r;
+        closest.normal.diffreflection(lRay.direction, r);
+        r.normalise();
+        Ray reflectionRay = Ray("diffReflection", closest.position + r.multiply(0.001f), r);
+        return raytrace(scene, camera, reflectionRay,depth-1, gPm, cPm) * closest.what->objMaterial->diffuse.getStrength(); 
+    }
+
+    Colour refract(Scene& scene, Camera &camera, Hit closest, Ray lRay, float depth, PhotonMap &gPm, PhotonMap &cPm){
         Vector refraction;
         lRay.direction.normalise();
         Vector bias = closest.normal.multiply(0.001f);
@@ -54,7 +62,7 @@ public:
 
     Colour sample(Scene &scene, Hit closest, PhotonMap &gPm){
         std::vector<Photon> photons = gPm.getNSurroundingPoints(closest.position);
-        int subsample = photons.size() / 3;
+        int subsample = 5;
         std::random_shuffle(photons.begin(), photons.end());
 
         Colour total = Colour();
@@ -62,14 +70,47 @@ public:
             // get photon incoming dir
             photons[iPhoton].direction.negate();
             photons[iPhoton].position = closest.position;
+            photons[iPhoton].power = Colour();
             
             Hit hit = Hit();
             hit.t = std::numeric_limits<int>::max();
-            hit = checkForIntersection(photons[iPhoton], hit.t, hit, scene.objects);
-            total += gPm.calcRadiance(closest.position);
+            if (closest.t != std::numeric_limits<int>::max()){
+                hit = checkForIntersection(photons[iPhoton], hit.t, hit, scene.objects);
+                total += gPm.calcRadiance(closest.position);
+            }
+            total += gPm.calcRadiance(photons[iPhoton].position);
         }
         return total / subsample;
     }
+
+    // Colour sample(Scene &scene, Hit closest, PhotonMap &gPm){
+    //     std::vector<Photon> photons = gPm.getNSurroundingPoints(closest.position);
+    //     int subsample = 5;
+    //     std::random_shuffle(photons.begin(), photons.end());
+
+    //     Colour total = Colour();
+    //     Vector d;
+    //     for (int iPhoton = 0; iPhoton < subsample; iPhoton++){
+    //         // get photon incoming dir
+    //         photons[iPhoton].direction.negate();
+    //         // photons[iPhoton].position = closest.position;
+            
+    //         d = d + photons[iPhoton].direction;
+    //     }
+    //     d = d / subsample;
+        
+    //     for (int iPhoton = 0; iPhoton < subsample; iPhoton++){
+    //         Photon ph = Photon("", photons[iPhoton].position, d, Colour());
+    
+    //         Hit hit = Hit();
+    //         hit.t = std::numeric_limits<int>::max();
+    //         if (closest.t != std::numeric_limits<int>::max()){
+    //             hit = checkForIntersection(ph, hit.t, hit, scene.objects);
+    //             total += gPm.calcRadiance(closest.position);
+    //         }
+    //     }
+    //     return total / subsample;
+    // }
 
     Colour raytrace(Scene &scene, Camera &camera, Ray lRay, int depth, PhotonMap &gPm, PhotonMap &cPm){
         Colour colour = Colour();
@@ -79,7 +120,7 @@ public:
         closest = checkForIntersection(lRay, closest.t, closest, scene.objects);
 
         if (closest.t != std::numeric_limits<int>::max()){
-            if (depth == 0) return Colour();
+            if (depth == 0) return Colour(0, 0, 0);
 
             Vector SurfaceNormal = closest.normal;
             for (float iLight = 0; iLight < scene.lights.size(); iLight++){
@@ -89,27 +130,26 @@ public:
                 if (diff > 0.0f){
                     Ray shadowRay = Ray("shadow", closest.position + lightDir.multiply(0.0001f), lightDir);
                     if(!checkForShadow(closest, scene.objects, shadowRay, scene.lights[iLight])){
-                        if (depth == 4){
-                            // direct
+                        if (depth == 6){
                             // Colour scale = scene.lights[iLight]->getIntensity();
                             // Colour intensity = closest.what->objMaterial->compute_light_colour(SurfaceNormal, camera.e - closest.position, lightDir, diff);
-                            // colour += intensity * scale;
-                            // colour += gPm.calcRadiance(closest.position);
+                            // colour += intensity * scale * 0.8;
                         } else {
-                            // Colour scale = scene.lights[iLight]->getIntensity();
-                            // Colour intensity = closest.what->objMaterial->compute_light_colour(SurfaceNormal, camera.e - closest.position, lightDir, diff);
-                            // intensity -=  closest.what->objMaterial->diffuse * diff; // just specular / gloss effects?
-                            // colour += intensity * scale;
-
-                            // sample points from position where photon majority originate
-                            colour += sample(scene, closest, gPm);
-                            // colour += gPm.calcRadiance(closest.position);
+                            if (lRay.type != "diffReflection") {
+                                // Colour scale = scene.lights[iLight]->getIntensity();
+                                // Colour intensity = closest.what->objMaterial->compute_light_colour(SurfaceNormal, camera.e - closest.position, lightDir, diff);
+                                // // intensity -=  closest.what->objMaterial->diffuse * diff; // just specular / gloss effects?
+                                // colour += intensity * scale * 0.6;
+                            } else {
+                                // only smaple for diffuse reflections
+                                colour += sample(scene, closest, gPm) * 250;
+                            }
                         }
                     }
                 }
             }
-            
-            // colour += cPm.calcRadiance(closest.position);
+
+            // colour += cPm.calcRadiance(closest.position) / 4;
 
             if(closest.what->objMaterial->isReflective && closest.what->objMaterial->isTransparent){
                 Colour refractionColour = Colour();
@@ -117,14 +157,14 @@ public:
                 if (kr < 1) {
                     refractionColour += refract(scene, camera, closest, lRay, depth, gPm, cPm);
                 }
-                Colour reflectionColour = reflect(scene, camera, closest, lRay, depth, gPm, cPm);
+                Colour reflectionColour = specularReflect(scene, camera, closest, lRay, depth, gPm, cPm);
                 colour += (reflectionColour * kr + refractionColour * (1 - kr));
             } else {
                 if(closest.what->objMaterial->isReflective){
-                    colour += reflect(scene, camera, closest, lRay, depth, gPm, cPm);
+                    colour += specularReflect(scene, camera, closest, lRay, depth, gPm, cPm);
                 }
             }
-
+            colour += diffuseReflect(scene, camera, closest, lRay, depth, gPm, cPm);
         }
         return colour;
     }
