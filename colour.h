@@ -75,6 +75,13 @@ public:
     return false;
   }
 
+  bool operator == (const float& other){
+    if(R == other && G == other && B == other){
+      return true;
+    } 
+    return false;
+  }
+
   float getStrength(){
     return std::max(std::max(R, G), B);
   };
