@@ -14,14 +14,19 @@
 #include "photon.h"
 #include "vertex.h"
 #include "colour.h"
+#include "hit.h"
 
 class PhotonMap {
 private:
 	int nSamples;
 	alglib::kdtree tree;
 
-	Colour calcTotalIncomingFlux(Vertex position){
-		return getTotalIntensity(getNSurroundingPoints(position));
+	Colour calcTotalIncomingFlux(Hit hit, Vector toViewer, float diff){
+		return getTotalIntensity(getNSurroundingPoints(hit.position), hit, toViewer, diff);
+	}
+
+	Colour calcTotalIncomingFlux(Hit hit, Vector toViewer, float diff, std::string filter){
+		return getTotalIntensity(getNSurroundingPoints(hit.position, filter), hit, toViewer, diff);
 	}
 	
 	alglib::real_1d_array convertVertex(Vertex point){
@@ -48,6 +53,7 @@ private:
 			data[i][6] = ph.power.R;
 			data[i][7] = ph.power.G;
 			data[i][8] = ph.power.B;
+			data[i][9] = convertPhotonTypeToDouble(ph.type);
 		}
 
 		return data;
@@ -65,16 +71,26 @@ private:
 			ph.power.R = inputData[i][6];
 			ph.power.G = inputData[i][7];
 			ph.power.B = inputData[i][8];
+			ph.type = convertDoubleToPhotonType(inputData[i][9]);
 			outputData.push_back(ph);
 		}
 
 		return outputData;
 	}
-	Colour getTotalIntensity(std::vector<Photon> ph){
+	Colour getTotalIntensity(std::vector<Photon> ph, Hit hit, Vector toViewer, float diff){
 		Colour maxColour;
-
+		Vector r;
+		float coeff;
 		for (int i = 0; i < ph.size(); i++){
-			maxColour += ph[i].power;
+			// maxColour += ph[i].power;
+			ph[i].direction.negate();
+			hit.normal.reflection(ph[i].direction, r);
+			r.normalise();
+			coeff = r.dot(toViewer);
+			if (coeff > 0.0f){
+				maxColour += ph[i].power;
+			}
+
 		}
 		return maxColour;
 	}
@@ -89,6 +105,29 @@ private:
 		return M_PI * pow(maxDistance, 2);
 	}
 
+	float convertPhotonTypeToDouble(std::string input){
+		if(input == "direct"){
+			return 0;
+		}
+		if(input == "indirect"){
+			return 1;
+		}
+		if(input == "caustic"){
+			return 2;
+		}
+	}
+
+	std::string convertDoubleToPhotonType(float input){
+		if(input == 0){
+			return  "direct";
+		}
+		if(input == 1){
+			return "indirect";
+		}
+		if(input == 2){
+			return "caustic";
+		}
+	}
 public:
 
 	PhotonMap(int nsamples){
@@ -99,14 +138,20 @@ public:
 	void populateMap(std::vector<Photon> inputData){
 		// wrapper function that prepares vector input into a 2D.
 		alglib::ae_int_t nx = 3;
-		alglib::ae_int_t ny = 6;
+		alglib::ae_int_t ny = 7;
 		alglib::ae_int_t normtype = 2;
 		alglib::real_2d_array photons = convertPhotonVectorTo2DArr(inputData, nx, ny);
 		kdtreebuild(photons, nx, ny, normtype, tree);
 	}
 
-	Colour calcRadiance(Vertex position){
-		Colour c = calcTotalIncomingFlux(position);
+	Colour calcRadiance(Hit hit, Vertex camEye, float diff){
+		Colour c = calcTotalIncomingFlux(hit, camEye-hit.position, diff);
+		float a = calculateAreaofPoints();
+		return c / a;
+	}
+
+	Colour calcRadiance(Hit hit, Vertex camEye, float diff, std::string filter){
+		Colour c = calcTotalIncomingFlux(hit, camEye-hit.position, diff, filter);
 		float a = calculateAreaofPoints();
 		return c / a;
 	}
@@ -117,5 +162,22 @@ public:
 		kdtreequeryknn(tree, query, nSamples);
 		kdtreequeryresultsxy(tree, outputData);
 		return convert2DArrToPhotonVector(outputData);
+	}
+
+	std::vector<Photon> getNSurroundingPoints(Vertex position, std::string filter){
+		alglib::real_1d_array query = convertVertex(position);
+		alglib::real_2d_array outputData;
+		kdtreequeryknn(tree, query, nSamples);
+		kdtreequeryresultsxy(tree, outputData);
+		std::vector<Photon> data = convert2DArrToPhotonVector(outputData);
+		std::vector<Photon> output;
+		int count = 0;
+		for (int iPhoton = 0; iPhoton<data.size(); iPhoton++){
+			if(data[iPhoton].type != filter){
+				output.push_back(data[iPhoton]);
+				count++;
+			}
+		}
+		return output;
 	}
 };

@@ -79,7 +79,9 @@ PhotonMap createCausticPhotonMap(Scene scene, Camera camera, PhotonTracer pt, in
 }
 
 int main(int argc, char *argv[]){
-    using namespace alglib_impl; // https://www.alglib.net/translator/man/manual.cpp.html
+  // Library used for KD Tree.
+  // https://www.alglib.net/translator/man/manual.cpp.html
+    using namespace alglib_impl; 
 
   // https://stackoverflow.com/questions/686353/random-float-number-generation
   srand (static_cast <unsigned> (time(0)));
@@ -88,20 +90,20 @@ int main(int argc, char *argv[]){
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 150;
+  float dist = 350;
   float FOV = 0.9; // RAD
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
   // Create a framebuffer
-  Scene *sc = new Scene(256, 256);
+  Scene *sc = new Scene(512, 512);
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
   // // Create gloabl photon map
   PhotonTracer *pta = new PhotonTracer();
-  PhotonMap gloabalPm = createGlobalPhotonMap(*sc, *camera, *pta, 1000000, 200);
+  PhotonMap gloabalPm = createGlobalPhotonMap(*sc, *camera, *pta, 1000000, 400);
   // Create caustic photon map
   PhotonTracer *ptb = new PhotonTracer();
-  PhotonMap causticPm = createCausticPhotonMap(*sc, *camera, *ptb, 10000, 200);
+  PhotonMap causticPm = createCausticPhotonMap(*sc, *camera, *ptb, 100000, 300);
 
   std::cout << "Finished building the KD Tree" << std::endl;
 

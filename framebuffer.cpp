@@ -196,8 +196,8 @@ vector<vector<double>> FrameBuffer::getGaussian(int height, int width, double si
 // Code adapted from:
 // https://gist.github.com/OmarAflak/aca9d0dc8d583ff5a5dc16ca5cdda86a
 void FrameBuffer::gaussianBlur(){
-  int kSize = 10;
-  vector<vector<double>> kernel = getGaussian(kSize, kSize, 5.0);
+  int kSize = 5;
+  vector<vector<double>> kernel = getGaussian(kSize, kSize, 20.0);
   Pixel *newBuffer = this->framebuffer;
 
   // filter per R, G, B, per pixel, per kenerl square
