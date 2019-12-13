@@ -25,7 +25,7 @@
                 "-o",
                 "${workspaceFolder}/finalexecutable",
                 "-lm",
-                "-O0" // -O3
+                "-O3" // -O3/-O0
             ],
             "options": {
                 "cwd": "/usr/bin"

@@ -48,7 +48,7 @@ public:
         Vector r;
         closest.normal.reflection(lRay.direction, r);
         r.normalise();
-        Ray reflectionRay = Ray("indirect", closest.position + r.multiply(0.001f), r);
+        Ray reflectionRay = Ray("specular", closest.position + r.multiply(0.001f), r);
         return raytrace(scene, camera, reflectionRay, depth-1, gPm, cPm) * closest.what->objMaterial->reflectionDegree;
     }
 
@@ -65,13 +65,18 @@ public:
         reflectionRay.direction.negate();
         newhit = checkForIntersection(reflectionRay, newhit.t, newhit, scene.objects);
 
+        Colour colour;
         if (newhit.t != std::numeric_limits<int>::max()){
-           
             float diff = newhit.normal.dot(reflectionRay.direction);
+            // inacurate soft diffuse
+            colour += gPm.calcRadiance(newhit, camera.e, diff);
 
-            return sample(scene, newhit, gPm, camera) * newhit.what->objMaterial->getDiffuseValue();
+            // acuurate soft diffuse
+            if (diff > 0.0f){ 
+                colour += sample(scene, newhit, gPm, camera);
+            }
         }
-        return Colour(0,0,0);
+        return colour;
     }
 
     Colour refract(Scene& scene, Camera &camera, Hit closest, Ray lRay, float depth, PhotonMap &gPm, PhotonMap &cPm){
@@ -84,14 +89,14 @@ public:
         refraction.normalise();
 
         Vertex origin = outside ? closest.position - bias  : closest.position + bias;
-        Ray transparentRay = Ray("indirect", origin, refraction);
+        Ray transparentRay = Ray("specular", origin, refraction);
 
         return raytrace(scene, camera, transparentRay, depth-1, gPm, cPm) * closest.what->objMaterial->transparentDegree;
     }
 
     Colour sample(Scene &scene, Hit closest, PhotonMap &gPm, Camera &camera){
         std::vector<Photon> photons = gPm.getNSurroundingPoints(closest.position);
-        int subsample = 50;
+        int subsample = 20;
         std::random_shuffle(photons.begin(), photons.end());
 
         Colour total = Colour();
@@ -107,9 +112,9 @@ public:
                 hit = checkForIntersection(photons[iPhoton], hit.t, hit, scene.objects);
                 if (hit.t != std::numeric_limits<int>::max()){
                     float diff = hit.normal.dot(photons[iPhoton].direction);
-                    // if (diff > 0.0f){
-                        total += gPm.calcRadiance(hit, camera.e, diff);
-                    // }
+                    if (diff > 0.0f) {
+                        total += gPm.calcRadiance(hit, camera.e, diff) * diff;
+                    }
                 }
                 nSamples++;
             }
@@ -142,10 +147,17 @@ public:
                             Colour intensity = closest.what->objMaterial->compute_light_colour(SurfaceNormal, camera.e - closest.position, lightDir, diff);
                             colour += intensity * scale * 0.5;
                         } else {
-                            colour += gPm.calcRadiance(closest, camera.e, diff) * 100; 
+                            if (lRay.type != "specular"){
+                                colour += gPm.calcRadiance(closest, camera.e, diff) * 100; 
+                            } else {
+                                // specular reflections
+                                Colour scale = scene.lights[iLight]->getIntensity();
+                                Colour intensity = closest.what->objMaterial->compute_light_colour(SurfaceNormal, camera.e - closest.position, lightDir, diff);
+                                colour += intensity * scale * 0.8;
+                            }
                         }
                     } else {
-                        colour += cPm.calcRadiance(closest, camera.e, diff) * 2;
+                        colour += cPm.calcRadiance(closest, camera.e, diff);
                     }
                 } 
             }
@@ -163,7 +175,7 @@ public:
                     colour += specularReflect(scene, camera, closest, lRay, depth, gPm, cPm);
                 }
             }
-            colour += diffuseReflect(scene, camera, closest, lRay, depth, gPm, cPm) * 200;
+            colour += diffuseReflect(scene, camera, closest, lRay, depth, gPm, cPm) * 300;
         }
         return colour;
     }

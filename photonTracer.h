@@ -13,7 +13,7 @@ public:
         Vector r;
         closest.normal.reflection(pRay.direction, r);
         r.normalise();
-        pRay.calcTransmissivePower(probability, coeff);
+        pRay.calcPower(probability, coeff);
         Photon photonRay = Photon(pRay.type, closest.position + r.multiply(0.001f), r, pRay.power);
         return photontrace(scene, camera, photonRay, photonHitsMap) * closest.what->objMaterial->reflectionDegree; 
     }
@@ -24,30 +24,10 @@ public:
         bool outside = pRay.direction.dot(closest.normal) < 0;
         closest.normal.refraction(pRay.direction, closest.what->objMaterial->ior, r);
         r.normalise();
-        pRay.calcTransmissivePower(probability, coeff);
+        pRay.calcPower(probability, coeff);
         Vertex origin = outside ? closest.position - bias  : closest.position + bias;
         Photon photonRay = Photon(pRay.type, origin, r, pRay.power);
         return photontrace(scene, camera, photonRay, photonHitsMap) * closest.what->objMaterial->transparentDegree;
-
-        // closest.normal.refraction(lRay.direction, closest.what->objMaterial->ior, refraction);
-        // refraction.normalise();
-        // closest.normal.refraction(lRay.direction, closest.what->objMaterial->ior, R);
-        // R.normalise();
-        // closest.normal.refraction(lRay.direction, closest.what->objMaterial->ior+0.1, G);
-        // G.normalise();
-        // closest.normal.refraction(lRay.direction, closest.what->objMaterial->ior+0.2, B);
-        // B.normalise();
-
-        // Vertex origin = outside ? closest.position - bias  : closest.position + bias;
-        // Ray transparentRay = Ray("indirect", origin, refraction);
-        // Ray transparentRayR = Ray("indirect", origin, R);
-        // Ray transparentRayG = Ray("indirect", origin, G);
-        // Ray transparentRayB = Ray("indirect", origin, B);
-
-        // Colour base;
-        // base += (raytrace(scene, camera, transparentRayR, depth-1, gPm, cPm) * closest.what->objMaterial->transparentDegree).R;
-        // base += (raytrace(scene, camera, transparentRayG, depth-1, gPm, cPm) * closest.what->objMaterial->transparentDegree).G;
-        // base += (raytrace(scene, camera, transparentRayB, depth-1, gPm, cPm) * closest.what->objMaterial->transparentDegree).B;
     }
 
     Colour photontrace(Scene &scene, Camera &camera, Photon pRay, std::vector<Photon> &photonHitsMap){
@@ -73,7 +53,7 @@ public:
                     Vector r;
                     closest.normal.diffreflection(pRay.direction, r);
                     r.normalise();
-                    pRay.calcTransmissivePower(probDiffuse, closest.what->objMaterial->getDiffuseValue());
+                    pRay.calcPower(probDiffuse, closest.what->objMaterial->getDiffuseValue());
                     Photon photonRay = Photon("indirect", closest.position + r.multiply(0.001f), r, pRay.power);
                     colour += photontrace(scene, camera, photonRay, photonHitsMap); 
                 }
@@ -81,7 +61,7 @@ public:
                 Vector r;
                 closest.normal.reflection(pRay.direction, r);
                 r.normalise();
-                pRay.calcTransmissivePower(probSpecular, closest.what->objMaterial->getSpecularValue());
+                pRay.calcPower(probSpecular, closest.what->objMaterial->getSpecularValue());
                 Photon photonRay = Photon("indirect", closest.position + r.multiply(0.001f), r, pRay.power);
                 colour += photontrace(scene, camera, photonRay, photonHitsMap); 
             } else if (probDiffuse+probSpecular <= r && r < probDiffuse+probSpecular+probTransmission) {

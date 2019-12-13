@@ -41,32 +41,23 @@ Transform *transform = new Transform(1.0f, 0.0f, 0.0f, 0.0f,
   Material *planesF = new Material(Colour(0.01), Colour(0.01), Colour(0.01), 1);
   Material *rough = new Material(Colour(0.1), Colour(0.3), Colour(0.3), 10, Colour(0), Colour(0), 1, 0.3);
   // Material *teapot = new Material(Colour(1, 0, 0), 0.2, 0.3, 0.1);
-  Material *reflectiveA = new Material(Colour(0.1), Colour(0.5), Colour(0.3), 2, Colour(0.8));
-  Material *transparantA = new Material(Colour(0.1), Colour(0.5), Colour(0.3), 20, Colour(0.1), Colour(0.8), 1.51);
+  Material *reflectiveA = new Material(Colour(0.3), Colour(0.3), Colour(0.4), 2, Colour(0.8));
+  Material *transparantA = new Material(Colour(0.3), Colour(0.3), Colour(0.4), 20, Colour(0.1), Colour(0.8), 1.51);
 
 
- 
-  // Simple pointlights demo:
-    // // Add Objects
-    //   addObject(new Sphere(Vertex(-2, 0, 9), 1, shinyMetalA));
-    //   addObject(new Sphere(Vertex(2, 0, 9), 1, shinyMetalB));
-    // // Add Lighting
-    //   addLight(new Pointlight(Colour(1, 1, 1), new Vertex(0, 1, 9)));
+   // Cornel Box:
+    addObject(new Sphere(Vertex(-3, 0, 12), 1, shinyMetal));
+    addObject(new Sphere(Vertex(-1.5, -2, 8), 0.8, reflectiveA));
+    addObject(new Sphere(Vertex(1.5, -2, 8), 0.8, transparantA));
+    // addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), shinyA);
+    addObject(new Plane(Vertex(0, -3, 0), Vector(0, 1, 0), floor));
+    addObject(new Plane(Vertex(0, 0, 15), Vector(0, 0, -1), shinyMetal));
+    addObject(new Plane(Vertex(4, 0, 0), Vector(-1, 0, 0), greenWall));
+    addObject(new Plane(Vertex(-4, 0, 0), Vector(1, 0, 0), redWall));
+    addObject(new Plane(Vertex(0, 5.5, 0), Vector(0, 1, 0), planesF));
+    addObject(new Plane(Vertex(0, 0, -0.5), Vector(0, 0, 1), oppositeWalls));
 
-  // // // Cornel Box:
-      addObject(new Sphere(Vertex(-3, 0, 12), 1, shinyMetal));
-      addObject(new Sphere(Vertex(-1.5, -2, 8), 0.8, reflectiveA));
-      addObject(new Sphere(Vertex(1.5, -2, 8), 0.8, transparantA));
-  // //     // addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), shinyA);
-      addObject(new Plane(Vertex(0, -3, 0), Vector(0, 1, 0), floor));
-      addObject(new Plane(Vertex(0, 0, 15), Vector(0, 0, -1), oppositeWalls));
-      addObject(new Plane(Vertex(4, 0, 0), Vector(-1, 0, 0), greenWall));
-      addObject(new Plane(Vertex(-4, 0, 0), Vector(1, 0, 0), redWall));
-      addObject(new Plane(Vertex(0, 5.5, 0), Vector(0, 1, 0), planesF));
-      addObject(new Plane(Vertex(0, 0, -0.5), Vector(0, 0, 1), oppositeWalls));
-
-      addLight(new Pointlight(Colour(1, 1, 1), new Vertex(0, 4.7, 11)));
-
+    addLight(new Pointlight(Colour(1, 1, 1), new Vertex(0, 4.7, 8)));
 };
 
 void Scene::addObject(Object *newObject)

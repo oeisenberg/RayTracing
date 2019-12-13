@@ -22,11 +22,11 @@ private:
 	alglib::kdtree tree;
 
 	Colour calcTotalIncomingFlux(Hit hit, Vector toViewer, float diff){
-		return getTotalIntensity(getNSurroundingPoints(hit.position), hit, toViewer, diff);
+		return getTotalIntensity(getNSurroundingPoints(hit.position), hit, toViewer);
 	}
 
 	Colour calcTotalIncomingFlux(Hit hit, Vector toViewer, float diff, std::string filter){
-		return getTotalIntensity(getNSurroundingPoints(hit.position, filter), hit, toViewer, diff);
+		return getTotalIntensity(getNSurroundingPoints(hit.position, filter), hit, toViewer);
 	}
 	
 	alglib::real_1d_array convertVertex(Vertex point){
@@ -77,7 +77,7 @@ private:
 
 		return outputData;
 	}
-	Colour getTotalIntensity(std::vector<Photon> ph, Hit hit, Vector toViewer, float diff){
+	Colour getTotalIntensity(std::vector<Photon> ph, Hit hit, Vector toViewer){
 		Colour maxColour;
 		Vector r;
 		float coeff;
