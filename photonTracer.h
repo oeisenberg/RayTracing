@@ -60,8 +60,8 @@ public:
         if (closest.t != std::numeric_limits<int>::max()){
             colour = closest.what->objMaterial->computeBaseColour();
 
-            float probDiffuse = (pRay.power * closest.what->objMaterial->diffuse).getStrength() / pRay.power.getStrength();
-            float probSpecular = (pRay.power * closest.what->objMaterial->specular).getStrength() / pRay.power.getStrength();
+            float probDiffuse = (pRay.power * closest.what->objMaterial->getDiffuseValue()).getStrength() / pRay.power.getStrength();
+            float probSpecular = (pRay.power * closest.what->objMaterial->getSpecularValue()).getStrength() / pRay.power.getStrength();
             float probTransmission = (pRay.power * closest.what->objMaterial->transparentDegree).getStrength() / pRay.power.getStrength();
             float probAbsorbtion = 1 - (probDiffuse + probSpecular + probTransmission);
 
@@ -73,7 +73,7 @@ public:
                     Vector r;
                     closest.normal.diffreflection(pRay.direction, r);
                     r.normalise();
-                    pRay.calcTransmissivePower(probDiffuse, closest.what->objMaterial->diffuse);
+                    pRay.calcTransmissivePower(probDiffuse, closest.what->objMaterial->getDiffuseValue());
                     Photon photonRay = Photon("indirect", closest.position + r.multiply(0.001f), r, pRay.power);
                     colour += photontrace(scene, camera, photonRay, photonHitsMap); 
                 }
@@ -81,7 +81,7 @@ public:
                 Vector r;
                 closest.normal.reflection(pRay.direction, r);
                 r.normalise();
-                pRay.calcTransmissivePower(probSpecular, closest.what->objMaterial->specular);
+                pRay.calcTransmissivePower(probSpecular, closest.what->objMaterial->getSpecularValue());
                 Photon photonRay = Photon("indirect", closest.position + r.multiply(0.001f), r, pRay.power);
                 colour += photontrace(scene, camera, photonRay, photonHitsMap); 
             } else if (probDiffuse+probSpecular <= r && r < probDiffuse+probSpecular+probTransmission) {

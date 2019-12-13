@@ -91,43 +91,42 @@ int main(int argc, char *argv[]){
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
   float dist = 350;
-  float FOV = 0.9; // RAD
+  float FOV = 0.9;
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
   // Create a framebuffer
   Scene *sc = new Scene(512, 512);
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
+ std::cout << "Building the KD Tree" << std::endl;
   // // Create gloabl photon map
   PhotonTracer *pta = new PhotonTracer();
-  PhotonMap gloabalPm = createGlobalPhotonMap(*sc, *camera, *pta, 1000000, 400);
+  PhotonMap gloabalPm = createGlobalPhotonMap(*sc, *camera, *pta, 2000000, 300);
   // Create caustic photon map
   PhotonTracer *ptb = new PhotonTracer();
-  PhotonMap causticPm = createCausticPhotonMap(*sc, *camera, *ptb, 100000, 300);
+  PhotonMap causticPm = createCausticPhotonMap(*sc, *camera, *ptb, 10000, 500);
 
   std::cout << "Finished building the KD Tree" << std::endl;
 
+  int depth = 4;
+  RayTracer rt = RayTracer();
   for (int x = 0; x <= sc->width - 1; x++)
   {
     for (int y = 0; y <= sc->height - 1; y++)
     { 
       Ray ray = camera->getRay(sc, x, y);
-      int depth = 4;
-      RayTracer rt = RayTracer();
       Colour baseColour = rt.raytrace(*sc, *camera, ray, depth, gloabalPm, causticPm);
-      // std::cout << baseColour.R << ", " << baseColour.G << ", " << baseColour.B << std::endl;
       fb->plotPixel(x, y, baseColour.R, baseColour.G, baseColour.B);
     }
-    std::cout << "Col " << x << std::endl;
+    std::cout << "Col: " << x << std::endl;
   }
 
   fb->writeRGBFile((char *)"test.ppm");
 
   // Output the framebuffer.
-  std::cout << "Applying blur" << std::endl;
+  std::cout << "Applying blur..." << std::endl;
   fb->gaussianBlur();
   fb->writeRGBFile((char *)"test-blur.ppm");
-
 
   return 0;
 
