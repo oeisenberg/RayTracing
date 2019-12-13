@@ -76,9 +76,10 @@ Testing all objects for shadows can be optimised as, for a single light source, 
 \subsubsection{Global lighting}
 Global lighting is the addition of secondary rays to compute mirror and transmissive surfaces. 
 
-Reflection works by assuming a specular surface is a perfect mirror. Performing the equation \ref{equ:specular} and raytracing the result calculates the reflected colour, this is then added to the original colour calculated prior to reflecting. The cycle of ray generation for secondary rays leads itself to recursion. 
+Reflection works by assuming a specular surface is a perfect mirror. Performing the equation \ref{equ:specular} and raytracing the result calculates the reflected colour. This is then added to the original colour calculated prior to reflecting. The cycle of ray generation for secondary rays leads to recursion. 
 
-Similarly to reflection, transparency lends to recursion. This is because secondary rays are produced to simulate the movement of flight through a transparent object. To calculate refraction the index of refraction needs to be set on objection initialisation, this constant is used to determine how much the light is slowed when entering the object. Depending on the incident angle and medium the refracting ray will either slow down and bend towards the normal, speed up and bend away from the normal or undergo total internal reflection. This, however, isn't realistic transparency. This is because, for real materials the angle of incidence changes the amount of reflection and refraction that will occur. To account for this the Fresnel equations (\ref{equ:fresnelkr} to \ref{equ:fresnelkt}) are applied.
+Similarly to reflection, transparency lends to recursion. This is because secondary rays are produced to simulate the movement of flight through a transparent object. To calculate refraction, the index of refraction needs to be set on object initialisation, this constant is used to determine how much the light is slowed by when entering the object. Depending on the incident angle and medium the refracting ray will either slow down and bend towards the normal, speed up and bend away from the normal or undergo total internal reflection. 
+This, however, isn't realistic transparency. This is because, for real materials the angle of incidence changes the amount of reflection and refraction that will occur. To account for this the Fresnel equations (\ref{equ:fresnelkr} to \ref{equ:fresnelkt}) are applied. These result in more realistic behaviour.
 
 \begin{equation}
 r_{par} = \frac{(\eta cos\theta _i - cos \theta _t)}{(\eta cos\theta _i + cos \theta _t)}
@@ -105,7 +106,7 @@ k_t = 1 - k_r
 The completion of lab sheets allowed to get familiar with C++ and to start building practical knowledge on raytracing. 
 
 \subsection{Labs 1 \& 2}
-Lab one and two allowed to build supporting functionality to use and test the implementation of raytracing starting in lab three. To be able to construct a wireframe, the line drawing function was updated to use an integer based approach using the Bresenhams Line Algorithm. The algorithm is an efficient method used to draw a straight line and avoids the use of floating point multiplication to draw pixels. Instead, Bresenham's algorithm increments axes so that the gradient of the currently drawn line remains similar to the goal gradient, where the goal is the initial vector from point A to B.
+Lab one and two allowed to build supporting functionality to use and test the implementation of raytracing. To be able to construct a wireframe, the line drawing function was updated to use an integer based approach using the Bresenhams Line Algorithm. The algorithm is an efficient method used to draw a straight line and avoids the use of floating point multiplication to draw pixels. Instead, Bresenham's algorithm increments axes so that the gradient of the currently drawn line remains similar to the goal gradient, where the goal is the initial vector from point A to B.
 
 Lab two allowed the algorithm to be used to draw wireframes of an imported dataset. The given code in \textit{polymesh.cpp} was updated to be able to read 3D objects from \textit{.ply} files. There are several mesh data structures that can be used to store polymesh objects, the method supported in the \textit{polymesh.cpp} is the Shared Vertex(OBJ, OFF) where it contains an indexed list of vertices and faces (vertex indices). The teapot dataset is comprised of three header lines, these identify the number of vertices and faces that are contained and are iterated through to populate their respective vectors. The shared vertex data structure is adequate, however, more complex structures have the potential of reducing construction, query and improving efficiency. For example the \textit{.ply} file could have used Face-Based, which lacks in edge information, or Edge-Based connectivity, which excludes edge orientation information.
 
@@ -119,13 +120,14 @@ Lab two allowed the algorithm to be used to draw wireframes of an imported datas
 
 \subsection{Lab 3 - Simple Raytracing}
 \subsubsection{Framebuffer}
+To be able to test triangle intersections could work through ray intersection tests, the rays were first tested on a depth buffer. The depth buffer uses the paramatric \textit{t} value in order to visualise the depth of the hit. By suppling the sphere intersection code this could be tested first here before developing and testing triangle intersections. The intersection testing for the sphere was straight forward using psudocode provided from the slides.
 
 \subsubsection{Triangle intersection}
-To compute triangle intersections the Möller–Trumbore algorithm was used. This was used instead of the method on the slides ~\cite{ref:lec04} anticipating the requirements for the barycentric coordinates to complete Gouraud shading further in the coursework. Baracentric coordinates ...
+To compute triangle intersections the Möller–Trumbore algorithm was used. This was used instead of the method on the slides ~\cite{ref:lec04} anticipating the requirements for the barycentric coordinates to complete Gouraud shading further in the coursework. Baracentric coordinates allow for Gouraud shading as the values can be used to determine where on the triangle the intersection took place. Being able to follow the general intersection layout for spheres laid out the structure well for testing the triangles. The end result (figure \ref{fig:depthmap}) is shown, where darker surfaces indicate closer proximity to the camera.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.5\textwidth]{depthmap}
+\includegraphics[width=0.4\textwidth]{depthmap}
 \captionsetup{justification=centering,margin=0.5cm}
 \caption{End product of lab three}
 \label{fig:depthmap}
@@ -150,15 +152,16 @@ The slides refer to two methods to create point lights, with and without an asso
 \subsubsection{Shadows}
 Shadows are checked by sending a ray from the hit position to each light in the scene. If an intersection occurs the intensity from that light is removed. This allows for shadows of different intensity depending on the source. Originally the program would remove light intensity relative to the number of total lights - disregarding the light source's intensity. This was rectified and updated before the lab 4 submission date.
 
-In addition the shadow ray's length must be compared with the distance to the light, this is important as when adding planes to the scene a light source in between two planes can cause a shadow as if one of the planes obstructed the light. Instead the light ray is passing the source, therefore there would be no shadow, but then intersects with the secondary plane.
-
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.5\textwidth]{wireframe}
+\includegraphics[width=0.5\textwidth]{teapotShadow}
 \captionsetup{justification=centering,margin=0.5cm}
-\caption{Sho}
-\label{fig:wireframe}
+\caption{Teapot casting two shadows}
+\label{fig:teapotShadow}
 \end{figure}
+
+
+In addition the shadow ray's length must be compared with the distance to the light, this is important as when adding planes to the scene a light source in between two planes can cause a shadow as if one of the planes obstructed the light. Instead the light ray is passing the source, therefore there would be no shadow, but then intersects with the secondary plane.
 
 \section{Minor Optimisations}
 \subsection{Colours \& Materials}
@@ -239,7 +242,7 @@ Caustics are computationally intensive to calculate using standard raytracing me
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.5\textwidth]{caustics}
+\includegraphics[width=0.4\textwidth]{caustics}
 \captionsetup{justification=centering,margin=0.5cm}
 \caption{Render with caustics}
 \label{fig:caustics}
@@ -248,7 +251,15 @@ Caustics are computationally intensive to calculate using standard raytracing me
 \subsubsection{Indirect soft diffuse}
 During the rendering process, after raytracing if the object's material is reflective or transmissive, rays are diffusely reflected of the intersecting object. This allows for the visualisation of colour bleeding. This was done by tracing a diffusion ray until intersection, at that point - depending on accuracy preference the value was obtained from the global photon map directly or by sampling.
 
-I attempted to render everything accurately, including indirect diffuse reflections - even though inaccurate was suggested unless it could not be performed. Unfortunately the results of attempting to accurately render the soft diffuse resulted in high amount of noise, as shown in subfigure ~\ref{fig:sub1}. To reduce the noise the image was passed through a gaussian low pass filter, the result of this are shown in subfigure ~\ref{fig:sub2}. Unfortunately this don't produce the desired effect, I therefore decided to examine the difference between inaccurate and the use of both inaccurate and accurate to render the scene. This is shown in figure \ref{fig:AccuratefilterComp}.
+I attempted to render everything accurately, including indirect diffuse reflections - even though inaccurate was suggested unless it could not be performed. Unfortunately the results of attempting to accurately render the soft diffuse resulted in high amount of noise, as shown in figure ~\ref{fig:indirectdiffonly} and subfigure ~\ref{fig:sub1} as a whole scene. To reduce the noise the image was passed through a gaussian low pass filter, the result of this are shown in subfigure ~\ref{fig:sub2}. Unfortunately this don't produce the desired effect, I therefore decided to examine the difference between inaccurate and the use of both inaccurate and accurate to render the scene. This is shown in figure \ref{fig:AccuratefilterComp}. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.65\textwidth]{indirect_softdiffuse_accurate}
+\captionsetup{justification=centering,margin=0.5cm}
+\caption{Render showing indirect soft diffuse only}
+\label{fig:indirectdiffonly}
+\end{figure}
 
 \begin{figure}
 \centering
