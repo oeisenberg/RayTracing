@@ -168,7 +168,7 @@ int FrameBuffer::writeDepthFile(char *filename)
   return 0;
 }
 
-
+// Creates the approptiate kernel of size height x width
 // Code provided from:
 // https://gist.github.com/OmarAflak/aca9d0dc8d583ff5a5dc16ca5cdda86a
 vector<vector<double>> FrameBuffer::getGaussian(int height, int width, double sigma) 
@@ -193,15 +193,15 @@ vector<vector<double>> FrameBuffer::getGaussian(int height, int width, double si
     return kernel;
 } 
 
+// Applies a kernel over the image to provide a blur effect
 // Code adapted from:
 // https://gist.github.com/OmarAflak/aca9d0dc8d583ff5a5dc16ca5cdda86a
 void FrameBuffer::gaussianBlur(){
   int kSize = 5;
-  vector<vector<double>> kernel = getGaussian(kSize, kSize, 20.0);
+  vector<vector<double>> kernel = getGaussian(kSize, kSize, 5.0);
   Pixel *newBuffer = this->framebuffer;
 
   // filter per R, G, B, per pixel, per kenerl square
-  // for (int iColourChannel = 0; iColourChannel < 3; iColourChannel++){
     for (int i = 1; i < this->height; i++){
       for (int j = 1; j < this->width; j++){
         for (int h=i ; h<i+kSize ; h++) {
@@ -215,7 +215,6 @@ void FrameBuffer::gaussianBlur(){
         }
       }
     }
-  // }
 
   this->framebuffer = newBuffer;
 }
