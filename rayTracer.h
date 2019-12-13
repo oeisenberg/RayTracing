@@ -79,6 +79,8 @@ public:
         return colour;
     }
 
+    // Refracts the incoming ray
+    // Returing the colour by recursing raytrace().
     Colour refract(Scene& scene, Camera &camera, Hit closest, Ray lRay, float depth, PhotonMap &gPm, PhotonMap &cPm){
         Vector refraction, R, G, B;
         lRay.direction.normalise();
@@ -94,6 +96,7 @@ public:
         return raytrace(scene, camera, transparentRay, depth-1, gPm, cPm) * closest.what->objMaterial->transparentDegree;
     }
 
+    // Samples where the subset of nearby photons came from to visuallise soft diffusion
     Colour sample(Scene &scene, Hit closest, PhotonMap &gPm, Camera &camera){
         std::vector<Photon> photons = gPm.getNSurroundingPoints(closest.position);
         int subsample = 20;
@@ -116,8 +119,10 @@ public:
                         total += gPm.calcRadiance(hit, camera.e, diff) * diff;
                     }
                 }
+                // increment for successful samples only - could all be direct
                 nSamples++;
             }
+            // increment so that the list of photons doesn't expire
             iPhoton++;
         }
         return total / nSamples;

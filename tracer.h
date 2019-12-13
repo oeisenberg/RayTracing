@@ -23,11 +23,11 @@ public:
             objs[i]->intersection(ray, new_t);
             if (new_t.flag)
             {
-            if (new_t.t < t)
-            {
-                t = new_t.t;
-                closest = new_t;
-            }
+                if (new_t.t < t)
+                {
+                    t = new_t.t;
+                    closest = new_t;
+                }
             }
         }
         return closest;

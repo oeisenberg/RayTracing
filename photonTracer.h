@@ -9,6 +9,8 @@ public:
 
 	}
 
+    // Reflects the incoming ray as if the object is a mirror
+    // Returing the colour by recursing raytrace().
     Colour reflect(Scene &scene, Camera &camera, std::vector<Photon> &photonHitsMap, Hit closest, Photon pRay, float probability, Colour coeff){
         Vector r;
         closest.normal.reflection(pRay.direction, r);
@@ -18,6 +20,8 @@ public:
         return photontrace(scene, camera, photonRay, photonHitsMap) * closest.what->objMaterial->reflectionDegree; 
     }
 
+    // Refracts the incoming ray
+    // Returing the colour by recursing raytrace().
     Colour refract(Scene &scene, Camera &camera, std::vector<Photon> &photonHitsMap, Hit closest, Photon pRay, float probability, Colour coeff){
         Vector r;
         Vector bias = closest.normal.multiply(0.001f);
