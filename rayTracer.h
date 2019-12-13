@@ -75,7 +75,11 @@ public:
 
     Colour sample(Scene &scene, Hit closest, PhotonMap &gPm, Camera &camera){
         std::vector<Photon> photons = gPm.getNSurroundingPoints(closest.position);
+<<<<<<< Updated upstream
         int subsample = 500;
+=======
+        int subsample = 10;
+>>>>>>> Stashed changes
         std::random_shuffle(photons.begin(), photons.end());
 
         Colour total = Colour();
