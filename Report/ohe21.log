@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2019.12.8)  13 DEC 2019 08:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2019.12.8)  13 DEC 2019 12:05
 entering extended mode
 **./ohe21.tex
 (ohe21.tex
@@ -644,15 +644,79 @@ Package caption Info: Standard document class detected.
 \c@continuedfloat=\count147
 Package caption Info: hyperref package is loaded.
 )
+("C:\Users\olive\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsmath.st
+y"
+Package: amsmath 2019/11/16 v2.17d AMS math features
+\@mathmargin=\skip44
+
+For additional information on amsmath, use the `?' option.
+
+("C:\Users\olive\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amstext.st
+y"
+Package: amstext 2000/06/29 v2.01 AMS text
+
+("C:\Users\olive\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsgen.sty
+"
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks27
+\ex@=\dimen167
+))
+("C:\Users\olive\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsbsy.sty
+"
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen168
+)
+("C:\Users\olive\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsopn.sty
+"
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count148
+LaTeX Info: Redefining \frac on input line 227.
+\uproot@=\count149
+\leftroot@=\count150
+LaTeX Info: Redefining \overline on input line 389.
+\classnum@=\count151
+\DOTSCASE@=\count152
+LaTeX Info: Redefining \ldots on input line 486.
+LaTeX Info: Redefining \dots on input line 489.
+LaTeX Info: Redefining \cdots on input line 610.
+\Mathstrutbox@=\box40
+\strutbox@=\box41
+\big@size=\dimen169
+LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
+\macc@depth=\count153
+\c@MaxMatrixCols=\count154
+\dotsspace@=\muskip11
+\c@parentequation=\count155
+\dspbrk@lvl=\count156
+\tag@help=\toks28
+\row@=\count157
+\column@=\count158
+\maxfields@=\count159
+\andhelp@=\toks29
+\eqnshift@=\dimen170
+\alignsep@=\dimen171
+\tagshift@=\dimen172
+\tagwidth@=\dimen173
+\totwidth@=\dimen174
+\lineht@=\dimen175
+\@envbody=\toks30
+\multlinegap=\skip45
+\multlinetaggap=\skip46
+\mathdisplay@stack=\toks31
+LaTeX Info: Redefining \[ on input line 2858.
+LaTeX Info: Redefining \] on input line 2859.
+)
 ("C:\Users\olive\AppData\Local\Programs\MiKTeX 2.9\tex/latex/microtype\microtyp
 e.sty"
 Package: microtype 2019/11/18 v2.7d Micro-typographical refinements (RS)
-\MT@toks=\toks27
-\MT@count=\count148
+\MT@toks=\toks32
+\MT@count=\count160
 LaTeX Info: Redefining \textls on input line 790.
-\MT@outer@kern=\dimen167
+\MT@outer@kern=\dimen176
 LaTeX Info: Redefining \textmicrotypecontext on input line 1354.
-\MT@listname@count=\count149
+\MT@listname@count=\count161
 
 ("C:\Users\olive\AppData\Local\Programs\MiKTeX 2.9\tex/latex/microtype\microtyp
 e-pdftex.def"
@@ -660,32 +724,36 @@ File: microtype-pdftex.def 2019/11/18 v2.7d Definitions specific to pdftex (RS)
 
 LaTeX Info: Redefining \lsstyle on input line 914.
 LaTeX Info: Redefining \lslig on input line 914.
-\MT@outer@space=\skip44
+\MT@outer@space=\skip47
 )
 Package microtype Info: Loading configuration file microtype.cfg.
 
 ("C:\Users\olive\AppData\Local\Programs\MiKTeX 2.9\tex/latex/microtype\microtyp
 e.cfg"
 File: microtype.cfg 2019/11/18 v2.7d microtype main configuration file (RS)
-)) (ohe21.aux)
+)) (ohe21.aux
+
+LaTeX Warning: Label `fig:caustics' multiply defined.
+
+)
 \openout1 = `ohe21.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-\AtBeginShipoutBox=\box40
-Package hyperref Info: Link coloring OFF on input line 10.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+\AtBeginShipoutBox=\box42
+Package hyperref Info: Link coloring OFF on input line 11.
 
 ("C:\Users\olive\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\nameref.s
 ty"
@@ -699,11 +767,11 @@ Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
 estring.sty"
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count150
+\c@section@level=\count162
 )
-LaTeX Info: Redefining \ref on input line 10.
-LaTeX Info: Redefining \pageref on input line 10.
-LaTeX Info: Redefining \nameref on input line 10.
+LaTeX Info: Redefining \ref on input line 11.
+LaTeX Info: Redefining \pageref on input line 11.
+LaTeX Info: Redefining \nameref on input line 11.
  (ohe21.out) (ohe21.out)
 \@outlinefile=\write4
 \openout4 = `ohe21.out'.
@@ -712,17 +780,17 @@ LaTeX Info: Redefining \nameref on input line 10.
 ("C:\Users\olive\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp-p
 df.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count151
-\scratchdimen=\dimen168
-\scratchbox=\box41
-\nofMPsegments=\count152
-\nofMParguments=\count153
-\everyMPshowfont=\toks28
-\MPscratchCnt=\count154
-\MPscratchDim=\dimen169
-\MPnumerator=\count155
-\makeMPintoPDFobject=\count156
-\everyMPtoPDFconversion=\toks29
+\scratchcounter=\count163
+\scratchdimen=\dimen177
+\scratchbox=\box43
+\nofMPsegments=\count164
+\nofMParguments=\count165
+\everyMPshowfont=\toks33
+\MPscratchCnt=\count166
+\MPscratchDim=\dimen178
+\MPnumerator=\count167
+\makeMPintoPDFobject=\count168
+\everyMPtoPDFconversion=\toks34
 )
 ("C:\Users\olive\AppData\Local\Programs\MiKTeX 2.9\tex/latex/epstopdf-pkg\epsto
 pdf-base.sty"
@@ -741,14 +809,14 @@ G,.JBIG2,.JB2,.eps]
 )
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Info: Redefining \microtypecontext on input line 10.
+LaTeX Info: Redefining \microtypecontext on input line 11.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `basictext'.
-LaTeX Info: Redefining \showhyphens on input line 10.
+LaTeX Info: Redefining \showhyphens on input line 11.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -757,146 +825,173 @@ Package microtype Info: No adjustment of character kerning.
 fg"
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
-)
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 15.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 15.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 15.
- (ohe21.toc
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 2.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 2.
-)
+) (ohe21.toc)
 \tf@toc=\write5
 \openout5 = `ohe21.toc'.
 
  [1
 
 {C:/Users/olive/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-Overfull \hbox (3.11797pt too wide) in paragraph at lines 23--24
+Overfull \hbox (3.11797pt too wide) in paragraph at lines 24--25
 \OT1/cmr/m/n/10 (-20) ad-van-tage of the \OT1/cmr/m/it/10 (-20) t \OT1/cmr/m/n/
 10 (-20) pa-ram-e-ter, this makes
  []
 
 
-Overfull \hbox (5.06691pt too wide) in paragraph at lines 30--31
+Overfull \hbox (5.06691pt too wide) in paragraph at lines 31--32
 \OT1/cmr/m/n/10 (-20) Fur-ther-more the ob-ject has to be checked
  []
 
 
-LaTeX Warning: Command \textendash invalid in math mode on input line 41.
+LaTeX Warning: Command \textendash invalid in math mode on input line 42.
 
 
-Overfull \hbox (0.1325pt too wide) in paragraph at lines 46--47
+Overfull \hbox (0.1325pt too wide) in paragraph at lines 47--48
 \OT1/cmr/m/n/10 (-20) the Phong ap-prox-i-ma-tion was used, this
  []
 
 
-Overfull \hbox (6.00807pt too wide) in paragraph at lines 63--64
+Overfull \hbox (6.00807pt too wide) in paragraph at lines 64--65
 \OT1/cmr/m/n/10 (-20) When com-put-ing shad-ows self-shadowing
  []
 
 [2
 
 ]
-Overfull \hbox (6.17636pt too wide) in paragraph at lines 65--66
+Overfull \hbox (6.17636pt too wide) in paragraph at lines 66--67
 \OT1/cmr/m/n/10 (-20) There-fore the loop that checks for shadow
  []
 
 
-Overfull \hbox (0.23354pt too wide) in paragraph at lines 70--71
+Overfull \hbox (0.23354pt too wide) in paragraph at lines 71--72
 []\OT1/cmr/m/n/10 (-20) Reflection works by as-sum-ing a spec-
  []
 
 
-Overfull \hbox (5.47505pt too wide) in paragraph at lines 81--81
-[]\OT1/cmr/bx/n/12 Lab 1 - Ras-ter-is-ing Lines 
+Overfull \hbox (10.06488pt too wide) in paragraph at lines 102--103
+\OT1/cmr/m/n/10 (-20) the method sup-ported in the \OT1/cmr/m/it/10 (-20) poly-
+mesh.cpp
  []
 
 
-Overfull \hbox (0.6025pt too wide) in paragraph at lines 84--85
-\OT1/cmr/m/n/10 (-20) iden-tify the num-ber of ver-tices and faces
+Overfull \hbox (1.37637pt too wide) in paragraph at lines 102--103
+\OT1/cmr/m/n/10 (-20) more com-plex struc-tures have the poten-
  []
 
 
-Overfull \hbox (13.89807pt too wide) in paragraph at lines 84--85
-\OT1/cmr/m/n/10 (-20) that are con-tained and are it-er-ated through
+Overfull \hbox (2.69304pt too wide) in paragraph at lines 102--103
+\OT1/cmr/m/n/10 (-20) which lacks in edge in-for-ma-tion, or Edge-
+ []
+
+
+Overfull \hbox (0.53418pt too wide) in paragraph at lines 102--103
+\OT1/cmr/m/n/10 (-20) Based con-nec-tiv-ity, which ex-cludes edge
  []
 
 [3]
-<./Images/pointlight.png, id=167, 239.63211pt x 109.54611pt>
-File: ./Images/pointlight.png Graphic file (type png)
-<use ./Images/pointlight.png>
-Package pdftex.def Info: ./Images/pointlight.png  used on input line 99.
-(pdftex.def)             Requested size: 172.5pt x 78.85808pt.
+<./Images/wireframe.png, id=192, 301.25179pt x 200.83453pt>
+File: ./Images/wireframe.png Graphic file (type png)
+<use ./Images/wireframe.png>
+Package pdftex.def Info: ./Images/wireframe.png  used on input line 106.
+(pdftex.def)             Requested size: 172.5pt x 114.99782pt.
 
-Overfull \hbox (5.0pt too wide) in paragraph at lines 99--101
-[][] 
- []
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Overfull \hbox (0.40297pt too wide) in paragraph at lines 108--109
-[]\OT1/cmr/m/n/10 (-20) To be able to vi-su-alise shad-ows prop-
- []
-
-<./Images/pointlight_redlight.png, id=168, 238.87137pt x 109.54611pt>
-File: ./Images/pointlight_redlight.png Graphic file (type png)
-<use ./Images/pointlight_redlight.png>
-Package pdftex.def Info: ./Images/pointlight_redlight.png  used on input line 1
-16.
-(pdftex.def)             Requested size: 172.5pt x 79.11049pt.
-
-Overfull \hbox (5.0pt too wide) in paragraph at lines 116--118
-[][] 
- []
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Overfull \hbox (8.49088pt too wide) in paragraph at lines 123--124
-\OT1/cmr/m/n/10 (-20) Photon map-ping al-lows to com-pute global
- []
-
-
-Overfull \hbox (6.17636pt too wide) in paragraph at lines 125--126
-[]\OT1/cmr/m/n/10 (-20) Some dif-fi-culty was en-coun-tered when
- []
-
-[4 <./Images/pointlight.png>]
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 126.
-
-<./Images/direct_diffuse.png, id=177, 508.17221pt x 511.21516pt>
-File: ./Images/direct_diffuse.png Graphic file (type png)
-<use ./Images/direct_diffuse.png>
-Package pdftex.def Info: ./Images/direct_diffuse.png  used on input line 131.
-(pdftex.def)             Requested size: 172.5pt x 173.53783pt.
-
-Overfull \hbox (5.0pt too wide) in paragraph at lines 131--133
-[][] 
- []
-
-<./Images/caustics.png, id=179, 308.09842pt x 303.534pt>
-File: ./Images/caustics.png Graphic file (type png)
-<use ./Images/caustics.png>
-Package pdftex.def Info: ./Images/caustics.png  used on input line 146.
-(pdftex.def)             Requested size: 172.5pt x 169.94545pt.
-
-Overfull \hbox (5.0pt too wide) in paragraph at lines 146--148
+Overfull \hbox (5.0pt too wide) in paragraph at lines 106--108
  [][] 
  []
 
-[5 <./Images/pointlight_redlight.png> <./Images/direct_diffuse.png> <./Images/c
-austics.png>] (ohe21.lof
-Overfull \hbox (2.98087pt too wide) in paragraph at lines 1--1
+<./Images/pointlight.png, id=194, 239.63211pt x 109.54611pt>
+File: ./Images/pointlight.png Graphic file (type png)
+<use ./Images/pointlight.png>
+Package pdftex.def Info: ./Images/pointlight.png  used on input line 127.
+(pdftex.def)             Requested size: 172.5pt x 78.85808pt.
+
+Overfull \hbox (5.0pt too wide) in paragraph at lines 127--129
+[][] 
+ []
+
+[4 <./Images/wireframe.png>]
+Overfull \hbox (0.40297pt too wide) in paragraph at lines 136--137
+[]\OT1/cmr/m/n/10 (-20) To be able to vi-su-alise shad-ows prop-
+ []
+
+<./Images/pointlight_redlight.png, id=201, 238.87137pt x 109.54611pt>
+File: ./Images/pointlight_redlight.png Graphic file (type png)
+<use ./Images/pointlight_redlight.png>
+Package pdftex.def Info: ./Images/pointlight_redlight.png  used on input line 1
+44.
+(pdftex.def)             Requested size: 172.5pt x 79.11049pt.
+
+Overfull \hbox (5.0pt too wide) in paragraph at lines 144--146
+[][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<./Images/renderingEquation.png, id=204, 487.5816pt x 57.3342pt>
+File: ./Images/renderingEquation.png Graphic file (type png)
+<use ./Images/renderingEquation.png>
+Package pdftex.def Info: ./Images/renderingEquation.png  used on input line 155
+.
+(pdftex.def)             Requested size: 172.5pt x 20.28334pt.
+
+Overfull \hbox (5.0pt too wide) in paragraph at lines 155--158
+ [][] 
+ []
+
+
+Overfull \hbox (1.71133pt too wide) in paragraph at lines 159--160
+[]\OT1/cmr/m/n/10 (-20) The equa-tion com-prises of five terms,
+ []
+
+
+Overfull \hbox (3.62244pt too wide) in paragraph at lines 165--166
+[]$\OML/cmm/m/it/10 V\OT1/cmr/m/n/10 (-20) (\OML/cmm/m/it/10 x; x[]\OT1/cmr/m/n
+/10 (-20) )$ is the-vis-i-bil-ity of the other
+ []
+
+[5 <./Images/pointlight.png> <./Images/pointlight_redlight.png> <./Images/rende
+ringEquation.png>]
+Overfull \hbox (10.39589pt too wide) in paragraph at lines 171--172
+\OT1/cmr/m/n/10 (-20) Bi-directional Re-fectance Diri-bu-tion Func-
+ []
+
+
+Overfull \hbox (2.82196pt too wide) in paragraph at lines 171--172
+\OT1/cmr/m/n/10 (-20) tions are a method to spec-ify the amount
+ []
+
+
+LaTeX Warning: Citation `photonMapping' on page 6 undefined on input line 177.
+
+
+Overfull \hbox (6.17636pt too wide) in paragraph at lines 181--182
+[]\OT1/cmr/m/n/10 (-20) Some dif-fi-culty was en-coun-tered when
+ []
+
+<./Images/direct_diffuse.png, id=220, 508.17221pt x 511.21516pt>
+File: ./Images/direct_diffuse.png Graphic file (type png)
+<use ./Images/direct_diffuse.png>
+Package pdftex.def Info: ./Images/direct_diffuse.png  used on input line 187.
+(pdftex.def)             Requested size: 172.5pt x 173.53783pt.
+
+Overfull \hbox (5.0pt too wide) in paragraph at lines 187--189
+[][] 
+ []
+
+[6 <./Images/direct_diffuse.png>]
+<./Images/caustics.png, id=228, 308.09842pt x 303.534pt>
+File: ./Images/caustics.png Graphic file (type png)
+<use ./Images/caustics.png>
+Package pdftex.def Info: ./Images/caustics.png  used on input line 201.
+(pdftex.def)             Requested size: 172.5pt x 169.94545pt.
+
+Overfull \hbox (5.0pt too wide) in paragraph at lines 201--203
+ [][] 
+ []
+
+(ohe21.lof
+Overfull \hbox (2.98087pt too wide) in paragraph at lines 2--2
  [][] [][]\OT1/cmr/m/n/10 (-20) Simple ren-der to il-lis-trate 
  []
 
@@ -904,26 +999,31 @@ Overfull \hbox (2.98087pt too wide) in paragraph at lines 1--1
 \tf@lof=\write6
 \openout6 = `ohe21.lof'.
 
- (ohe21.bbl) [6
-
-]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 160.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 160.
+ (ohe21.bbl) [7 <./Images/caustics.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 215.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 215.
  (ohe21.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 160.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 160.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 215.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 215.
 Package rerunfilecheck Info: File `ohe21.out' has not changed.
-(rerunfilecheck)             Checksum: B4868CD48093AA612A5B55B24703875E;1832.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 160.
+(rerunfilecheck)             Checksum: 4672BA4E1D09DA50C6CE2DA01E633A6B;2066.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 215.
  ) 
 Here is how much of TeX's memory you used:
- 20036 strings out of 492484
- 402089 string characters out of 3121601
- 498832 words of memory out of 3000000
- 23906 multiletter control sequences out of 15000+200000
- 10395 words of font info for 68 fonts, out of 3000000 for 9000
+ 20685 strings out of 492484
+ 409876 string characters out of 3121601
+ 511039 words of memory out of 3000000
+ 24519 multiletter control sequences out of 15000+200000
+ 11625 words of font info for 75 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 68i,7n,69p,774b,335s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 68i,7n,69p,981b,412s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/olive/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
 /cm/cmbx10.pfb><C:/Users/olive/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
 blic/amsfonts/cm/cmbx12.pfb><C:/Users/olive/AppData/Local/Programs/MiKTeX 2.9/f
@@ -934,11 +1034,13 @@ ve/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><
 C:/Users/olive/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
 /cmr12.pfb><C:/Users/olive/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
 /amsfonts/cm/cmr17.pfb><C:/Users/olive/AppData/Local/Programs/MiKTeX 2.9/fonts/
-type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/olive/AppData/Local/Programs/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on ohe21.pdf (6 pages, 512159 bytes).
+type1/public/amsfonts/cm/cmr7.pfb><C:/Users/olive/AppData/Local/Programs/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/olive/AppData/Local/Pr
+ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/olive/AppD
+ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on ohe21.pdf (7 pages, 565083 bytes).
 PDF statistics:
- 247 PDF objects out of 1000 (max. 8388607)
- 44 named destinations out of 1000 (max. 500000)
- 12529 words of extra memory for PDF output out of 14400 (max. 10000000)
+ 299 PDF objects out of 1000 (max. 8388607)
+ 58 named destinations out of 1000 (max. 500000)
+ 12571 words of extra memory for PDF output out of 14400 (max. 10000000)
 

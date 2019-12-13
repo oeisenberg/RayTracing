@@ -7,20 +7,24 @@
 \BOOKMARK [3][-]{subsubsection.1.2.1}{Local lighting}{subsection.1.2}% 7
 \BOOKMARK [3][-]{subsubsection.1.2.2}{Self Shadows}{subsection.1.2}% 8
 \BOOKMARK [3][-]{subsubsection.1.2.3}{Global lighting}{subsection.1.2}% 9
-\BOOKMARK [1][-]{section.2}{Labs}{}% 10
-\BOOKMARK [2][-]{subsection.2.1}{Lab 1 - Rasterising Lines}{section.2}% 11
-\BOOKMARK [2][-]{subsection.2.2}{Lab 2 - Reading Models}{section.2}% 12
-\BOOKMARK [2][-]{subsection.2.3}{Lab 3 - Simple Raytracing}{section.2}% 13
-\BOOKMARK [3][-]{subsubsection.2.3.1}{Triangle intersection}{subsection.2.3}% 14
-\BOOKMARK [2][-]{subsection.2.4}{Lab 4 - Basic Lighting and Shadows}{section.2}% 15
-\BOOKMARK [3][-]{subsubsection.2.4.1}{Types of light}{subsection.2.4}% 16
-\BOOKMARK [3][-]{subsubsection.2.4.2}{Spot Lights - Directional lights}{subsection.2.4}% 17
-\BOOKMARK [3][-]{subsubsection.2.4.3}{Point Lights}{subsection.2.4}% 18
-\BOOKMARK [3][-]{subsubsection.2.4.4}{Shadows}{subsection.2.4}% 19
+\BOOKMARK [1][-]{section.2}{Implementation}{}% 10
+\BOOKMARK [2][-]{subsection.2.1}{Labs 1 \046 2}{section.2}% 11
+\BOOKMARK [2][-]{subsection.2.2}{Lab 3 - Simple Raytracing}{section.2}% 12
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Framebuffer}{subsection.2.2}% 13
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Triangle intersection}{subsection.2.2}% 14
+\BOOKMARK [2][-]{subsection.2.3}{Lab 4 - Basic Lighting and Shadows}{section.2}% 15
+\BOOKMARK [3][-]{subsubsection.2.3.1}{Types of light}{subsection.2.3}% 16
+\BOOKMARK [3][-]{subsubsection.2.3.2}{Spot Lights - Directional lights}{subsection.2.3}% 17
+\BOOKMARK [3][-]{subsubsection.2.3.3}{Point Lights}{subsection.2.3}% 18
+\BOOKMARK [3][-]{subsubsection.2.3.4}{Shadows}{subsection.2.3}% 19
 \BOOKMARK [1][-]{section.3}{Optimisations}{}% 20
 \BOOKMARK [1][-]{section.4}{Photon Mapping}{}% 21
-\BOOKMARK [2][-]{subsubsection.4.0.1}{Random emmition - Lighting}{section.4}% 22
-\BOOKMARK [3][-]{subsubsection.4.0.2}{Direct lighting}{subsubsection.4.0.1}% 23
-\BOOKMARK [3][-]{subsubsection.4.0.3}{Global illumination}{subsubsection.4.0.1}% 24
-\BOOKMARK [3][-]{subsubsection.4.0.4}{Specular \046 Gloss}{subsubsection.4.0.1}% 25
-\BOOKMARK [3][-]{subsubsection.4.0.5}{Caustics}{subsubsection.4.0.1}% 26
+\BOOKMARK [2][-]{subsection.4.1}{The rendering equation}{section.4}% 22
+\BOOKMARK [2][-]{subsection.4.2}{BRDFs}{section.4}% 23
+\BOOKMARK [2][-]{subsection.4.3}{Two pass algorithm}{section.4}% 24
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Pass one}{subsection.4.3}% 25
+\BOOKMARK [3][-]{subsubsection.4.3.2}{Pass two}{subsection.4.3}% 26
+\BOOKMARK [3][-]{subsubsection.4.3.3}{Random emmition - Lighting}{subsection.4.3}% 27
+\BOOKMARK [3][-]{subsubsection.4.3.4}{Direct lighting}{subsection.4.3}% 28
+\BOOKMARK [3][-]{subsubsection.4.3.5}{Specular \046 Gloss}{subsection.4.3}% 29
+\BOOKMARK [3][-]{subsubsection.4.3.6}{Caustics}{subsection.4.3}% 30

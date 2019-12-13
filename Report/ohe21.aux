@@ -29,32 +29,43 @@
 \newlabel{equ:totalColour}{{4}{2}{Local lighting}{equation.1.4}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.2}Self Shadows}{2}{subsubsection.1.2.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.3}Global lighting}{3}{subsubsection.1.2.3}\protected@file@percent }
-\newlabel{equ:fresnel}{{5}{3}{Global lighting}{equation.1.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Labs}{3}{section.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Lab 1 - Rasterising Lines}{3}{subsection.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Lab 2 - Reading Models}{3}{subsection.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Lab 3 - Simple Raytracing}{4}{subsection.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}Triangle intersection}{4}{subsubsection.2.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Lab 4 - Basic Lighting and Shadows}{4}{subsection.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.1}Types of light}{4}{subsubsection.2.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.2}Spot Lights - Directional lights}{4}{subsubsection.2.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.3}Point Lights}{4}{subsubsection.2.4.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Simple render to illistrate pointlights\relax }}{4}{figure.caption.2}\protected@file@percent }
+\newlabel{equ:fresnelrpar}{{5}{3}{Global lighting}{equation.1.5}{}}
+\newlabel{equ:fresnelrper}{{6}{3}{Global lighting}{equation.1.6}{}}
+\newlabel{equ:fresnelkr}{{7}{3}{Global lighting}{equation.1.7}{}}
+\newlabel{equ:fresnelkt}{{8}{3}{Global lighting}{equation.1.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Implementation}{3}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Labs 1 \& 2}{3}{subsection.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces End product of lab 2\relax }}{4}{figure.caption.2}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:pointlight_white}{{1}{4}{Simple render to illistrate pointlights\relax }{figure.caption.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.4}Shadows}{4}{subsubsection.2.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3}Optimisations}{4}{section.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Photon Mapping}{4}{section.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Simple render like figure \ref  {fig:pointlight_white} but with a red lgiht\relax }}{5}{figure.caption.3}\protected@file@percent }
-\newlabel{fig:pointlight_red}{{2}{5}{Simple render like figure \ref {fig:pointlight_white} but with a red lgiht\relax }{figure.caption.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.0.1}Random emmition - Lighting}{5}{subsubsection.4.0.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.0.2}Direct lighting}{5}{subsubsection.4.0.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Render with direct diffuse lighting only\relax }}{5}{figure.caption.4}\protected@file@percent }
-\newlabel{fig:direct_diffuse}{{3}{5}{Render with direct diffuse lighting only\relax }{figure.caption.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.0.3}Global illumination}{5}{subsubsection.4.0.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.0.4}Specular \& Gloss}{5}{subsubsection.4.0.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.0.5}Caustics}{5}{subsubsection.4.0.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Render with caustics\relax }}{5}{figure.caption.5}\protected@file@percent }
-\newlabel{fig:caustics}{{4}{5}{Render with caustics\relax }{figure.caption.5}{}}
+\newlabel{fig:wireframe}{{1}{4}{End product of lab 2\relax }{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Lab 3 - Simple Raytracing}{4}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Framebuffer}{4}{subsubsection.2.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Triangle intersection}{4}{subsubsection.2.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Lab 4 - Basic Lighting and Shadows}{4}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}Types of light}{4}{subsubsection.2.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}Spot Lights - Directional lights}{4}{subsubsection.2.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3}Point Lights}{4}{subsubsection.2.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Simple render to illistrate pointlights\relax }}{5}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:pointlight_white}{{2}{5}{Simple render to illistrate pointlights\relax }{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.4}Shadows}{5}{subsubsection.2.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Optimisations}{5}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Photon Mapping}{5}{section.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Simple render like figure \ref  {fig:pointlight_white} but with a red lgiht\relax }}{5}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:pointlight_red}{{3}{5}{Simple render like figure \ref {fig:pointlight_white} but with a red lgiht\relax }{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}The rendering equation}{5}{subsection.4.1}\protected@file@percent }
+\newlabel{fig:caustics}{{\caption@xref {fig:caustics}{ on input line 157}}{5}{The rendering equation}{figure.caption.5}{}}
+\citation{photonMapping}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}BRDFs}{6}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Two pass algorithm}{6}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Pass one}{6}{subsubsection.4.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Pass two}{6}{subsubsection.4.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}Random emmition - Lighting}{6}{subsubsection.4.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.4}Direct lighting}{6}{subsubsection.4.3.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Render with direct diffuse lighting only\relax }}{6}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:direct_diffuse}{{4}{6}{Render with direct diffuse lighting only\relax }{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.5}Specular \& Gloss}{6}{subsubsection.4.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.6}Caustics}{6}{subsubsection.4.3.6}\protected@file@percent }
 \bibstyle{ieeetr}
 \bibdata{./Bibliography}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Render with caustics\relax }}{7}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:caustics}{{5}{7}{Render with caustics\relax }{figure.caption.7}{}}
