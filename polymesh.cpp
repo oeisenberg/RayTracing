@@ -65,7 +65,7 @@ void PolyMesh::do_construct(char *file, Transform *transform)
 
 			vertex[lineNo - 3] = Vertex(x, y, z);
 
-			transform->apply(vertex[lineNo - 3]);
+			transform->apply(vertex[lineNo - 3]); 
 		}
 		else if (tokens.size() == 4) { // Face
 

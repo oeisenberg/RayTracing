@@ -50,8 +50,39 @@ Material::Material(Colour colour, Colour diffVal, Colour specVal, float power, C
 
 }
 
+Material::Material(Colour colour, Colour diffVal, Colour specVal, float power, Colour reflectionDegree, Colour transparentDegree, float ior, float roughness)
+{
+  this->colour = colour;
+
+  this->diffuse = diffVal;
+  this->specular = specVal;
+  this->power = power;
+
+  if (reflectionDegree != 0){
+    this->isReflective = true;
+    this->reflectionDegree = reflectionDegree;
+  }
+
+  if (transparentDegree != 0){
+    this->isTransparent = true;
+    this->transparentDegree = transparentDegree;
+    this->ior = ior;
+  }
+
+}
+
 Colour Material::getColour(){
   return this->colour;
+}
+
+Colour Material::getDiffuseValue()
+{
+  return diffuse;
+}
+
+Colour Material::getSpecularValue()
+{
+  return specular;
 }
 
 Colour Material::computeBaseColour(){
