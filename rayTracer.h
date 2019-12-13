@@ -142,26 +142,22 @@ public:
                 if (diff > 0.0f){
                     Ray shadowRay = Ray("shadow", closest.position + lightDir.multiply(0.0001f), lightDir);
                     if(!checkForShadow(closest, scene.objects, shadowRay, scene.lights[iLight])){
-                        if (depth == 4){
-                            Colour scale = scene.lights[iLight]->getIntensity();
-                            Colour intensity = closest.what->objMaterial->compute_light_colour(SurfaceNormal, camera.e - closest.position, lightDir, diff);
-                            colour += intensity * scale * 0.5;
-                        } else {
+                        Colour scale = scene.lights[iLight]->getIntensity();
+                        Colour intensity = closest.what->objMaterial->compute_light_colour(SurfaceNormal, camera.e - closest.position, lightDir, diff);
+                        colour += intensity * scale * 0.5;
+                        if (depth != 4){
                             if (lRay.type != "specular"){
-                                colour += gPm.calcRadiance(closest, camera.e, diff) * 100; 
-                            } else {
-                                // specular reflections
-                                Colour scale = scene.lights[iLight]->getIntensity();
-                                Colour intensity = closest.what->objMaterial->compute_light_colour(SurfaceNormal, camera.e - closest.position, lightDir, diff);
-                                colour += intensity * scale * 0.8;
+                                colour += gPm.calcRadiance(closest, camera.e, diff) * 100;
                             }
                         }
                     } else {
+                        // Caustics can be visuallised outside of shadows
                         colour += cPm.calcRadiance(closest, camera.e, diff);
                     }
                 } 
             }
 
+            // Complete reflection/refraction tests
             if(closest.what->objMaterial->isReflective && closest.what->objMaterial->isTransparent){
                 Colour refractionColour = Colour();
                 float kr = fresnel(lRay.direction, closest.normal, closest.what->objMaterial->ior);
@@ -175,6 +171,8 @@ public:
                     colour += specularReflect(scene, camera, closest, lRay, depth, gPm, cPm);
                 }
             }
+
+            // Complete diffuse reflection tests
             colour += diffuseReflect(scene, camera, closest, lRay, depth, gPm, cPm) * 300;
         }
         return colour;
