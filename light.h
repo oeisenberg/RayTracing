@@ -20,15 +20,19 @@ protected:
   Vertex position;
   Vector direction;
 public:
+  // Returns the light's colour
   virtual Colour getIntensity(){
   };
 
+  // Returns the light's direction
   virtual Vector getDirection(){
   };
 
+  // Returns the lights position
   virtual Vertex getPosition(){
   };
 
+  // Allows support for light sources with no direction as it can be computed dynamically
   virtual Vector getDirection(Vertex){
   };
 

@@ -48,6 +48,7 @@ public:
 		return x*other.x + y*other.y + z*other.z;
 	}
 
+	// Mirrors the inital ray
 	void reflection(Vector initial, Vector &reflect)
 	{
 		float d;
@@ -60,9 +61,10 @@ public:
 		reflect.z = initial.z - d * z;
 	}
 
+	// Refracts the intial ray depening on the hit objs IOR value
+	// // https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel
 	void refraction(Vector initial, float ior, Vector &refraction)
 	{
-		// https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel
 		Vector n = Vector(x, y, z);
 		n.normalise();
 
@@ -82,11 +84,13 @@ public:
 
 		if (k < 0) {
 			//TIR therefore no refraction.
+			// refraction = reflection(initial);
 		} else {
 			refraction = initial.multiply(eta) + n.multiply(eta * NdotI - sqrtf(k));
 		}
 	}
 
+	// Reflects the intial ray with an element of randomness to create surface roughness
 	void diffreflection(Vector initial, Vector &reflect){
 		int min = -1;
 		int max = 1;

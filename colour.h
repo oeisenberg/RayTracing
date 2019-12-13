@@ -82,6 +82,7 @@ public:
     return false;
   }
 
+  // Returns the maximum R, G or B value 
   float getStrength(){
     return std::max(std::max(R, G), B);
   };
