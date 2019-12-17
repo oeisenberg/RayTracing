@@ -24,7 +24,7 @@ public:
             if (new_t.flag)
             {
                 if (new_t.t < t)
-                {
+            {
                     t = new_t.t;
                     closest = new_t;
                 }

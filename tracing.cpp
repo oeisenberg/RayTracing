@@ -31,6 +31,8 @@
 #include "rayTracer.h"
 #include "photonTracer.h"
 
+#include <chrono>  // for high_resolution_clock
+
 PhotonMap createGlobalPhotonMap(Scene scene, Camera camera, PhotonTracer pt, int scale, int nSamples){
   std::vector<Photon> photonHitsMap;
   PhotonMap pm(nSamples);
@@ -99,17 +101,23 @@ int main(int argc, char *argv[]){
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
  std::cout << "Building the KD Tree" << std::endl;
+ auto start = std::chrono::high_resolution_clock::now();
+
   // // Create gloabl photon map
   PhotonTracer *pta = new PhotonTracer();
-  PhotonMap gloabalPm = createGlobalPhotonMap(*sc, *camera, *pta, 1200000, 400);
+  PhotonMap gloabalPm = createGlobalPhotonMap(*sc, *camera, *pta, 100000, 100);
   // Create caustic photon map
   PhotonTracer *ptb = new PhotonTracer();
-  PhotonMap causticPm = createCausticPhotonMap(*sc, *camera, *ptb, 100000, 300);
+  PhotonMap causticPm = createCausticPhotonMap(*sc, *camera, *ptb, 1000000, 100);
 
-  std::cout << "Finished building the KD Tree" << std::endl;
+  std::cout << "Finished building the KD Tree" << std::endl; 
+  auto finish = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> elapsed = finish - start;
+  std::cout << "Map building took: " << elapsed.count() << " s\n";
 
   int depth = 4;
   RayTracer rt = RayTracer();
+  start = std::chrono::high_resolution_clock::now();
   for (int x = 0; x <= sc->width - 1; x++)
   {
     for (int y = 0; y <= sc->height - 1; y++)
@@ -120,6 +128,9 @@ int main(int argc, char *argv[]){
     }
     std::cout << "Col: " << x << std::endl;
   }
+  finish = std::chrono::high_resolution_clock::now();
+  elapsed = finish - start;
+  std::cout << "Rendering took: " << elapsed.count() << " s\n";
 
   fb->writeRGBFile((char *)"test.ppm");
 
