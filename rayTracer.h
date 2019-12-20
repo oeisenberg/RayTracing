@@ -178,7 +178,7 @@ public:
             }
 
             // Complete diffuse reflection tests
-            // colour += diffuseReflect(scene, camera, closest, lRay, depth, gPm, cPm)*0.5;
+            colour += diffuseReflect(scene, camera, closest, lRay, depth, gPm, cPm)*0.5;
         }
         return colour;
     }

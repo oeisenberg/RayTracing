@@ -54,8 +54,8 @@ Transform *transform = new Transform(1.0f, 0.0f, 0.0f, 0.0f,
   addObject(new Sphere(Vertex(0.5,-1.7,7.5), 0.3, sphereB));
   addObject(new Sphere(Vertex(1,1.2,9.8), 0.7, reflective));
 
-  addLight(new Pointlight(Colour(0.4), new Vertex(0, 0.2, 10)));
-  addLight(new Spotlight(Colour(0.2), new Vector(0.2, -1, 0.8)));
+  addLight(new Pointlight(Colour(0.4), new Vertex(0, 0, 10)));
+  addLight(new Spotlight(Colour(0.3), new Vector(0.2, -1, 0.8)));
 };
 
 void Scene::addObject(Object *newObject)
