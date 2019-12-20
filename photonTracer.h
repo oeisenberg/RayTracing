@@ -11,12 +11,16 @@ public:
 
     // Reflects the incoming ray as if the object is a mirror
     // Returing the colour by recursing raytrace().
-    Colour reflect(Scene &scene, Camera &camera, std::vector<Photon> &photonHitsMap, Hit closest, Photon pRay, float probability, Colour coeff){
+     Colour reflect(Scene &scene, Camera &camera, std::vector<Photon> &photonHitsMap, Hit closest, Photon pRay, float probability, Colour coeff){
         Vector r;
+        Vector bias = closest.normal.multiply(0.001f);
+        bool outside = pRay.direction.dot(closest.normal) < 0;
         closest.normal.reflection(pRay.direction, r);
         r.normalise();
         pRay.calcPower(probability, coeff);
-        Photon photonRay = Photon(pRay.type, closest.position + r.multiply(0.001f), r, pRay.power);
+        // Bias idea from : https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel
+        Vertex origin =  outside ? closest.position + bias  : closest.position - bias;
+        Photon photonRay = Photon(pRay.type, origin, r, pRay.power);
         return photontrace(scene, camera, photonRay, photonHitsMap) * closest.what->objMaterial->reflectionDegree; 
     }
 
@@ -29,6 +33,7 @@ public:
         closest.normal.refraction(pRay.direction, closest.what->objMaterial->ior, r);
         r.normalise();
         pRay.calcPower(probability, coeff);
+        // Bias idea from : https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel
         Vertex origin = outside ? closest.position - bias  : closest.position + bias;
         Photon photonRay = Photon(pRay.type, origin, r, pRay.power);
         return photontrace(scene, camera, photonRay, photonHitsMap) * closest.what->objMaterial->transparentDegree;
