@@ -13,10 +13,13 @@ public:
     // Returing the colour by recursing raytrace().
     Colour reflect(Scene &scene, Camera &camera, std::vector<Photon> &photonHitsMap, Hit closest, Photon pRay, float probability, Colour coeff){
         Vector r;
+        Vector bias = closest.normal.multiply(0.001f);
+        bool outside = pRay.direction.dot(closest.normal) < 0;
         closest.normal.reflection(pRay.direction, r);
         r.normalise();
         pRay.calcPower(probability, coeff);
-        Photon photonRay = Photon(pRay.type, closest.position + r.multiply(0.001f), r, pRay.power);
+        Vertex origin = closest.position + bias;
+        Photon photonRay = Photon(pRay.type, origin, r, pRay.power);
         return photontrace(scene, camera, photonRay, photonHitsMap) * closest.what->objMaterial->reflectionDegree; 
     }
 
@@ -36,7 +39,6 @@ public:
 
     Colour photontrace(Scene &scene, Camera &camera, Photon pRay, std::vector<Photon> &photonHitsMap){
         Colour colour = Colour();
-
         Hit closest = Hit();
         closest.t = std::numeric_limits<int>::max();
         closest = checkForIntersection(pRay, closest.t, closest, scene.objects);
@@ -52,25 +54,25 @@ public:
             float r = (float) ((rand() % 100) + 1) / 100; // 0.00 to 1.00
 
             if (0 <= r && r < probDiffuse){
+                photonHitsMap.push_back(pRay);
                 if (pRay.type != "caustic"){
-                    photonHitsMap.push_back(pRay);
                     Vector r;
                     closest.normal.diffreflection(pRay.direction, r);
                     r.normalise();
                     pRay.calcPower(probDiffuse, closest.what->objMaterial->getDiffuseValue());
                     Photon photonRay = Photon("indirect", closest.position + r.multiply(0.001f), r, pRay.power);
-                    colour += photontrace(scene, camera, photonRay, photonHitsMap); 
+                    colour += photontrace(scene, camera, photonRay, photonHitsMap) * closest.what->objMaterial->getDiffuseValue();
                 }
             } else if (probDiffuse <= r && r < probDiffuse+probSpecular){
-                Vector r;
-                closest.normal.reflection(pRay.direction, r);
-                r.normalise();
-                pRay.calcPower(probSpecular, closest.what->objMaterial->getSpecularValue());
-                Photon photonRay = Photon("indirect", closest.position + r.multiply(0.001f), r, pRay.power);
-                colour += photontrace(scene, camera, photonRay, photonHitsMap); 
-            } else if (probDiffuse+probSpecular <= r && r < probDiffuse+probSpecular+probTransmission) {
-                if(closest.what->objMaterial->isReflective && closest.what->objMaterial->isTransparent){
+                if (pRay.type != "caustic"){
                     pRay.type = "indirect";
+                }
+                colour += reflect(scene, camera, photonHitsMap, closest, pRay, probSpecular, closest.what->objMaterial->getSpecularValue());
+            } else if (probDiffuse+probSpecular <= r && r < probDiffuse+probSpecular+probTransmission) {
+                if (pRay.type != "caustic"){
+                    pRay.type = "indirect";
+                }
+                if(closest.what->objMaterial->isReflective && closest.what->objMaterial->isTransparent){
                     Colour refraction = Colour();
                     float kr = fresnel(pRay.direction, closest.normal, closest.what->objMaterial->ior);
                     if (kr < 1) {

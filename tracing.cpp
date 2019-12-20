@@ -89,15 +89,15 @@ int main(int argc, char *argv[]){
   srand (static_cast <unsigned> (time(0)));
 
   // Create Camera
-  Vertex eye = Vertex(0, 0, 0);
-  Vertex look = Vertex(0, 0, 7);
+  Vertex eye = Vertex(0, -0.5, 0);
+  Vertex look = Vertex(0, -0.5, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 150;
+  float dist = 1000; // 210, 256 : 470, 512 : 1000, 1024
   float FOV = 0.9;
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
   // Create a framebuffer
-  Scene *sc = new Scene(256, 256);
+  Scene *sc = new Scene(1024, 1024);
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
  std::cout << "Building the KD Tree" << std::endl;
@@ -105,10 +105,10 @@ int main(int argc, char *argv[]){
 
   // // Create gloabl photon map
   PhotonTracer *pta = new PhotonTracer();
-  PhotonMap gloabalPm = createGlobalPhotonMap(*sc, *camera, *pta, 100000, 100);
+  PhotonMap gloabalPm = createGlobalPhotonMap(*sc, *camera, *pta, 10000, 300); //100000, 300
   // Create caustic photon map
   PhotonTracer *ptb = new PhotonTracer();
-  PhotonMap causticPm = createCausticPhotonMap(*sc, *camera, *ptb, 1000000, 100);
+  PhotonMap causticPm = createCausticPhotonMap(*sc, *camera, *ptb, 1000, 300); //100000, 300
 
   std::cout << "Finished building the KD Tree" << std::endl; 
   auto finish = std::chrono::high_resolution_clock::now();

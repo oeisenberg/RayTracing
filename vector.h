@@ -84,7 +84,7 @@ public:
 
 		if (k < 0) {
 			//TIR therefore no refraction.
-			// refraction = reflection(initial);
+			reflection(initial, refraction);
 		} else {
 			refraction = initial.multiply(eta) + n.multiply(eta * NdotI - sqrtf(k));
 		}
@@ -101,7 +101,7 @@ public:
 			r = (float) rand() / (float) RAND_MAX; y = min + r * (max - min);
 			r = (float) rand() / (float) RAND_MAX; z = min + r * (max - min);
 			v = Vector(x, y, z);
-		} while (dot(v)>0 && pow(x,2) + pow(y,2) + pow(z,2) > 1);
+		} while (dot(v)<=0 && pow(x,2) + pow(y,2) + pow(z,2) > 1);
 		reflect = v;
 	}
 

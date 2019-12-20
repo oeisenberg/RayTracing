@@ -46,9 +46,12 @@ public:
     // Returing the colour by recursing raytrace().
     Colour specularReflect(Scene &scene, Camera &camera, Hit closest, Ray lRay, float depth, PhotonMap &gPm, PhotonMap &cPm){
         Vector r;
+        Vector bias = closest.normal.multiply(0.001f);
+        bool outside = lRay.direction.dot(closest.normal) < 0;
         closest.normal.reflection(lRay.direction, r);
         r.normalise();
-        Ray reflectionRay = Ray("specular", closest.position + r.multiply(0.001f), r);
+        Vertex origin = closest.position + bias;
+        Ray reflectionRay = Ray("specular", origin, r);
         return raytrace(scene, camera, reflectionRay, depth-1, gPm, cPm) * closest.what->objMaterial->reflectionDegree;
     }
 
@@ -56,10 +59,12 @@ public:
     // Returing the colour by recursing raytrace().
     Colour diffuseReflect(Scene &scene, Camera &camera, Hit closest, Ray lRay, float depth, PhotonMap &gPm, PhotonMap &cPm){
         Vector r;
+        Vector bias = closest.normal.multiply(0.001f);
         closest.normal.diffreflection(lRay.direction, r);
         r.normalise();
-        Ray reflectionRay = Ray("diffReflection", closest.position + r.multiply(0.001f), r);
-        
+        Vertex origin = closest.position + bias;
+        Ray reflectionRay = Ray(origin, r);
+
         Hit newhit = Hit();
         newhit.t = std::numeric_limits<int>::max(); 
         reflectionRay.direction.negate();
@@ -99,7 +104,7 @@ public:
     // Samples where the subset of nearby photons came from to visuallise soft diffusion
     Colour sample(Scene &scene, Hit closest, PhotonMap &gPm, Camera &camera){
         std::vector<Photon> photons = gPm.getNSurroundingPoints(closest.position);
-        int subsample = 20;
+        int subsample = 50;
         std::random_shuffle(photons.begin(), photons.end());
 
         Colour total = Colour();
@@ -117,7 +122,7 @@ public:
                     float diff = hit.normal.dot(photons[iPhoton].direction);
                     if (diff > 0.0f) {
                         total += gPm.calcRadiance(hit, camera.e, diff) * diff;
-                    }
+                    }                   
                 }
                 // increment for successful samples only - could all be direct
                 nSamples++;
@@ -149,15 +154,10 @@ public:
                     if(!checkForShadow(closest, scene.objects, shadowRay, scene.lights[iLight])){
                         Colour scale = scene.lights[iLight]->getIntensity();
                         Colour intensity = closest.what->objMaterial->compute_light_colour(SurfaceNormal, camera.e - closest.position, lightDir, diff);
-                        colour += intensity * scale * 0.5;
-                        if (depth != 4){
-                            if (lRay.type != "specular"){
-                                colour += gPm.calcRadiance(closest, camera.e, diff) * 100;
-                            }
-                        }
+                        colour += intensity * scale;
                     } else {
                         // Caustics can be visuallised outside of shadows
-                        colour += cPm.calcRadiance(closest, camera.e, diff);
+                        colour += cPm.calcRadiance(closest, camera.e, diff)*2;
                     }
                 } 
             }
@@ -178,10 +178,8 @@ public:
             }
 
             // Complete diffuse reflection tests
-            // colour += diffuseReflect(scene, camera, closest, lRay, depth, gPm, cPm) * 100;
+            // colour += diffuseReflect(scene, camera, closest, lRay, depth, gPm, cPm)*0.5;
         }
         return colour;
     }
-    
-
 };
