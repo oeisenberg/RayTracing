@@ -99,7 +99,7 @@ public:
     // Samples where the subset of nearby photons came from to visuallise soft diffusion
     Colour sample(Scene &scene, Hit closest, PhotonMap &gPm, Camera &camera){
         std::vector<Photon> photons = gPm.getNSurroundingPoints(closest.position);
-        int subsample = 20;
+        int subsample = 50;
         std::random_shuffle(photons.begin(), photons.end());
 
         Colour total = Colour();
@@ -149,14 +149,9 @@ public:
                     if(!checkForShadow(closest, scene.objects, shadowRay, scene.lights[iLight])){
                         Colour scale = scene.lights[iLight]->getIntensity();
                         Colour intensity = closest.what->objMaterial->compute_light_colour(SurfaceNormal, camera.e - closest.position, lightDir, diff);
-                        colour += intensity * scale * 0.5;
-                        if (depth != 4){
-                            if (lRay.type != "specular"){
-                                colour += gPm.calcRadiance(closest, camera.e, diff) * 100;
-                            }
-                        }
+                        colour += intensity * scale;
                     } else {
-                        // Caustics can be visuallised outside of shadows
+                        // Caustics can be visualised outside of shadows
                         colour += cPm.calcRadiance(closest, camera.e, diff);
                     }
                 } 
@@ -178,7 +173,7 @@ public:
             }
 
             // Complete diffuse reflection tests
-            colour += diffuseReflect(scene, camera, closest, lRay, depth, gPm, cPm) * 300;
+            colour += diffuseReflect(scene, camera, closest, lRay, depth, gPm, cPm)*50;
         }
         return colour;
     }
