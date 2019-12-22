@@ -90,21 +90,21 @@ int main(int argc, char *argv[]){
   Vertex eye = Vertex(0, 0, 0);
   Vertex look = Vertex(0, 0, 7);
   Vector up = Vector(0, 1, 0);
-  float dist = 150;
+  float dist = 1000;
   float FOV = 0.9;
   Camera *camera = new Camera(eye, look, up, dist, FOV);
 
   // Create a framebuffer
-  Scene *sc = new Scene(256, 256);
+  Scene *sc = new Scene(1024, 1024);
   FrameBuffer *fb = new FrameBuffer(sc->width, sc->height);
 
  std::cout << "Building the KD Tree" << std::endl;
   // // Create gloabl photon map
   PhotonTracer *pta = new PhotonTracer();
-  PhotonMap gloabalPm = createGlobalPhotonMap(*sc, *camera, *pta, 1200000, 400);
+  PhotonMap gloabalPm = createGlobalPhotonMap(*sc, *camera, *pta, 500000, 300); // 1200000, 400
   // Create caustic photon map
   PhotonTracer *ptb = new PhotonTracer();
-  PhotonMap causticPm = createCausticPhotonMap(*sc, *camera, *ptb, 100000, 300);
+  PhotonMap causticPm = createCausticPhotonMap(*sc, *camera, *ptb, 2000, 300); // 100000, 300 : 2000, 300
 
   std::cout << "Finished building the KD Tree" << std::endl;
 

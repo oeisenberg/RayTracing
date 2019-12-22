@@ -25,39 +25,39 @@ Scene::Scene(int w, int h)
 
 // Transform to be applied to the polymesh
 Transform *transform = new Transform(1.0f, 0.0f, 0.0f, 0.0f,
-                                       0.0f, 0.0f, 1.0f, -2.0f,
-                                       0.0f, 1.0f, 0.0f, 10.0f,
-                                       0.0f, 0.0f, 0.0f, 1.0f);
+                                     0.0f, 0.0f, 1.0f, -2.0f,
+                                     0.0f, 1.0f, 0.0f, 10.0f,
+                                     0.0f, 0.0f, 0.0f, 1.0f);
 
   // Init Objs Materials
-  Material *shinyMetal = new Material(Colour(1),Colour(1), Colour(0.5), 20);
-  Material *shinyMetalA = new Material(Colour(0.1),Colour(0.2, 0, 0), Colour(0.4, 0, 0), 20);
-  Material *shinyMetalB = new Material(Colour(0.1),Colour(0.2, 0, 0.2), Colour(0.4, 0, 0.4), 20);
+  Material *shinyMetal = new Material(Colour(0.4),   Colour(0.4),  Colour(0.3), 20);
   
-  Material *floor = new Material(Colour(0.5),Colour(0.7), Colour(0.2), 20);
-  Material *greenWall = new Material(Colour(0.0, 0.3, 0.0), Colour(0.0, 0.3, 0.0), Colour(0.0, 0.1, 0.0), 20);
-  Material *redWall = new Material(Colour(0.3, 0.0, 0.0), Colour(0.3, 0.0, 0.0), Colour(0.1, 0.0, 0.0), 20);
-  Material *oppositeWalls = new Material(Colour(0.5), Colour(1), Colour(0.05), 10);
-  Material *planesF = new Material(Colour(0.01), Colour(0.01), Colour(0.01), 1);
-  Material *rough = new Material(Colour(0.1), Colour(0.3), Colour(0.3), 10, Colour(0), Colour(0), 1, 0.3);
-  // Material *teapot = new Material(Colour(1, 0, 0), 0.2, 0.3, 0.1);
-  Material *reflectiveA = new Material(Colour(0.3), Colour(0.3), Colour(0.4), 2, Colour(0.8));
-  Material *transparantA = new Material(Colour(0.3), Colour(0.3), Colour(0.4), 20, Colour(0.1), Colour(0.8), 1.51);
+  Material *floor = new Material(Colour(1),        Colour(0.3),           Colour(0.4), 20);
+  Material *rearWall = new Material(Colour(1),     Colour(0, 0.4, 0.4), Colour(0, 0.3, 0.3), 20);
+  Material *lhswall = new Material(Colour(1), Colour(0.7), Colour(0.2), 1);
+  Material *reflective = new Material(Colour(1),    Colour(0.3),          Colour(0.1), 1, Colour(0.5));
+  Material *transparantG = new Material(Colour(1), Colour(0.0,0.1,0.01),  Colour(0.1,0.1,0.01), 1, Colour(0.01), Colour(0.5), 1.51);
+  Material *sphereA = new Material(Colour(1),      Colour(0.2,0.01,0.4),  Colour(0.1), 1);
+  Material *sphereB = new Material(Colour(1),      Colour(0.7),           Colour(0.1), 1);
+  Material *sphereC = new Material(Colour(1),      Colour(0.2, 0.7, 0.3),   Colour(0.1), 1);
+  Material *redSphere = new Material(Colour(1),    Colour(0.7, 0.1, 0.1),   Colour(0.2), 20);
 
+  addObject(new Plane(Vertex(0, -2, 0), Vector(0, 1, 0), floor));
+  addObject(new Plane(Vertex(0, 0, 10.5), Vector(0, 0, -1), rearWall));
+  // addObject(new Plane(Vertex(-3, 0, 0), Vector(-1, 0, 0), lhswall));
 
-   // Cornel Box:
-    addObject(new Sphere(Vertex(-3, 0, 12), 1, shinyMetal));
-    addObject(new Sphere(Vertex(-1.5, -2, 8), 0.8, reflectiveA));
-    addObject(new Sphere(Vertex(1.5, -2, 8), 0.8, transparantA));
-    // addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), shinyA);
-    addObject(new Plane(Vertex(0, -3, 0), Vector(0, 1, 0), floor));
-    addObject(new Plane(Vertex(0, 0, 15), Vector(0, 0, -1), shinyMetal));
-    addObject(new Plane(Vertex(4, 0, 0), Vector(-1, 0, 0), greenWall));
-    addObject(new Plane(Vertex(-4, 0, 0), Vector(1, 0, 0), redWall));
-    addObject(new Plane(Vertex(0, 5.5, 0), Vector(0, 1, 0), planesF));
-    addObject(new Plane(Vertex(0, 0, -0.5), Vector(0, 0, 1), oppositeWalls));
+  addObject(new Sphere(Vertex(-1.7,-1.5,6.5), 0.5, transparantG));
+  addObject(new Sphere(Vertex(-0.3,-1.5,6.5), 0.5, sphereA));
+  addObject(new Sphere(Vertex(-1,-1.3,6.5), 0.3, redSphere));
+  addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), shinyMetal);
 
-    addLight(new Pointlight(Colour(1, 1, 1), new Vertex(0, 4.7, 8)));
+  addObject(new Sphere(Vertex(-2.3,-0.5,9.8), 0.42, reflective));
+  addObject(new Sphere(Vertex(2.3,-1.7,9.7), 0.3, sphereB));
+  addObject(new Sphere(Vertex(1.3,-1.7,8.4), 0.4, sphereC));
+
+  addLight(new Pointlight(Colour(0.3), new Vertex(0.1, 0.35, 10.1)));
+  addLight(new Spotlight(Colour(0.1), new Vector(0, -1, 0.2)));
+  addLight(new Pointlight(Colour(0.45), new Vertex(-2, 2, 0)));
 };
 
 void Scene::addObject(Object *newObject)
