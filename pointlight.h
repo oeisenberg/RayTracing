@@ -12,13 +12,12 @@
 
 class Pointlight : public Light {
 public:
-  //float falloff;
-
   Pointlight(Colour i, Vertex *Position);
-  //Pointlight(float i, Vertex Position, Vector dir)
   Colour getIntensity();
   Vector getDirection();
   Vector getDirection(Vertex hitPos);
+  Vector getRandEmittionDirection();
+  Vertex getRandEmittionPosition();
   Vertex getPosition();
   float getDistance(Vertex pointA);
 };

@@ -6,6 +6,7 @@
 #include "scene.h"
 
 // Using the given camera model from the slides
+// FOV is in RAD
 Camera::Camera(Vertex Eye, Vertex Look, Vector Up, float D, float FOV){
   this->e = Eye;
   this->l = Look;

@@ -30,3 +30,11 @@ float Spotlight::getDistance(Vertex pointA){
   return std::numeric_limits<float>::max();
   // return std::numeric_limits<float>::max();
 }
+
+Vector Spotlight::getRandEmittionDirection(){
+  return this->direction;
+}
+
+Vertex Spotlight::getRandEmittionPosition(){
+  // TODO: Complete fcn stub
+}

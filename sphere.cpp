@@ -85,3 +85,15 @@ void Sphere::intersection(Ray ray, Hit &hit)
 
 	return;
 }
+
+Vertex Sphere::calcSurfacePoint(){
+	int min = -radius;
+  	int max = radius;
+  	float x, y, z, r;
+  	do {
+		r = (float) rand() / (float) RAND_MAX; x = min + r * (max - min);
+		r = (float) rand() / (float) RAND_MAX; y = min + r * (max - min);
+		r = (float) rand() / (float) RAND_MAX; z = min + r * (max - min);
+  	} while (pow(y,2)-4*x*z>0);
+	return Vertex(center.x+x, center.y+y, center.z+z);
+}

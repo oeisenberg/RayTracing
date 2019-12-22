@@ -20,10 +20,11 @@ public:
 
 	int width;
 	int height;
-	int nObjects;
+	int nObjects = 0;
 	std::vector<Object*> objects;
 	std::vector<Light*> lights;
 
+	Scene();
 	Scene(int w, int h);
 	void addObject(Object *newObject);
 	void addObject(PolyMesh *newObject, Material *m);

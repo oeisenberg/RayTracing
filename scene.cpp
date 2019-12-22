@@ -1,6 +1,7 @@
 /***************************************************************************
  *
  * ohe21 - Oliver's Scene Class
+ * Holds all infomation about contents of the scene
  *
  */
 
@@ -15,42 +16,53 @@
 #include "pointlight.h"
 #include "material.h"
 #include "plane.h"
+#include "light.h"
 
 Scene::Scene(int w, int h)
 {
   this->width = w;
   this->height = h;
 
-  Transform *transform = new Transform(1.0f, 0.0f, 0.0f, 0.0f,
+// Transform to be applied to the polymesh
+Transform *transform = new Transform(1.0f, 0.0f, 0.0f, 0.0f,
                                        0.0f, 0.0f, 1.0f, -2.0f,
                                        0.0f, 1.0f, 0.0f, 10.0f,
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
   // Init Objs Materials
-  Material *shinyA = new Material(Colour(1.0, 0.0, 1.0), Colour(0.2, 0.2, 0.2), Colour(0.4, 0.4, 0.4), Colour(0.4, 0.4, 0.4), 20);
-  Material *planes = new Material(Colour(0.3, 0.3, 0.3), Colour(0.2, 0.2, 0.2), Colour(0.3, 0.3, 0.3), Colour(0.1, 0.1, 0.1), 20);
-  // Material *tpot = new Material(Colour(1, 0, 0), 0.2, 0.3, 0.1);
-  Material *reflectiveA = new Material(Colour(0.3, 1, 0.3), Colour(0.5, 0.5, 0.5), Colour(0.5, 0.5, 0.5), Colour(0.3, 0.3, 0.3), 20, 1);
-  Material *transparantA = new Material(Colour(0.5, 0.5, 0.5), Colour(0.2, 0.2, 0.2), Colour(0.3, 0.3, 0.3), Colour(0.2, 0.2, 0.2), 20, 0.5, 1, 1.33);
+  Material *shinyMetal = new Material(Colour(1),Colour(1), Colour(0.5), 20);
+  Material *shinyMetalA = new Material(Colour(0.1),Colour(0.2, 0, 0), Colour(0.4, 0, 0), 20);
+  Material *shinyMetalB = new Material(Colour(0.1),Colour(0.2, 0, 0.2), Colour(0.4, 0, 0.4), 20);
+  
+  Material *floor = new Material(Colour(0.5),Colour(0.7), Colour(0.2), 20);
+  Material *greenWall = new Material(Colour(0.0, 0.3, 0.0), Colour(0.0, 0.3, 0.0), Colour(0.0, 0.1, 0.0), 20);
+  Material *redWall = new Material(Colour(0.3, 0.0, 0.0), Colour(0.3, 0.0, 0.0), Colour(0.1, 0.0, 0.0), 20);
+  Material *oppositeWalls = new Material(Colour(0.5), Colour(1), Colour(0.05), 10);
+  Material *planesF = new Material(Colour(0.01), Colour(0.01), Colour(0.01), 1);
+  Material *rough = new Material(Colour(0.1), Colour(0.3), Colour(0.3), 10, Colour(0), Colour(0), 1, 0.3);
+  // Material *teapot = new Material(Colour(1, 0, 0), 0.2, 0.3, 0.1);
+  Material *reflectiveA = new Material(Colour(0.3), Colour(0.3), Colour(0.4), 2, Colour(0.8));
+  Material *transparantA = new Material(Colour(0.3), Colour(0.3), Colour(0.4), 20, Colour(0.1), Colour(0.8), 1.51);
 
 
-  // Add Objects
-  addObject(new Sphere(Vertex(-2, 0, 7), 1, shinyA));
-  addObject(new Sphere(Vertex( 2, 0, 7), 1, shinyA));
-  addObject(new Sphere(Vertex(0, 0, 11), 2.5, reflectiveA));
-  addObject(new Sphere(Vertex(0, -1, 5), 0.8, transparantA));
-  // addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), shinyA);
-  addObject(new Plane(Vertex(0, -3, 0), Vector(0, 1, 0), planes));
-  addObject(new Plane(Vertex(0, 0, 21), Vector(0, 0, 1), planes));
+   // Cornel Box:
+    addObject(new Sphere(Vertex(-3, 0, 12), 1, shinyMetal));
+    addObject(new Sphere(Vertex(-1.5, -2, 8), 0.8, reflectiveA));
+    addObject(new Sphere(Vertex(1.5, -2, 8), 0.8, transparantA));
+    // addObject(new PolyMesh((char *)"teapotSmaller.ply", transform), shinyA);
+    addObject(new Plane(Vertex(0, -3, 0), Vector(0, 1, 0), floor));
+    addObject(new Plane(Vertex(0, 0, 15), Vector(0, 0, -1), shinyMetal));
+    addObject(new Plane(Vertex(4, 0, 0), Vector(-1, 0, 0), greenWall));
+    addObject(new Plane(Vertex(-4, 0, 0), Vector(1, 0, 0), redWall));
+    addObject(new Plane(Vertex(0, 5.5, 0), Vector(0, 1, 0), planesF));
+    addObject(new Plane(Vertex(0, 0, -0.5), Vector(0, 0, 1), oppositeWalls));
 
-  // Add Lighting
-  addLight(new Pointlight(Colour(0.5, 0.5, 0.5), new Vertex(0, 3, 7)));
-  addLight(new Spotlight(Colour(0.6, 0.6, 0.6), new Vector(0.3, -1, 2)));
-  addLight(new Spotlight(Colour(0.85, 0.85, 0.85), new Vector(-0.3, -1, 2)));
+    addLight(new Pointlight(Colour(1, 1, 1), new Vertex(0, 4.7, 8)));
 };
 
 void Scene::addObject(Object *newObject)
 {
+  nObjects++;
   objects.push_back(newObject);
 }
 
@@ -65,6 +77,7 @@ void Scene::addObject(PolyMesh *newObject, Material *m)
 
       addObject(new Triangle(a, b, c, m));
   }
+  nObjects -= newObject->triangle_count;
 }
 
 void Scene::addLight(Spotlight *newLight){

@@ -8,6 +8,8 @@
 #include <float.h>
 #include <iostream>
 #include <fstream>
+#include "math.h"
+#include "colour.h"
 using namespace std;
 
 #include "framebuffer.h"
@@ -114,6 +116,8 @@ int FrameBuffer::writeRGBFile(char *filename)
 
   if (max == 0.0f) max = 1.0f;
 
+  std::cout << "Max: " << max << std::endl;
+
   outfile << "P6\n";
   outfile << this->width << " " << this->height << "\n255\n";
 
@@ -162,4 +166,55 @@ int FrameBuffer::writeDepthFile(char *filename)
 
   outfile.close();
   return 0;
+}
+
+// Creates the approptiate kernel of size height x width
+// Code provided from:
+// https://gist.github.com/OmarAflak/aca9d0dc8d583ff5a5dc16ca5cdda86a
+vector<vector<double>> FrameBuffer::getGaussian(int height, int width, double sigma) 
+{ 
+    vector<double> empty(width, 0); 
+    vector<vector<double>> kernel(height, empty);
+    double sum = 0.0;
+    int i,j;
+
+    for (i=0 ; i<height ; i++) {
+        for (j=0 ; j<width ; j++) {
+            kernel[i][j] = exp(-(i*i+j*j)/(2*sigma*sigma))/(2*M_PI*sigma*sigma);
+            sum += kernel[i][j];
+        }
+    }
+
+    for (i=0 ; i<height ; i++) {
+        for (j=0 ; j<width ; j++) {
+            kernel[i][j] /= sum;
+        }
+    }
+    return kernel;
+} 
+
+// Applies a kernel over the image to provide a blur effect
+// Code adapted from:
+// https://gist.github.com/OmarAflak/aca9d0dc8d583ff5a5dc16ca5cdda86a
+void FrameBuffer::gaussianBlur(){
+  int kSize = 10;
+  vector<vector<double>> kernel = getGaussian(kSize, kSize, 3.0);
+  Pixel *newBuffer = this->framebuffer;
+
+  // filter per R, G, B, per pixel, per kenerl square
+    for (int i = 1; i < this->height; i++){
+      for (int j = 1; j < this->width; j++){
+        for (int h=i ; h<i+kSize ; h++) {
+            for (int w=j ; w<j+kSize ; w++) {
+              Colour newPixel(0);
+              getPixel(h, w, newPixel.R,  newPixel.G,  newPixel.B);
+              newBuffer[j * this->width + i].red += kernel[h-i][w-j] * newPixel.R;
+              newBuffer[j * this->width + i].green += kernel[h-i][w-j] * newPixel.G;
+              newBuffer[j * this->width + i].blue += kernel[h-i][w-j] * newPixel.B;
+            }
+        }
+      }
+    }
+
+  this->framebuffer = newBuffer;
 }
